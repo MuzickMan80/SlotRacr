@@ -20,8 +20,8 @@ Steps:
 
 from [https://wolfgang-ziegler.com/blog/setting-up-a-raspberrypi-in-kiosk-mode-2020]
 Raspberry Pi setup:
-1. Copy files to Raspbery Pi
-1. install python dependencies: `pip3 install -r requirements.txt`
-1. enable pigpiod: `systemctl enable pigpiod`
-1. cp -r /etc/
-1. sudo apt-get install unclutter
+1. Build angular front end `ng build`
+1. Copy files to Raspbery Pi `scp -r BackEnd install.sh FrontEnd/dist pi@<pi ip>:~`
+1. Login to Raspberry Pi `ssh pi@<pi ip>`
+1. install dependencies `./install.sh`
+1. cleanup `rm -rf BackEnd install.sh dist`

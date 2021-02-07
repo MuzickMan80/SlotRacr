@@ -1,0 +1,8 @@
+[Unit]
+Description=Slot Car Timer Backend
+
+[Service]
+ExecStart=/usr/bin/slotcar.py
+
+[Install]
+WantedBy=multi-user.target
