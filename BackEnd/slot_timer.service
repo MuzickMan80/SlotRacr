@@ -1,5 +1,7 @@
 [Unit]
 Description=Slot Car Timer Backend
+After=pygpiod
+User=pi
 
 [Service]
 ExecStart=/usr/bin/slotcar.py
