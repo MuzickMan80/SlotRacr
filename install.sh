@@ -1,6 +1,5 @@
 #!/bin/bash
 pip3 install -r BackEnd/requirements.txt
-sudo apt-get install -y nginx unclutter
 sudo install -m 755 BackEnd/slot_timer.service /etc/systemd/system
 sudo install -m 755 BackEnd/slotcar.py /usr/bin
 sudo systemctl enable slot_timer.service
