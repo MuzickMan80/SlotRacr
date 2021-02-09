@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+ 
 import pygame, sys
 import lane_table
 import timer_socket

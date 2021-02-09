@@ -1,0 +1,10 @@
+[Unit]
+Description=Slot Car Timer Frontend
+After=slot_timer
+
+[Service]
+WorkingDirectory=/home/pi
+ExecStart=/home/pi/app.py
+
+[Install]
+WantedBy=multi-user.target
