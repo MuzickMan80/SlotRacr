@@ -6,12 +6,11 @@ connected=False
 
 sio = socketio.Client()
 
-def connectIfNeeded():
+def connectIfNeeded(ip):
     global connected
     if not connected:
         try:
-            #sio.connect('http://192.168.1.74:5000')
-            sio.connect('http://127.0.0.1:5000')
+            sio.connect(f'http://{ip}:5000')
             connected=True
         except:
             connected=False
@@ -24,9 +23,9 @@ def update(data):
     lanes.sort(key=lambda l: l['pos'])
     print(lanes)
 
-def get_lanes():
-    connectIfNeeded()
-    sio.sleep(.03)
+def get_lanes(ip='127.0.0.1'):
+    connectIfNeeded(ip)
+    sio.sleep(.001)
     return lanes
 
 def disconnect():

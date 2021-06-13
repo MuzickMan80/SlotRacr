@@ -1,2 +1,5 @@
 python-socketio
 aiohttp
+pigpio
+pytest-asyncio
+pytest-cov

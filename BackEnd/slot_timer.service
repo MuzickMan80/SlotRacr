@@ -1,10 +1,11 @@
 [Unit]
 Description=Slot Car Timer Backend
 After=pygpiod
-User=pi
 
 [Service]
-ExecStart=/usr/bin/slotcar.py
+WorkingDirectory=/home/pi/BackEnd
+ExecStart=/home/pi/BackEnd/slotcar.py
+User=pi
 
 [Install]
 WantedBy=multi-user.target
