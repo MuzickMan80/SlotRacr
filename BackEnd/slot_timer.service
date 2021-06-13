@@ -3,8 +3,8 @@ Description=Slot Car Timer Backend
 After=pygpiod
 
 [Service]
-WorkingDirectory=/home/pi/BackEnd
-ExecStart=/home/pi/BackEnd/slotcar.py
+WorkingDirectory=/home/pi/backend
+ExecStart=/home/pi/backend/app.py
 User=pi
 
 [Install]

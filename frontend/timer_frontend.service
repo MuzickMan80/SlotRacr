@@ -3,8 +3,8 @@ Description=Slot Car Timer Frontend
 After=slot_timer
 
 [Service]
-WorkingDirectory=/home/pi/FrontEnd
-ExecStart=/home/pi/FrontEnd/app.py
+WorkingDirectory=/home/pi/frontend
+ExecStart=/home/pi/frontend/app.py
 User=pi
 
 [Install]

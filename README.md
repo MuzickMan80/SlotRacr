@@ -1,11 +1,11 @@
 Materials:
-1 x Raspberry Pi Zero WH ($14) [https://www.adafruit.com/product/3708]
-1 x Mini HDMI to HDMI Cable ($6) [https://www.adafruit.com/product/2775]
+1 x HDMI Cable ($6) [https://www.adafruit.com/product/2775]
 1 x Raspberry Pi 3 A+ ($25) [https://www.adafruit.com/product/4027]
 1 x 5v 2.5a supply ($8) [https://www.adafruit.com/product/1995]
 1 x 8GB SD Card
 8 x Photo Transistor ($4) [https://www.adafruit.com/product/2831]
 8 x 5.6kohm Resistor ($1)
+8 x 1kohm Resistor ($1)
 
 F to M jumper wires ($2) [https://www.adafruit.com/product/1954]
 1 x Breadboard ($5) [https://www.adafruit.com/product/64]
@@ -25,7 +25,7 @@ Raspberry Pi setup:
 1. After it reboots, login again, and type the 'ifconfig' command to get the IP address for your network
 
 From your computer:
-1. Copy files to Raspbery Pi `scp -r BackEnd install.sh FrontEnd2 pi@<pi ip>:~`
+1. Copy files to Raspbery Pi `scp -r backend frontend web_frontend/dist install.sh pi@<pi ip>:~`
 1. Login to Raspberry Pi `ssh pi@<pi ip>`
 1. install dependencies `./install.sh`
 1. cleanup `rm -rf BackEnd install.sh dist`
