@@ -1,7 +1,6 @@
-from .fake_io_manager import FakeIoManager
-from ..io_manager import SECONDS
-from ..track_manager import TrackManager
-import unittest
+from test.fake_io_manager import FakeIoManager
+from io_manager import SECONDS
+from track_manager import TrackManager
 from unittest.mock import AsyncMock, MagicMock
 import pytest
 

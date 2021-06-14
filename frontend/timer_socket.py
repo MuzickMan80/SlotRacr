@@ -15,6 +15,9 @@ def connectIfNeeded(ip):
         except:
             connected=False
 
+@sio.event
+def connect():
+    sio.emit('update')
 
 @sio.event
 def update(data):

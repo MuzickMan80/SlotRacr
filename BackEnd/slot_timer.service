@@ -1,6 +1,6 @@
 [Unit]
 Description=Slot Car Timer Backend
-After=pygpiod
+After=pygpiod.service
 
 [Service]
 WorkingDirectory=/home/pi/backend

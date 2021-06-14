@@ -29,3 +29,7 @@ From your computer:
 1. Login to Raspberry Pi `ssh pi@<pi ip>`
 1. install dependencies `./install.sh`
 1. cleanup `rm -rf BackEnd install.sh dist`
+
+## References
+https://disconnected.systems/blog/custom-rpi-image-with-github-travis/#travis
+https://medium.com/platformer-blog/creating-a-custom-raspbian-os-image-for-production-3fcb43ff3630

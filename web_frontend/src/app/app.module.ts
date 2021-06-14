@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CdkTableModule } from '@angular/cdk/table';
 import { LaneTableComponent } from './lane-table/lane-table.component';
+import { RoutingModule } from './routing/routing.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { LaneTableComponent } from './lane-table/lane-table.component';
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    CdkTableModule
+    CdkTableModule,
+    RoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

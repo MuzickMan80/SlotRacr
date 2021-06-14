@@ -3,7 +3,7 @@
 from aiohttp import web
 import json
 import socketio
-from .track_manager import TrackManager
+from track_manager import TrackManager
 
 class TrackManagerApp(socketio.AsyncNamespace):
     sio = socketio.AsyncServer(async_mode='aiohttp', cors_allowed_origins='*', logger=True)
@@ -18,7 +18,7 @@ class TrackManagerApp(socketio.AsyncNamespace):
         self.sio.register_namespace(self)
         self.runner = web.AppRunner(self.webapp)
         await self.runner.setup()
-        site = web.TCPSite(self.runner, 'localhost', 5000)
+        site = web.TCPSite(self.runner, '0.0.0.0', 5000)
         await site.start()
         
     async def stop(self):
@@ -45,6 +45,16 @@ if __name__ == '__main__':
     reset_pin = 5
     lane_pins = [6,13,19,22,27,17,4,26]
 
-    from .pi_io_manager import PiIoManager
+    from pi_io_manager import PiIoManager
+    import asyncio
     app = TrackManagerApp(PiIoManager(), reset_pin, lane_pins)
-    app.run()
+    
+    loop = asyncio.get_event_loop()
+
+    async def run_app():
+        await app.start()
+        while True:
+            await asyncio.sleep(3600)
+
+    loop.run_until_complete(run_app())
+    

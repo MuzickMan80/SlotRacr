@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/bash -x
 IP=192.168.1.11
 
 pushd web_frontend
-npm install
+#npm install
 ng build
 popd
 

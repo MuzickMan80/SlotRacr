@@ -1,7 +1,7 @@
 import asyncio
-from ..io_manager import SECONDS
-from .fake_io_manager import FakeIoManager
-from ..app import TrackManagerApp
+from io_manager import SECONDS
+from test.fake_io_manager import FakeIoManager
+from app import TrackManagerApp
 import json
 from unittest.mock import AsyncMock
 import pytest

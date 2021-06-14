@@ -1,7 +1,6 @@
 
-from .fake_io_manager import FakeIoManager
-from ..button import Button
-import unittest
+from test.fake_io_manager import FakeIoManager
+from button import Button
 from unittest.mock import AsyncMock, MagicMock
 import pytest
 

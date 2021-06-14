@@ -1,8 +1,7 @@
-from ..io_manager import SECONDS
-from .fake_io_manager import FakeIoManager
-from ..lane_timer import LaneTimer
-import unittest
-from unittest.mock import AsyncMock, MagicMock
+from io_manager import SECONDS
+from test.fake_io_manager import FakeIoManager
+from lane_timer import LaneTimer
+from unittest.mock import MagicMock
 import pytest
 
 @pytest.mark.asyncio 

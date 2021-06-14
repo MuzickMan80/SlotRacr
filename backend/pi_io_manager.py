@@ -1,9 +1,9 @@
-from .io_manager import IoManager
+from io_manager import IoManager
 import pigpio
 
 class PiIoManager(IoManager):
     def __init__(self):
-        IoManager.__init__(self)
+        super().__init__()
         self.pi = pigpio.pi()
 
         if not self.pi.connected:
@@ -29,8 +29,8 @@ class PiIoManager(IoManager):
         print(pin, self.pi.read(pin))
 
         if rising and falling:
-            self.pi.callback(pin, 2, self.cbf)
+            self.pi.callback(pin, 2, self._io_update)
         elif rising:
-            self.pi.callback(pin, 1, self.cbf)
+            self.pi.callback(pin, 1, self._io_update)
         elif falling:
-            self.pi.callback(pin, 0, self.cbf)
+            self.pi.callback(pin, 0, self._io_update)

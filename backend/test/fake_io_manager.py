@@ -1,5 +1,5 @@
 import asyncio
-from ..io_manager import IoManager
+from io_manager import IoManager
 
 class FakeIoManager(IoManager):
     def __init__(self):
