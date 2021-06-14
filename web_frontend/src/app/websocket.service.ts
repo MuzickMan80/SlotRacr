@@ -12,15 +12,21 @@ export class WebsocketService {
   constructor() { }
 
   connect(): Subject<MessageEvent> {
-    this.socket = io('http://localhost:5000');
+    this.socket = io('http://192.168.1.11:5000');
 
     let observable = new Observable(observer => {
       this.socket.on('update', (data:any) => {
+        console.log('got data ' + data);
         observer.next({data: JSON.parse(data)});
       })
       return () => {
         this.socket.disconnect();
       }
+    });
+
+    this.socket.on("connect", () => {
+      console.log('socket connected')
+      this.socket.emit('update');
     });
 
     // We define our Observer which will listen to messages
