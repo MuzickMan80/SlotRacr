@@ -7,13 +7,20 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { LaneTableComponent } from './lane-table/lane-table.component';
 import { RoutingModule } from './routing/routing.module';
 import { LayoutComponent } from './layout/layout.component';
-import { MatSidenavContent, MatSidenav} from '@angular/material/sidenav';
+import { MatSidenavModule} from '@angular/material/sidenav';
+import { NavigationComponent } from './navigation/navigation.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
     AppComponent,
     LaneTableComponent,
-    LayoutComponent
+    LayoutComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -21,8 +28,12 @@ import { MatSidenavContent, MatSidenav} from '@angular/material/sidenav';
     FlexLayoutModule,
     CdkTableModule,
     RoutingModule,
-    MatSidenavContent,
-    MatSidenav
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,7 +10,7 @@ def connectIfNeeded(ip):
     global connected
     if not connected:
         try:
-            sio.connect(f'http://{ip}:5000')
+            sio.connect(f'http://{ip}:80')
             connected=True
         except:
             connected=False

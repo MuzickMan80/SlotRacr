@@ -7,18 +7,19 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^12.0.4",
-    "@angular/cdk": "^11.2.13",
+    "@angular/cdk": "^12.0.4",
     "@angular/common": "^12.0.4",
     "@angular/compiler": "^12.0.4",
     "@angular/core": "^12.0.4",
-    "@angular/flex-layout": "^11.0.0-beta.33",
+    "@angular/flex-layout": "^12.0.0-beta.34",
     "@angular/forms": "^12.0.4",
-    "@angular/material": "^11.2.13",
+    "@angular/material": "^12.0.4",
     "@angular/platform-browser": "^12.0.4",
     "@angular/platform-browser-dynamic": "^12.0.4",
     "@angular/router": "^12.0.4",

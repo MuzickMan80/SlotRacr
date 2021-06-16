@@ -2,13 +2,8 @@
 <!--div flex class="container" style="height: 100%; background-color: black; color: yellow;">
   <router-outlet></router-outlet>
 </div-->
+<app-navigation>
 <app-layout class="container">
-  <mat-sidenav-container>
-    <mat-sidenav #sidenav role="navigation">
-      <!--this is a place for us to add side-nav code-->
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+    <router-outlet></router-outlet>
 </app-layout>
+</app-navigation>
