@@ -9,7 +9,7 @@ rm -rf ~/SlotRacr
 rm -f ~/restart.sh
 
 # Clone repo
-git clone http://github.com/MuzickMan80/SlotRacr ~/SlotRacr
+git clone https://github.com/MuzickMan80/SlotRacr ~/SlotRacr
 
 # Setup auto-update service
 sudo install -m 755 ~/SlotRacr/update/timer_update.service /etc/systemd/system
@@ -17,7 +17,7 @@ sudo systemctl enable timer_update.service
 
 # Run post-update script
 pushd ~/SlotRacr
-./post_update.sh
+./update/post_update.sh
 popd
 
 sudo ~/install/restart.sh
