@@ -1,0 +1,12 @@
+[Unit]
+Description=Slot Car Timer Upgrade Check
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/pi/SlotRacr
+ExecStart=/home/pi/SlotRacr/update/update.sh
+RemainAfterExit=yes
+User=pi
+
+[Install]
+WantedBy=multi-user.target

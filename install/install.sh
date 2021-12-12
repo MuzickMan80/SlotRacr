@@ -6,38 +6,18 @@ sudo apt-get install -y python3 python3-pip pigpiod libsdl2-2.0-0 libsdl2-ttf-2.
 rm -rf ~/backend
 rm -rf ~/frontend
 rm -rf ~/SlotRacr
-rm -f restart.sh
+rm -f ~/restart.sh
 
 # Clone repo
 git clone http://github.com/MuzickMan80/SlotRacr ~/SlotRacr
 
-# Setup backend timer service
-pip3 install -r ~/SlotRacr/backend/requirements.txt
-sudo install -m 755 ~/SlotRacr/backend/slot_timer.service /etc/systemd/system
-sudo systemctl enable slot_timer.service
-sudo systemctl enable pigpiod
+# Setup auto-update service
+sudo install -m 755 ~/SlotRacr/update/timer_update.service /etc/systemd/system
+sudo systemctl enable timer_update.service
 
-# Setup frontend display service
-pip3 install -r ~/SlotRacr/frontend/requirements.txt
-sudo install -m 755 ~/SlotRacr/frontend/timer_frontend.service /etc/systemd/system
-sudo systemctl enable timer_frontend.service
-
-# Setup web frontend
-# sudo cp -r ~/dist/FrontEnd/* /var/www/html
-
-# Setup nginx
-sudo cp ~/install/slotracr-nginx /etc/nginx/sites-available/slotracr
-
-if [ -f /etc/nginx/sites-enabled/slotracr ]
-then
-    sudo rm /etc/nginx/sites-enabled/slotracr
-fi
-
-sudo ln -s /etc/nginx/sites-available/slotracr /etc/nginx/sites-enabled/slotracr
-
-if [ -f /etc/nginx/sites-enabled/default ]
-then
-    sudo rm /etc/nginx/sites-enabled/default
-fi
+# Run post-update script
+pushd ~/SlotRacr
+./post_update.sh
+popd
 
 sudo ~/install/restart.sh
