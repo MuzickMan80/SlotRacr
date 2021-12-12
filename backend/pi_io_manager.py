@@ -2,8 +2,8 @@ from io_manager import IoManager
 import pigpio
 
 class PiIoManager(IoManager):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, async_loop):
+        super().__init__(async_loop)
         self.pi = pigpio.pi()
 
         if not self.pi.connected:

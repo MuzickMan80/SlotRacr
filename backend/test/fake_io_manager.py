@@ -3,7 +3,7 @@ from io_manager import IoManager
 
 class FakeIoManager(IoManager):
     def __init__(self):
-        IoManager.__init__(self)
+        IoManager.__init__(self, asyncio.get_event_loop())
 
     async def invoke_callback(self, pin, tick):
         self._io_update(pin, 0, tick)

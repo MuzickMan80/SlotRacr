@@ -47,9 +47,9 @@ if __name__ == '__main__':
 
     from pi_io_manager import PiIoManager
     import asyncio
-    app = TrackManagerApp(PiIoManager(), reset_pin, lane_pins)
-    
+
     loop = asyncio.get_event_loop()
+    app = TrackManagerApp(PiIoManager(loop), reset_pin, lane_pins)  
 
     async def run_app():
         await app.start()

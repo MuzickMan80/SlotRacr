@@ -4,13 +4,14 @@ import inspect
 SECONDS = 1000000
 
 class IoManager:
-    def __init__(self):
+    def __init__(self, async_loop):
         self.pins = []
         self.callbacks = []
         self.last_tick = 0
+        self.async_loop = async_loop
 
     def _io_update(self, event, edge, tick):
-        asyncio.run_coroutine_threadsafe(self._async_io_update(event, edge, tick), asyncio.get_event_loop())
+        asyncio.run_coroutine_threadsafe(self._async_io_update(event, edge, tick), self.async_loop)
 
     async def _async_io_update(self, event, edge, tick):
         self.last_tick = tick
