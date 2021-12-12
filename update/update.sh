@@ -1,8 +1,8 @@
 #!/bin/bash
 git reset --hard
 
-git clean -default
+git clean -fxd
 
 git pull -f
 
-./post_update.sh
+./update/post_update.sh
