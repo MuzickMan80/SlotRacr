@@ -1,5 +1,6 @@
 [Unit]
 Description=Slot Car Timer Upgrade Check
+After=network-online.target
 
 [Service]
 Type=oneshot

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # NOTE: this runs from the SlotRacr folder
-echo "Post update script currently does nothing"
 
 # Setup backend timer service
 pip3 install -r ~/SlotRacr/backend/requirements.txt
