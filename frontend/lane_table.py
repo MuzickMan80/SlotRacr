@@ -63,7 +63,7 @@ class TableCell:
         text_bmp = self.font.render(self.text, True, self.color)
         text_rect = text_bmp.get_rect(center=(self.rect.centerx,self.rect.centery))
         screen.blit(text_bmp, text_rect)
-        return text_rect
+        return self.rect
     def draw(self,screen,fg):
         if fg:
             return self.drawFg(screen)
