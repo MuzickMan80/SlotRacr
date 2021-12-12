@@ -1,6 +1,6 @@
 import { formatNumber } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { LaneInfoService, LaneInfo } from '../lane-info.service'
+import { LaneInfoService, LaneInfo } from '../services/lane-info.service'
 
 @Component({
   selector: 'app-lane-table',

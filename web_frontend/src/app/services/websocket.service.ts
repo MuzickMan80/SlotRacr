@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +8,7 @@ import { Subject } from 'rxjs';
 export class WebsocketService {
   private socket: any;
 
-  constructor() { }
+  constructor() { this.connect(); }
 
   connect(): Subject<MessageEvent> {
     this.socket = io('http://192.168.1.11:5000');
@@ -41,5 +40,9 @@ export class WebsocketService {
     // we return our Rx.Subject which is a combination
     // of both an observer and observable.
     return Subject.create(observer, observable);
+  }
+  
+  simulate_activity(on: boolean, rate: number) {
+    this.socket.emit('simulate_activity', JSON.stringify({ 'enable': on, 'rate': rate }));
   }
 }
