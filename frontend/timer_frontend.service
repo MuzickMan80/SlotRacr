@@ -1,6 +1,7 @@
 [Unit]
 Description=Slot Car Timer Frontend
-After=slot_timer timer_update
+After=slot_timer.service timer_update.service
+Wants=slot_timer.service timer_update.service
 
 [Service]
 WorkingDirectory=/home/pi/SlotRacr/frontend

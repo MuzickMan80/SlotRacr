@@ -1,6 +1,7 @@
 [Unit]
 Description=Slot Car Timer Backend
-After=pygpiod.service timer_update
+After=pygpiod.service timer_update.service
+Wants=pygpiod.service timer_update.service
 
 [Service]
 WorkingDirectory=/home/pi/SlotRacr/backend
