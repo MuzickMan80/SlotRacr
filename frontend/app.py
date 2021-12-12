@@ -5,6 +5,7 @@ import argparse
 import os
 from lane_table import LaneTable
 import timer_socket
+from system_info import SystemInfo
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--target_ip', help='IP Address of the timer service', default='127.0.0.1')
@@ -37,6 +38,9 @@ try:
     pygame.mouse.set_visible(False)
     table = LaneTable(size,dseg,header_font)
 
+    info_rect = (0,size[1]-30,size[0],30)
+    info = SystemInfo(info_rect, header_font)
+
     tableBg = pygame.Surface(size, pygame.SRCALPHA)
     table.draw(tableBg,False)
 
@@ -62,6 +66,7 @@ try:
         table.update(lanes)
 
         rects = table.draw(foreground,True)
+        rects.extend(info.draw(foreground,True))
         for r in rects:
             screen.blit(foreground,r,r)
             foreground.blit(bgSurface,r,r)
