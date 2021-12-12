@@ -42,8 +42,8 @@ class TrackManagerApp(socketio.AsyncNamespace):
         self.track.enable_activity_simulator(data['enable'], data['rate'])
 
 if __name__ == '__main__':
-    reset_pin = 5
-    lane_pins = [6,13,19,22,27,17,4,26]
+    reset_pin = 4
+    lane_pins = [17,27,22,5,6,13,19,26]
 
     from pi_io_manager import PiIoManager
     import asyncio
