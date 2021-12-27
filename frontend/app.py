@@ -26,7 +26,7 @@ try:
 
     screen = pygame.display.set_mode(size,flags)
     screen.set_alpha(None)
-    
+    print(f'Driver: {pygame.display.get_driver()}')
     print(pygame.display.Info())
 
     size = screen.get_width(),screen.get_height()
