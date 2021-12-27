@@ -6,6 +6,8 @@ import os
 from lane_table import LaneTable
 import timer_socket
 from system_info import SystemInfo
+import time
+import GIFImage
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--target_ip', help='IP Address of the timer service', default='127.0.0.1')
@@ -42,18 +44,11 @@ try:
     info = SystemInfo(info_rect, header_font)
 
     tableBg = pygame.Surface(size, pygame.SRCALPHA)
-    table.draw(tableBg,False)
-
     bgSurface = pygame.Surface(size)
-    bgSurface.blit(bg, screen_rect)
-    bgSurface.blit(tableBg, screen_rect)
-    
-    screen.blit(bgSurface, screen_rect)
-    pygame.display.flip()
-
     foreground=pygame.Surface(size)
-    foreground.blit(bgSurface, screen_rect)
 
+    checkerboard = GIFImage('assets/checkered_flag.gif', size)
+    
     while 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -65,12 +60,27 @@ try:
         lanes = timer_socket.get_lanes(args.target_ip)
         table.update(lanes)
 
+        start = time.time()
+        #bgSurface.blit(bg, screen_rect)
+        checkerboard.render(bg, screen_rect)
+        
+        table.draw(tableBg,False)
+        bgSurface.blit(tableBg, screen_rect)
+        
+        #screen.blit(bgSurface, screen_rect)
+        #pygame.display.flip()
+
+        foreground.blit(bgSurface, screen_rect)
+
         rects = table.draw(foreground,True)
         rects.extend(info.draw(foreground,True))
-        for r in rects:
-            screen.blit(foreground,r,r)
-            foreground.blit(bgSurface,r,r)
+        screen.blit(foreground, screen_rect)
+        #for r in rects:
+        #    screen.blit(foreground,r,r)
+        #    foreground.blit(bgSurface,r,r)
 
         pygame.display.flip()
+        update_time=time.time() - start
+        print(update_time)
 finally:
     timer_socket.disconnect()

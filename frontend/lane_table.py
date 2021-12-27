@@ -14,7 +14,7 @@ class TableDims:
         self.size = size
         self.cols=[
             self.scale(180),
-            self.scale(180),
+            self.scale(250),
             self.scale(200),
             self.scale(450),
             self.scale(450)
