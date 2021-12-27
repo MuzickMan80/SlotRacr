@@ -7,7 +7,7 @@ pip3 install -r ~/SlotRacr/backend/requirements.txt
 
 # Setup frontend display service
 pip3 install -r ~/SlotRacr/frontend/requirements.txt
-apt-get install -y libopenjp2-7
+sudo apt-get install -y libopenjp2-7
 
 # Setup web frontend
 # sudo cp -r ~/dist/FrontEnd/* /var/www/html
