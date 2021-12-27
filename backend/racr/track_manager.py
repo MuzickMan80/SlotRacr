@@ -1,6 +1,6 @@
-from io_manager import IoManager, SECONDS
-from lane_timer import LaneTimer
-from button import Button
+from .io.io_manager import IoManager, SECONDS
+from .lane.lane_timer import LaneTimer
+from .io.button import Button
 import inspect
 import asyncio
 import random

@@ -1,5 +1,5 @@
 #!/bin/bash -x
-IP=192.168.1.109
+IP=$1
 
 sudo apt-get install -y sshpass
 sshpass -p raspberry scp -r install pi@$IP:~

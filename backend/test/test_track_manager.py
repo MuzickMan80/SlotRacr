@@ -1,6 +1,6 @@
 from test.fake_io_manager import FakeIoManager
-from io_manager import SECONDS
-from track_manager import TrackManager
+from racr.io.io_manager import SECONDS
+from racr.track_manager import TrackManager
 from unittest.mock import AsyncMock, MagicMock
 import pytest
 
@@ -21,7 +21,7 @@ async def test_track_manager():
     assert cb.call_count == 3
     assert not track.lanes[0].started
     
-@pytest.mark.asyncio 
+@pytest.mark.asyncio
 async def test_async_track_manager():
     io = FakeIoManager()
     cb = AsyncMock()

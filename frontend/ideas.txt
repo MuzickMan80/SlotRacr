@@ -1,0 +1,46 @@
+Names (3 letters)
+Seconds behind leader
+Race Length
+Save race data (for later replay)
+
+Last Lap - White Flag
+
+Final Lap - Checkerboard
+  After finisher, everyone can finish last Lap
+
+Flag if a racer is "missing"
+
+New Leader
+
+Race Report - 
+
+Speaker - 
+  When someone passes the leader
+  When someone is gaining on the leader (over 5 laps)
+  10 laps to go
+
+Track disabling relays
+Track slowing relays
+Lane slowing relays
+  Slow just one Lane
+
+40 ohms on 13v ~ 6v  200mA @ 6v
+
+12VA 600mA
+
+Pit button
+  When you push it, slows the Track
+  If you push it too late, penalized
+  When pass finish line, track shuts off
+  If come in speeding, lose a Lap
+  If speeding out of the pits, stop and go
+  Lloyd Ruby 
+
+Press Once to indicate they are going to pits
+  Hold down at least 1.5 seconds before crossing finish line, slow down
+
+Typical race is 200 laps
+  need to refuel every 45-48 laps
+
+Time Trials mode - show current racer on top
+

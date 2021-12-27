@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 from aiohttp import web
+import asyncio
 import json
 import socketio
-from track_manager import TrackManager
+from racr.track_manager import TrackManager
 
 class TrackManagerApp(socketio.AsyncNamespace):
     sio = socketio.AsyncServer(async_mode='aiohttp', cors_allowed_origins='*', logger=True)
@@ -18,15 +19,20 @@ class TrackManagerApp(socketio.AsyncNamespace):
         self.sio.register_namespace(self)
         self.runner = web.AppRunner(self.webapp)
         await self.runner.setup()
-        site = web.TCPSite(self.runner, '0.0.0.0', 5000)
-        await site.start()
+        self.site = web.TCPSite(self.runner, '0.0.0.0', 5000)
+        await self.site.start()
         
     async def stop(self):
+        await self.site.stop()
+        await self.runner.shutdown()
         await self.runner.cleanup()
 
     async def emit_lane_dump(self):
-        lane_dump = json.dumps(list(
-            map(lambda l: l.state(), self.track.lanes)))
+        state = {
+            "race": { "type": "race", "started": False },
+            "lanes": list(map(lambda l: l.state(), self.track.lanes))
+        }
+        lane_dump = json.dumps(state)
         print(lane_dump)
         await self.emit('update', lane_dump)
 
@@ -45,8 +51,7 @@ if __name__ == '__main__':
     reset_pin = 4
     lane_pins = [17,27,22,5,6,13,19,26]
 
-    from pi_io_manager import PiIoManager
-    import asyncio
+    from racr.io.pi_io_manager import PiIoManager
 
     loop = asyncio.get_event_loop()
     app = TrackManagerApp(PiIoManager(loop), reset_pin, lane_pins)  

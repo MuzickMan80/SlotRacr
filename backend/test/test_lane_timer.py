@@ -1,6 +1,6 @@
-from io_manager import SECONDS
+from racr.io.io_manager import SECONDS
 from test.fake_io_manager import FakeIoManager
-from lane_timer import LaneTimer
+from racr.lane.lane_timer import LaneTimer
 from unittest.mock import MagicMock
 import pytest
 

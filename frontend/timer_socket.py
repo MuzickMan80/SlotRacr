@@ -22,7 +22,7 @@ def connect():
 @sio.event
 def update(data):
     global lanes
-    lanes=json.loads(data)
+    lanes=json.loads(data)["lanes"]
     lanes.sort(key=lambda l: l['pos'])
     print(lanes)
 

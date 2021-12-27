@@ -1,4 +1,4 @@
-from io_manager import IoManager
+from .io_manager import IoManager
 import pigpio
 
 class PiIoManager(IoManager):

@@ -1,5 +1,5 @@
 import asyncio
-from io_manager import SECONDS
+from racr.io.io_manager import SECONDS
 from test.fake_io_manager import FakeIoManager
 from app import TrackManagerApp
 import json
@@ -27,6 +27,7 @@ class TrackClient(socketio.AsyncClientNamespace):
 
     async def disconnect(self):
         await self.sio.disconnect()
+        await self.sio.wait()
 
     def on_connect(self):
         pass
@@ -62,7 +63,7 @@ async def test_update_request(backend_client):
     await backend_client.request_update()
     await asyncio.sleep(.1)
     backend_client.update_cb.assert_called_once()
-    assert backend_client.last_update()[1]["started"] == False
+    assert backend_client.last_update()["lanes"][1]["started"] == False
 
 @pytest.mark.asyncio 
 async def test_lane_activity_triggers_update(backend_client, backend_server):
@@ -70,7 +71,7 @@ async def test_lane_activity_triggers_update(backend_client, backend_server):
     await backend_server.track.io_manager.invoke_callback(5,1*SECONDS)
     await asyncio.sleep(.1)
     backend_client.update_cb.assert_called_once()
-    assert backend_client.last_update()[1]["started"] == True
+    assert backend_client.last_update()["lanes"][1]["started"] == True
 
 @pytest.mark.asyncio
 async def test_simulate_activity(backend_client: TrackClient):

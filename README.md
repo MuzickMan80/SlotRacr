@@ -25,10 +25,7 @@ Raspberry Pi setup:
 1. After it reboots, login again, and type the 'ifconfig' command to get the IP address for your network
 
 From your computer:
-1. Copy files to Raspbery Pi `scp -r backend frontend web_frontend/dist install.sh pi@<pi ip>:~`
-1. Login to Raspberry Pi `ssh pi@<pi ip>`
-1. install dependencies `./install.sh`
-1. cleanup `rm -rf BackEnd install.sh dist`
+1. Copy files to Raspbery Pi `./deploy.sh <pi ip>`
 
 ## References
 https://disconnected.systems/blog/custom-rpi-image-with-github-travis/#travis
