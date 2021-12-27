@@ -7,7 +7,7 @@ from lane_table import LaneTable
 import timer_socket
 from system_info import SystemInfo
 import time
-import GIFImage
+from GIFImage import GIFImage
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--target_ip', help='IP Address of the timer service', default='127.0.0.1')
@@ -62,8 +62,8 @@ try:
 
         start = time.time()
         #bgSurface.blit(bg, screen_rect)
-        checkerboard.render(bg, screen_rect)
-        
+        checkerboard.render(bgSurface, screen_rect)
+
         table.draw(tableBg,False)
         bgSurface.blit(tableBg, screen_rect)
         
@@ -81,6 +81,6 @@ try:
 
         pygame.display.flip()
         update_time=time.time() - start
-        print(update_time)
+        #print(update_time)
 finally:
     timer_socket.disconnect()

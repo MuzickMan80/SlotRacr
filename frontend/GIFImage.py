@@ -85,8 +85,9 @@ class GIFImage(object):
                 else:
                     palette = base_palette
 
-                pi = pygame.image.fromstring(image.tostring(), image.size, image.mode)
-                pi.set_palette(palette)
+                frameBytes = image.convert('RGBA').tobytes('raw', 'RGBA')
+                pi = pygame.image.frombuffer(frameBytes, image.size, 'RGBA')
+                #pi.set_palette(palette)
                 if "transparency" in image.info:
                     pi.set_colorkey(image.info["transparency"])
                 pi2 = pygame.Surface(image.size, SRCALPHA)
