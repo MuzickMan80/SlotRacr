@@ -26,6 +26,8 @@ try:
 
     screen = pygame.display.set_mode(size,flags)
     screen.set_alpha(None)
+    
+    print(pygame.display.Info())
 
     size = screen.get_width(),screen.get_height()
     screen_rect=(0,0,screen.get_width(),screen.get_height())
