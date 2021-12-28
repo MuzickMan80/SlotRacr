@@ -10,6 +10,7 @@ class RaceType:
         self.mode = mode
 
 race_types = {
+    RaceType("200 Lap Race", laps=200),
     RaceType("100 Lap Race", laps=100),
     RaceType("50 Lap Race", laps=50),
     RaceType("Time Trials", mode=RaceMode.TimeTrials)

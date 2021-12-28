@@ -1,21 +1,21 @@
+from backend.racr.race.race_simulator import RaceSimulator
+from util.observable import Observable
 from .io.io_manager import IoManager, SECONDS
 from .lane.lane_timer import LaneTimer
 from .io.button import Button
-import inspect
-import asyncio
-import random
 
-class TrackManager:
+class TrackManager(Observable):
     def __init__(self,io_manager,reset_pin,lane_pins,observer):
+        super().__init__(observer)
         self.resetter = Button(io_manager, reset_pin, self.reset_handler)
-        self.observer = observer
         self.io_manager: IoManager = io_manager
         self.lanes: list[LaneTimer] = []
-        self.simulator = None
         laneIdx = 1
         for pin in lane_pins:
             self.lanes = self.lanes + [LaneTimer(io_manager,laneIdx,pin,self.lap_handler)]
             laneIdx = laneIdx + 1
+
+        self.simulator = RaceSimulator(io_manager, self.lanes)
         
     async def reset_handler(self):
         for lane in self.lanes:
@@ -35,22 +35,6 @@ class TrackManager:
             i = 1 + i
         await self.notify_observer()
 
-    async def notify_observer(self):
-        result = self.observer()
-        if inspect.isawaitable(result):
-            await result
-
     def enable_activity_simulator(self, enable : bool, rate : float):
-        if self.simulator:
-            self.simulator.cancel()
-
-        if enable:
-            self.simulator = asyncio.create_task(self._simulate_activity(rate))
-
-    async def _simulate_activity(self, rate: float):
-        tick = self.io_manager.last_tick
-        while True:
-            lane = random.choice(self.lanes)
-            await lane.lap(True, tick)
-            await asyncio.sleep(rate)
-            tick = tick + rate * SECONDS
+        self.simulator.enable_activity_simulator(enable, rate)
+        
