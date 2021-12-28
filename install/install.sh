@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo apt-get update
-sudo apt-get install -y python3 python3-pip pigpiod libsdl2-2.0-0 libsdl2-ttf-2.0-0 nginx unclutter git
+sudo apt-get install -y python3 python3-pip pigpiod nginx unclutter git
 
 # Clean old directories
 rm -rf ~/backend
