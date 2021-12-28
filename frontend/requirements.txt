@@ -1,4 +1,4 @@
 
-pygame==2.0
+pygame==1.9.6
 python-socketio[client]
 pillow
