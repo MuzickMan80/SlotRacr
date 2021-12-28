@@ -1,7 +1,7 @@
 [Unit]
 Description=Slot Car Timer Frontend
-After=slot_timer.service timer_update.service network-online.target
-Wants=slot_timer.service timer_update.service network-online.target
+After=slot_timer.service timer_update.service network-online.target disable_cursor.service
+Wants=slot_timer.service timer_update.service network-online.target disable_cursor.service
 
 [Service]
 WorkingDirectory=/home/pi/SlotRacr/frontend
