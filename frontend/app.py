@@ -20,7 +20,6 @@ try:
     if args.windowed != True:
         flags = flags + pygame.FULLSCREEN
         size = 0, 0
-
     screen = pygame.display.set_mode(size,flags)
     screen.set_alpha(None)
     print(f'Driver: {pygame.display.get_driver()}')
@@ -33,22 +32,27 @@ try:
     main = RaceWindow(window_mgr, args.target_ip)
     
     pygame.mouse.set_visible(False)
-    
-    while 1:
+    running=True
+    while running:
+        window_mgr.draw(screen)
+        pygame.display.flip()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                running=False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
+                    running=False
             else:
                 window_mgr.event(event)
                  
-        window_mgr.draw(screen)
-        pygame.display.flip()
-        
+    pygame.quit()
 except Exception as e:
     f = open('exception.log','a')
     traceback.print_exc(file=f)
     f.close()
     traceback.print_exc()
+    if running:
+        pygame.quit()
+        
+    raise e

@@ -7,6 +7,10 @@ Wants=slot_timer.service timer_update.service network-online.target
 WorkingDirectory=/home/pi/SlotRacr/frontend
 ExecStart=/home/pi/SlotRacr/frontend/app.py
 User=pi
+StandardInput=tty
+StandardOutput=tty
+TTYPath=/dev/tty2
+TimeoutSec=10
 
 [Install]
 WantedBy=multi-user.target
