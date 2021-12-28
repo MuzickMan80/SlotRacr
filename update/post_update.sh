@@ -9,6 +9,9 @@ pip3 install -r ~/SlotRacr/backend/requirements.txt
 pip3 install -r ~/SlotRacr/frontend/requirements.txt
 sudo apt-get install -y libopenjp2-7 libsdl-ttf2.0-0
 
+sudo install -m 755 ~/SlotRacr/frontend/disable_cursor.service /etc/systemd/system
+sudo systemctl enable disable_cursor.service
+
 # Setup web frontend
 # sudo cp -r ~/dist/FrontEnd/* /var/www/html
 
