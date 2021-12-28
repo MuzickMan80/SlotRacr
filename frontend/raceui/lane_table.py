@@ -121,6 +121,6 @@ class LaneTable:
 
     def update(self,lanes):
         row=0
-        for lane in lanes:
+        for lane in lanes["lanes"]:
             self.updateLane(lane,row)
             row=row+1

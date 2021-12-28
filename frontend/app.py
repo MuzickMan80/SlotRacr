@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
  
-import pygame, sys
+import pygame
 import argparse
 import traceback
 from raceui.race_screen import RaceWindow
@@ -54,5 +54,7 @@ except Exception as e:
     traceback.print_exc()
     if running:
         pygame.quit()
-        
+
     raise e
+finally:
+    main.cleanup()

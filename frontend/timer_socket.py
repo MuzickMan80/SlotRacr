@@ -1,7 +1,7 @@
 import socketio
 import json
 
-lanes=[]
+lanes={'lanes': []}
 connected=False
 
 sio = socketio.Client()
@@ -22,8 +22,8 @@ def connect():
 @sio.event
 def update(data):
     global lanes
-    lanes=json.loads(data)["lanes"]
-    lanes.sort(key=lambda l: l['pos'])
+    lanes=json.loads(data)
+    lanes["lanes"].sort(key=lambda l: l['pos'])
     print(lanes)
 
 def get_lanes(ip='127.0.0.1'):

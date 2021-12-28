@@ -42,7 +42,7 @@ class RaceWindow(Window):
 
         self.checkerboard = GIFImage('assets/checkered_flag.gif', size)
 
-    def __del__(self):
+    def cleanup(self):
         timer_socket.disconnect()
 
     def draw(self, screen):
