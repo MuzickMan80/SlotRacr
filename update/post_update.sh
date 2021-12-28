@@ -5,9 +5,18 @@
 # Setup backend timer service
 pip3 install -r ~/SlotRacr/backend/requirements.txt
 
+# Setup kivy dependencies
+sudo apt install pkg-config libgl1-mesa-dev libgles2-mesa-dev \
+   libgstreamer1.0-dev \
+   gstreamer1.0-plugins-{bad,base,good,ugly} \
+   gstreamer1.0-{omx,alsa} libmtdev-dev \
+   xclip xsel libjpeg-dev
+sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+sudo apt install xorg-server lightdm
+
 # Setup frontend display service
 pip3 install -r ~/SlotRacr/frontend/requirements.txt
-sudo apt-get install -y libopenjp2-7 libsdl-ttf2.0-0
+sudo apt-get install -y libopenjp2-7
 
 sudo install -m 755 ~/SlotRacr/frontend/disable_cursor.service /etc/systemd/system
 sudo systemctl enable disable_cursor.service

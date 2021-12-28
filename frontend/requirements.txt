@@ -2,3 +2,4 @@
 pygame==1.9.6
 python-socketio[client]
 pillow
+kivy[base,media]==2.0.0
