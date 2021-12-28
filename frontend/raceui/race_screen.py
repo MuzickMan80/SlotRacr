@@ -19,15 +19,21 @@ class RaceWindow(Window):
 
         dseg = pygame.font.Font('assets/DSEG7ModernMini-Bold.ttf', int(size[1]/18))
         default_font_name = pygame.font.get_default_font()
-        header_font = pygame.font.SysFont(default_font_name, int(size[1]/20))
+        header_font_size = int(size[1]/20)
+        header_font = pygame.font.SysFont(default_font_name, header_font_size)
         
         self.table = LaneTable(size,dseg,header_font)
 
-        info_y = size[1]-30
-        info_rect = (10,info_y,130,30)
+        info_h = header_font_size * 1.2
+        info_w = header_font_size * 8
+        info_x = 10
+        info_y = size[1]-info_h
+        info_rect = (info_x,info_y,info_w,info_h)
         self.info = SystemInfo(info_rect, header_font)
 
-        fps_rect = (150, info_y, 40, 30)
+        fps_x = info_x + info_w + 10
+        fps_w = header_font_size * 3
+        fps_rect = (fps_x, info_y, fps_w, info_h)
         self.fps = TextBox(fps_rect, header_font, "")
 
         self.tableBg = pygame.Surface(size, pygame.SRCALPHA)
