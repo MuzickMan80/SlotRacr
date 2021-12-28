@@ -37,8 +37,19 @@ Pit button
   Lloyd Ruby 
 
 Press Once to indicate they are going to pits
-  Hold down at least 1.5 seconds before crossing finish line, slow down
+  Hold down at least 1.5 seconds before crossing finish line, slow 
+  1.0 seconds - guaranteed speeding penalty
 
+Need to tap within 2 seconds of crossing
+  Resets after crossing finish
+
+Status -
+  Coming into pit = flashing yellow
+  Slowing into pit = yellow
+  Penalty = blue?
+    Stop and go
+  
+Want 50, 100, 200 lap races
 Typical race is 200 laps
   need to refuel every 45-48 laps
 

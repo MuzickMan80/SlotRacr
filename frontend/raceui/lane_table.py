@@ -59,7 +59,8 @@ class TableCell:
         self.dirty=False
         self.round=round
     def drawBg(self,screen):
-        return pygame.draw.rect(screen,self.bgcolor, self.rect, 0, self.round)
+        #return pygame.draw.rect(screen,self.bgcolor, self.rect, 0, self.round)
+        return pygame.draw.rect(screen, self.bgcolor, self.rect)
     def drawFg(self,screen):
         text_bmp = self.font.render(self.text, True, self.color)
         text_rect = text_bmp.get_rect(center=(self.rect.centerx,self.rect.centery))

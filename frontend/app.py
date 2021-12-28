@@ -2,12 +2,9 @@
  
 import pygame, sys
 import argparse
-import os
-from lane_table import LaneTable
-import timer_socket
-from system_info import SystemInfo
-import time
-from GIFImage import GIFImage
+import traceback
+from raceui.race_screen import RaceWindow
+from ui.window import WindowManager
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--target_ip', help='IP Address of the timer service', default='127.0.0.1')
@@ -32,24 +29,10 @@ try:
     size = screen.get_width(),screen.get_height()
     screen_rect=(0,0,screen.get_width(),screen.get_height())
 
-    bg = pygame.image.load("assets/background.bmp")
-    bg = pygame.transform.smoothscale(bg, size)
-
-    dseg = pygame.font.Font('assets/DSEG7ModernMini-Bold.ttf', int(size[1]/18))
-    default_font_name = pygame.font.get_default_font()
-    header_font = pygame.font.SysFont(default_font_name, int(size[1]/20))
-
+    window_mgr = WindowManager(size)
+    main = RaceWindow(window_mgr, args.target_ip)
+    
     pygame.mouse.set_visible(False)
-    table = LaneTable(size,dseg,header_font)
-
-    info_rect = (0,size[1]-30,size[0],30)
-    info = SystemInfo(info_rect, header_font)
-
-    tableBg = pygame.Surface(size, pygame.SRCALPHA)
-    bgSurface = pygame.Surface(size)
-    foreground=pygame.Surface(size)
-
-    checkerboard = GIFImage('assets/checkered_flag.gif', size)
     
     while 1:
         for event in pygame.event.get():
@@ -58,31 +41,12 @@ try:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
-                    
-        lanes = timer_socket.get_lanes(args.target_ip)
-        table.update(lanes)
-
-        start = time.time()
-        #bgSurface.blit(bg, screen_rect)
-        checkerboard.render(bgSurface, screen_rect)
-
-        table.draw(tableBg,False)
-        bgSurface.blit(tableBg, screen_rect)
-        
-        #screen.blit(bgSurface, screen_rect)
-        #pygame.display.flip()
-
-        foreground.blit(bgSurface, screen_rect)
-
-        rects = table.draw(foreground,True)
-        rects.extend(info.draw(foreground,True))
-        screen.blit(foreground, screen_rect)
-        #for r in rects:
-        #    screen.blit(foreground,r,r)
-        #    foreground.blit(bgSurface,r,r)
-
+                 
+        window_mgr.draw(screen)
         pygame.display.flip()
-        update_time=time.time() - start
-        #print(update_time)
-finally:
-    timer_socket.disconnect()
+        
+except Exception as e:
+    f = open('exception.log','a')
+    traceback.print_exc(file=f)
+    f.close()
+    traceback.print_exc()

@@ -38,7 +38,8 @@ class LaneTimer(object):
                 'laps': self.laps,
                 'pos': self.pos,
                 'started': self.started,
-                'name': ""}
+                'name': '',
+                'color': 'white'}
     def time_string(self, time):
         s = 0
         if time:
