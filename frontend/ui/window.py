@@ -18,22 +18,24 @@ class Window:
         pass
     def draw_background(self):
         pass
+    def event(self,event):
+        pass
 
 class WindowManager:
     def __init__(self, size):
         self.size = size
-        self.windows: list[Window] = []
+        self.windows = []
         self.fg_window = None
         self.bg_dirty = True
         WindowManager.instance=self
 
-    def draw(self, screen) -> list[pygame.Rect]:
+    def draw(self, screen):
         rects = []
         for window in self.windows:
             rects.extend(window.draw(screen))
         return rects
 
-    def draw_background(self, screen) -> list[pygame.Rect]:
+    def draw_background(self, screen):
         rects = []
         for window in self.windows:
             rects.extend(window.draw_background(screen))
@@ -43,3 +45,5 @@ class WindowManager:
         self.windows.append(window)
     def hide(self, window: Window):
         self.windows.remove(window)
+    def event(self, event):
+        self.windows[-1].event(event)

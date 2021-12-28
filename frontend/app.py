@@ -41,6 +41,8 @@ try:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
+            else:
+                window_mgr.event(event)
                  
         window_mgr.draw(screen)
         pygame.display.flip()

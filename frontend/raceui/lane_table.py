@@ -1,7 +1,7 @@
 import pygame
 
 numLanes=8
-labels=['Lane','Name','Laps','Top','Last']
+labels=['','Lane','Name','Laps','Top','Last']
 headerBackground=(182, 183, 185, 170)
 headerColor=(0,0,86)
 cellBackground=(0,0,86,128)
@@ -13,6 +13,7 @@ class TableDims:
         self.origHeight=1080
         self.size = size
         self.cols=[
+            self.scale(80),
             self.scale(180),
             self.scale(250),
             self.scale(200),
@@ -115,7 +116,7 @@ class LaneTable:
         return rects
 
     def updateLane(self,lane,row):
-        labels=[f'{lane["lane"]}',lane["name"],formatLaps(lane),formatTime(lane,lane['best']),formatTime(lane,lane['last'])]
+        labels=['',f'{lane["lane"]}',lane["name"],formatLaps(lane),formatTime(lane,lane['best']),formatTime(lane,lane['last'])]
         self.rows[row].update(labels)
 
     def update(self,lanes):
