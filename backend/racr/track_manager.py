@@ -24,7 +24,7 @@ class TrackManager(Observable):
     async def lap_handler(self):
         tick = self.io_manager.last_tick
         lane_pos = self.lanes.copy()
-        lane_pos.sort(key=lambda l: (-l.laps, self.io_manager.tick_diff(l.lapStartTime, tick)))
+        lane_pos.sort(key=lambda l: (-l.laps, self.io_manager.tick_diff_micros(l.lapStartTime, tick)))
         i = 1
         for l in lane_pos:
             if l.laps > 0:

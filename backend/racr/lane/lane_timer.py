@@ -1,3 +1,4 @@
+from .pit import Pit
 
 class LaneTimer(object):
     def __init__(self, io_manager, lane, pin, cb):
@@ -7,10 +8,11 @@ class LaneTimer(object):
         self.on_lap = cb
         self.reset()
         io_manager.monitor_pin(pin, self.lap)
+        self.pit = Pit(io_manager, lane, cb)
     
     async def lap(self, event, tick):
         if self.started:
-            diff = self.io_manager.tick_diff(self.lapStartTime, tick)
+            diff = self.io_manager.tick_diff_micros(self.lapStartTime, tick)
             if diff < 500000:
                 self.skippedTriggers = self.skippedTriggers + 1
                 return
@@ -30,6 +32,7 @@ class LaneTimer(object):
         self.laps = 0
         self.pos = 0
         self.skippedTriggers = 0
+        self.pit.reset()
         return self
 
     def state(self):
@@ -40,8 +43,10 @@ class LaneTimer(object):
                 'pos': self.pos,
                 'started': self.started,
                 'name': '',
-                'color': 'white'}
-                
+                'color': 'white',
+                'state': self.pit.get_indicator(),
+                'throttle': self.pit.throttle()}
+
     def time_string(self, time):
         s = 0
         if time:

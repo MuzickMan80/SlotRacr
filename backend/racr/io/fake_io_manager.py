@@ -27,5 +27,5 @@ class FakeIoManager(IoManager):
     def monitor_pin(self, pin, cb, rising=True, falling=False, pullUp=False, pullDown=True):
         self._register_callback(pin, cb)
 
-    def tick_diff(self, start, end):
+    def tick_diff_micros(self, start, end):
         return end-start

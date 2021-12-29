@@ -25,7 +25,7 @@ class PiIoManager(IoManager):
     def get_pit_pin(self, lane) -> int:
         return pit_pins[lane]
 
-    def tick_diff(self, start, end):
+    def tick_diff_micros(self, start, end):
         return pigpio.tickDiff(start, end)
 
     def monitor_pin(self, pin, cb, rising=True, falling=False, pullUp=False, pullDown=False):
