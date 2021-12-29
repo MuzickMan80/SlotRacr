@@ -1,4 +1,4 @@
-from test.fake_io_manager import FakeIoManager
+from racr.io.fake_io_manager import FakeIoManager
 from racr.io.io_manager import SECONDS
 from racr.track_manager import TrackManager
 from unittest.mock import AsyncMock, MagicMock

@@ -1,5 +1,5 @@
 
-from test.fake_io_manager import FakeIoManager
+from racr.io.fake_io_manager import FakeIoManager
 from racr.io.button import Button
 from unittest.mock import AsyncMock, MagicMock
 import pytest

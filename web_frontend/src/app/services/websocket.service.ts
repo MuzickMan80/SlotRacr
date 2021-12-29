@@ -11,7 +11,7 @@ export class WebsocketService {
   constructor() { this.connect(); }
 
   connect(): Subject<MessageEvent> {
-    this.socket = io('http://192.168.1.11:5000');
+    this.socket = io('http://192.168.1.2:5000');
 
     let observable = new Observable(observer => {
       this.socket.on('update', (data:any) => {

@@ -1,4 +1,4 @@
-from backend.racr.race.race_simulator import RaceSimulator
+from racr.race.race_simulator import RaceSimulator
 from util.observable import Observable
 from .io.io_manager import IoManager, SECONDS
 from .lane.lane_timer import LaneTimer
@@ -37,4 +37,3 @@ class TrackManager(Observable):
 
     def enable_activity_simulator(self, enable : bool, rate : float):
         self.simulator.enable_activity_simulator(enable, rate)
-        

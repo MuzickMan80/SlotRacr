@@ -1,20 +1,29 @@
 import asyncio
 from racr.io.io_manager import SECONDS
-from test.fake_io_manager import FakeIoManager
-from app import TrackManagerApp
+from racr.io.fake_io_manager import FakeIoManager
+from app_server import TrackManagerApp
 import json
 from unittest.mock import AsyncMock
 import pytest
 import socketio
 
 @pytest.fixture
-async def backend_server():
+async def loop():
+    loop = asyncio.get_event_loop()
+    yield loop
+    
+@pytest.fixture
+async def backend_server(loop):
     io = FakeIoManager()
     track = TrackManagerApp(io,3,[4,5,6,7,8])
     await track.start()
     yield track
     await track.stop()
 
+@pytest.fixture
+async def backend_rest_client(aiohttp_client,backend_server: TrackManagerApp):
+    yield await aiohttp_client(backend_server.webapp)
+    
 class TrackClient(socketio.AsyncClientNamespace):
     def __init__(self):
         super().__init__()
@@ -57,7 +66,6 @@ async def backend_client(backend_server):
     yield trackClient
     await trackClient.disconnect()
 
-@pytest.mark.asyncio 
 async def test_update_request(backend_client):
     # Request an update from the server
     await backend_client.request_update()
@@ -65,7 +73,6 @@ async def test_update_request(backend_client):
     backend_client.update_cb.assert_called_once()
     assert backend_client.last_update()["lanes"][1]["started"] == False
 
-@pytest.mark.asyncio 
 async def test_lane_activity_triggers_update(backend_client, backend_server):
     # Start a lane, and ensure we get an automatic update
     await backend_server.track.io_manager.invoke_callback(5,1*SECONDS)
@@ -73,7 +80,6 @@ async def test_lane_activity_triggers_update(backend_client, backend_server):
     backend_client.update_cb.assert_called_once()
     assert backend_client.last_update()["lanes"][1]["started"] == True
 
-@pytest.mark.asyncio
 async def test_simulate_activity(backend_client: TrackClient):
     await backend_client.simulate_activity(True, 0.01)
     await asyncio.sleep(1)
@@ -83,3 +89,9 @@ async def test_simulate_activity(backend_client: TrackClient):
     backend_client.update_cb.reset_mock()
     await asyncio.sleep(0.5)
     assert backend_client.update_cb.call_count == 0
+
+async def test_track_settings(backend_rest_client):
+    response = await backend_rest_client.get('/settings')
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings)
