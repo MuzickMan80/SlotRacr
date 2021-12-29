@@ -17,7 +17,6 @@ class Pit:
         self.in_pits=False
         self.pitting=False
         self.pit_progress=0
-        await self.cb()
 
     def pit_button_pressed(self):
         pass
@@ -72,6 +71,7 @@ class Pit:
             self.pit_progress = self.pit_progress + 1
             await self.cb()
         self.reset()
+        await self.cb()
 
     def throttle(self, max_throttle=100):
         if self.in_pits:
