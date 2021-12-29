@@ -16,7 +16,7 @@ async def loop():
 @pytest.fixture
 async def backend_server(loop):
     io = FakeIoManager()
-    track = TrackManagerApp(io,3,[4,5,6,7,8])
+    track = TrackManagerApp(io)
     await track.start()
     yield track
     await track.stop()
@@ -76,7 +76,8 @@ async def test_update_request(backend_client):
 
 async def test_lane_activity_triggers_update(backend_client, backend_server):
     # Start a lane, and ensure we get an automatic update
-    await backend_server.track.io_manager.invoke_callback(5,1*SECONDS)
+    pin = backend_server.track.io_manager.get_lane_pin(1)
+    await backend_server.track.io_manager.invoke_callback(pin,1*SECONDS,True)
     await asyncio.sleep(.1)
     backend_client.update_cb.assert_called_once()
     assert backend_client.last_update()["lanes"][1]["started"] == True

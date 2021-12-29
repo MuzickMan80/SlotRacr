@@ -7,9 +7,9 @@ import app_rest_api
 class TrackManagerApp(socketio.AsyncNamespace):
     sio = socketio.AsyncServer(async_mode='aiohttp', cors_allowed_origins='*', logger=True)
 
-    def __init__(self, io_manager, reset_pin, lane_pins):
+    def __init__(self, io_manager):
         super().__init__()
-        self.track = TrackManager(io_manager, reset_pin, lane_pins, self.emit_lane_dump)
+        self.track = TrackManager(io_manager, self.emit_lane_dump)
         app_rest_api.track = self.track
 
     async def start(self):

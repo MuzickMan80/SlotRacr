@@ -5,15 +5,14 @@ from .lane.lane_timer import LaneTimer
 from .io.button import Button
 
 class TrackManager(Observable):
-    def __init__(self,io_manager,reset_pin,lane_pins,observer):
+    def __init__(self,io_manager,observer):
         super().__init__(observer)
-        self.resetter = Button(io_manager, reset_pin, self.reset_handler)
+        self.resetter = Button(io_manager, io_manager.get_reset_pin(), self.reset_handler)
         self.io_manager: IoManager = io_manager
         self.lanes: list[LaneTimer] = []
-        laneIdx = 1
-        for pin in lane_pins:
-            self.lanes = self.lanes + [LaneTimer(io_manager,laneIdx,pin,self.lap_handler)]
-            laneIdx = laneIdx + 1
+        for lane in range(8):
+            pin = io_manager.get_lane_pin(lane)
+            self.lanes = self.lanes + [LaneTimer(io_manager,lane+1,pin,self.lap_handler)]
 
         self.simulator = RaceSimulator(io_manager, self.lanes)
         

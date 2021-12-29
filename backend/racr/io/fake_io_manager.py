@@ -20,8 +20,8 @@ class FakeIoManager(IoManager):
     def get_pit_pin(self, lane) -> int:
         return pit_pins[lane]
 
-    async def invoke_callback(self, pin, tick):
-        self._io_update(pin, 0, tick)
+    async def invoke_callback(self, pin, tick, edge=False):
+        self._io_update(pin, edge, tick)
         await asyncio.sleep(0.001)
 
     def monitor_pin(self, pin, cb, rising=True, falling=False, pullUp=False, pullDown=True):

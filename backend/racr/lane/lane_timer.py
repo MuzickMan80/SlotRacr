@@ -31,6 +31,7 @@ class LaneTimer(object):
         self.pos = 0
         self.skippedTriggers = 0
         return self
+
     def state(self):
         return {'lane': self.lane,
                 'best': self.time_string(self.best),
@@ -40,6 +41,7 @@ class LaneTimer(object):
                 'started': self.started,
                 'name': '',
                 'color': 'white'}
+                
     def time_string(self, time):
         s = 0
         if time:

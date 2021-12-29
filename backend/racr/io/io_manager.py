@@ -24,11 +24,11 @@ class IoManager:
 
     async def _async_io_update(self, event, edge, tick):
         self.last_tick = tick
-        idx = self.pins.index(event)
-        cb = self.callbacks[idx]
-        result = cb(edge, tick)
-        if inspect.isawaitable(result):
-            await result
+        for pin, cb in zip(self.pins, self.callbacks):
+            if pin == event:
+                result = cb(edge, tick)
+                if inspect.isawaitable(result):
+                    await result
 
     def _register_callback(self, pin, cb):
         self.callbacks = self.callbacks + [cb]
