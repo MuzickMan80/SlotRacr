@@ -1,6 +1,7 @@
 import asyncio
 from racr.io.io_manager import SECONDS
 from racr.io.fake_io_manager import FakeIoManager
+from aiohttp.test_utils import TestClient
 from app_server import TrackManagerApp
 import json
 from unittest.mock import AsyncMock
@@ -90,8 +91,36 @@ async def test_simulate_activity(backend_client: TrackClient):
     await asyncio.sleep(0.5)
     assert backend_client.update_cb.call_count == 0
 
-async def test_track_settings(backend_rest_client):
+async def test_track_getsettings(backend_rest_client):
     response = await backend_rest_client.get('/settings')
     assert(response.status == 200)
     settings = await response.json()
+    assert(settings["race"]["enable_pitting"])
+
+async def test_track_getracesettings(backend_rest_client):
+    response = await backend_rest_client.get('/settings/race')
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings["enable_pitting"])
+
+async def test_track_get_single_setting(backend_rest_client):
+    response = await backend_rest_client.get('/settings/race/enable_pitting')
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings['value'])
+
+async def test_track_get_single_setting_value(backend_rest_client):
+    response = await backend_rest_client.get('/settings/race/enable_pitting/value')
+    assert(response.status == 200)
+    settings = await response.json()
     assert(settings)
+
+async def test_track_put_single_setting_value(backend_rest_client:TestClient):
+    response = await backend_rest_client.put('/settings/race/enable_pitting/value',json=True)
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == True)
+    response = await backend_rest_client.put('/settings/race/enable_pitting/value',json=False)
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == False)

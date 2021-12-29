@@ -4,3 +4,4 @@ pigpio
 pytest-aiohttp
 pytest-asyncio
 pytest-cov
+jsons
