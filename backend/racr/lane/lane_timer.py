@@ -6,9 +6,9 @@ class LaneTimer(object):
         self.io_manager = io_manager
         self.pin = pin
         self.on_lap = cb
+        self.pit = Pit(io_manager, lane, cb)
         self.reset()
         io_manager.monitor_pin(pin, self.lap)
-        self.pit = Pit(io_manager, lane, cb)
     
     async def lap(self, event, tick):
         if self.started:

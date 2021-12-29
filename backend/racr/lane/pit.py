@@ -1,5 +1,5 @@
 from racr.io.io_manager import IoManager, SECONDS
-from pit_button import PitButton
+from .pit_button import PitButton
 import random
 import asyncio
 
@@ -16,6 +16,7 @@ class Pit:
         self.out_of_fuel=False
         self.in_pits=False
         self.pitting=False
+        self.pit_this_lap=False
         self.pit_progress=0
 
     def pit_button_pressed(self):
