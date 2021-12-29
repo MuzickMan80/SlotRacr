@@ -1,5 +1,5 @@
 from .pit import Pit
-
+import jsons
 class LaneTimer(object):
     def __init__(self, io_manager, lane, pin, cb):
         self.lane = lane
@@ -46,7 +46,7 @@ class LaneTimer(object):
                 'color': 'white',
                 'state': self.pit.get_indicator(),
                 'throttle': self.pit.throttle(),
-                'pit': self.pit.__dict__}
+                'pit': jsons.dumps(self.pit)}
 
     def time_string(self, time):
         s = 0
