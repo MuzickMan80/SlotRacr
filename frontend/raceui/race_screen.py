@@ -15,7 +15,7 @@ class RaceWindow(Window):
         size = self.size
         
         bg = pygame.image.load("assets/background.bmp")
-        bg = pygame.transform.smoothscale(bg, size)
+        self.bg = pygame.transform.smoothscale(bg, size)
 
         dseg = pygame.font.Font('assets/DSEG7ModernMini-Bold.ttf', int(size[1]/18))
         default_font_name = pygame.font.get_default_font()
@@ -52,8 +52,8 @@ class RaceWindow(Window):
         self.table.update(lanes)
 
         screen_rect=(0,0,self.size[0],self.size[1])
-        #bgSurface.blit(bg, screen_rect)
-        self.checkerboard.render(self.bgSurface, screen_rect)
+        self.bgSurface.blit(self.bg, screen_rect)
+        #self.checkerboard.render(self.bgSurface, screen_rect)
 
         self.table.draw(self.tableBg,False)
         self.info.draw(self.tableBg,False)
