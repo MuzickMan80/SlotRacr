@@ -51,7 +51,7 @@ class Pit:
 
         self.pit_this_lap = False
         self.laps_driven = self.laps_driven+1
-        if self.laps_driven >= 45:
+        if self.laps_driven == 45:
             self.low_fuel = True
             asyncio.create_task(self._running_out_of_fuel)
 
@@ -79,4 +79,5 @@ class Pit:
             return 0
         if self.out_of_fuel or self.pitting:
             return max(max_throttle, 50)
+        return max_throttle
         

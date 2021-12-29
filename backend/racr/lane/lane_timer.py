@@ -45,7 +45,8 @@ class LaneTimer(object):
                 'name': '',
                 'color': 'white',
                 'state': self.pit.get_indicator(),
-                'throttle': self.pit.throttle()}
+                'throttle': self.pit.throttle(),
+                'pit': self.pit.__dict__}
 
     def time_string(self, time):
         s = 0
