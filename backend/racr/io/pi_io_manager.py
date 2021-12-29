@@ -1,6 +1,10 @@
 from .io_manager import IoManager
 import pigpio
 
+reset_pin = 4
+lane_pins = [17,27,22,5,6,13,19,26]
+pit_pins = [4,-1,-1,-1,-1,-1,-1,-1]
+
 class PiIoManager(IoManager):
     def __init__(self, async_loop):
         super().__init__(async_loop)
@@ -11,6 +15,15 @@ class PiIoManager(IoManager):
             exit()
 
         print('gpio connection succeeded')
+
+    def get_lane_pin(self, lane) -> int:
+        return lane_pins[lane]
+
+    def get_reset_pin(self) -> int:
+        return reset_pin
+
+    def get_pit_pin(self, lane) -> int:
+        return pit_pins[lane]
 
     def tick_diff(self, start, end):
         return pigpio.tickDiff(start, end)

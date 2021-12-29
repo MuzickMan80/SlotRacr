@@ -10,6 +10,15 @@ class IoManager:
         self.last_tick = 0
         self.async_loop = async_loop
 
+    def get_lane_pin(self, lane) -> int:
+        return -1
+
+    def get_reset_pin(self) -> int:
+        return -1
+
+    def get_pit_pin(self, lane) -> int:
+        return -1
+
     def _io_update(self, event, edge, tick):
         asyncio.run_coroutine_threadsafe(self._async_io_update(event, edge, tick), self.async_loop)
 
