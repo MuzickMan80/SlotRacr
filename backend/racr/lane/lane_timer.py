@@ -18,6 +18,7 @@ class LaneTimer(object):
                 return
             self.last = diff
             self.laps = self.laps + 1
+            await self.pit.lap()
             if self.best == None or self.last < self.best:
                 self.best = self.last
         self.lapStartTime = tick

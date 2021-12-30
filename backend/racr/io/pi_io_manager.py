@@ -8,7 +8,7 @@ pit_pins = [4,-1,-1,-1,-1,-1,-1,-1]
 class PiIoManager(IoManager):
     def __init__(self, async_loop):
         super().__init__(async_loop)
-        self.pi = pigpio.pi()
+        self.pi = pigpio.pi('192.168.1.12')
 
         if not self.pi.connected:
             print('Failed to connect to pigpio server')

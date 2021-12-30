@@ -13,8 +13,8 @@ class TableDims:
         self.origHeight=1080
         self.size = size
         self.cols=[
-            self.scale(80),
-            self.scale(120),
+            self.scale(150),
+            self.scale(200),
             self.scale(180),
             self.scale(250),
             self.scale(200),
@@ -117,7 +117,7 @@ class LaneTable:
         return rects
 
     def updateLane(self,lane,row):
-        labels=[lane["throttle"],lane["state"],f'{lane["lane"]}',lane["name"],formatLaps(lane),formatTime(lane,lane['best']),formatTime(lane,lane['last'])]
+        labels=[str(lane["throttle"]),lane["state"],f'{lane["lane"]}',lane["name"],formatLaps(lane),formatTime(lane,lane['best']),formatTime(lane,lane['last'])]
         self.rows[row].update(labels)
 
     def update(self,lanes):
