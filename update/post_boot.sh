@@ -35,7 +35,7 @@ then
     updated=1
 fi
 
-if [[ $updated -eq 1 ]
+if [[ $updated -eq 1 ]]
 then
     sudo reboot
 fi
