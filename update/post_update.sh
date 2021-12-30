@@ -30,3 +30,5 @@ then
     sudo rm /etc/nginx/sites-enabled/default
 fi
 
+# Update systemd unit files after boot, then reboot if required
+./update/post_boot.sh

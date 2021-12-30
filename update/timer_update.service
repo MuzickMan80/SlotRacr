@@ -9,6 +9,7 @@ WorkingDirectory=/home/pi/SlotRacr
 ExecStart=/home/pi/SlotRacr/update/update.sh
 RemainAfterExit=yes
 User=pi
+StandardOutput=journal+console
 
 [Install]
 WantedBy=multi-user.target
