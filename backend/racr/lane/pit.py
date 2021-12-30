@@ -2,6 +2,7 @@ from racr.io.io_manager import IoManager, SECONDS
 from .pit_button import PitButton
 import random
 import asyncio
+import math
 
 class Pit:
     def __init__(self,io_manager:IoManager,lane,cb) -> None:
@@ -17,8 +18,10 @@ class Pit:
         self.in_pits=False
         self.pitting=False
         self.pit_this_lap=False
+        self.penalty=False
         self.pit_progress=0
         self.lap_time=0
+        self.pit_start_time=0
 
     def pit_button_pressed(self):
         pass
@@ -32,6 +35,8 @@ class Pit:
                 await self.cb()
         elif self.pitting != down:
             self.pitting = down
+            if self.pitting:
+                self.pit_start_time = self.io_manager.last_tick
             await self.cb()
 
 
@@ -46,6 +51,8 @@ class Pit:
             return "ngas"
         if self.low_fuel:
             return "lgas"
+        if self.penalty:
+            return "plty"
         return "go"
 
     async def lap(self):
@@ -73,13 +80,29 @@ class Pit:
             wait_time = random.randrange(500,1000)
             await asyncio.sleep(wait_time/1000)
 
+    def _normalize(_, val, zero_val, one_val):
+        val_range = one_val - zero_val
+        normalized_val = (val - zero_val) / val_range
+        return min(1, max(0, normalized_val))
+
     async def _pitting(self):
+        
+        micros_pitting = self.io_manager.tick_diff_micros(self.pit_start_time, self.io_manager.last_tick)
+        # Should be 0 if >1.5 seconds, or 100% if <1.0 seconds
+        sure_penalty = 1 * SECONDS
+        no_penalty = 1.5 * SECONDS
+        penalty_prob = self._normalize(micros_pitting, zero_val=no_penalty, one_val=sure_penalty)
+        
+        penalty = random(100) <= penalty_prob
+        self.penalty = penalty
+
         while self.pit_progress < 3:
             wait_time = random.randrange(2000,4000)
             await asyncio.sleep(wait_time/1000)
             self.pit_progress = self.pit_progress + 1
             if self.pit_progress == 3:
                 self.reset()
+                self.penalty = penalty
             await self.cb()
 
     def throttle(self, max_throttle=100):
