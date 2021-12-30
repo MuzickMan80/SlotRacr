@@ -93,7 +93,7 @@ class Pit:
         no_penalty = 1.5 * SECONDS
         penalty_prob = self._normalize(micros_pitting, zero_val=no_penalty, one_val=sure_penalty)
         
-        penalty = random(100) <= penalty_prob
+        penalty = random.randrange(100) <= penalty_prob
         self.penalty = penalty
 
         while self.pit_progress < 3:
