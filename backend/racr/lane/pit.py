@@ -41,11 +41,11 @@ class Pit:
         if self.pitting:
             return "slow"
         if self.pit_this_lap:
-            return "pit_rq"
+            return "ptrq"
         if self.out_of_fuel:
-            return "no_gas"
+            return "ngas"
         if self.low_fuel:
-            return "lo_gas"
+            return "lgas"
         return "go"
 
     async def lap(self):
@@ -78,9 +78,9 @@ class Pit:
             wait_time = random.randrange(2000,4000)
             await asyncio.sleep(wait_time/1000)
             self.pit_progress = self.pit_progress + 1
+            if self.pit_progress == 3:
+                self.reset()
             await self.cb()
-        self.reset()
-        await self.cb()
 
     def throttle(self, max_throttle=100):
         if self.in_pits:
