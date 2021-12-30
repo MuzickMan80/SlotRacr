@@ -54,7 +54,8 @@ class LaneTimer(object):
                     'out_of_fuel': self.pit.out_of_fuel,
                     'pit_progress': self.pit.pit_progress,
                     'pit_this_lap': self.pit.pit_this_lap,
-                    'pitting': self.pit.pitting
+                    'pitting': self.pit.pitting,
+                    'micros_pitting': self.pit.micros_pitting
                 }}
 
     def time_string(self, time):

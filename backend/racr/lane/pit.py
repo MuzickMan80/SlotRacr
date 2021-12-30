@@ -19,6 +19,7 @@ class Pit:
         self.pitting=False
         self.pit_this_lap=False
         self.penalty=False
+        self.micros_pitting=0
         self.pit_progress=0
         self.lap_time=0
         self.pit_start_time=0
@@ -91,18 +92,23 @@ class Pit:
         # Should be 0 if >1.5 seconds, or 100% if <1.0 seconds
         sure_penalty = 1 * SECONDS
         no_penalty = 1.5 * SECONDS
-        penalty_prob = self._normalize(micros_pitting, zero_val=no_penalty, one_val=sure_penalty)
+        penalty_prob = 100 * self._normalize(micros_pitting, zero_val=no_penalty, one_val=sure_penalty)
         
         penalty = random.randrange(100) <= penalty_prob
         self.penalty = penalty
+        self.micros_pitting = micros_pitting
 
-        while self.pit_progress < 3:
+        while True:
             wait_time = random.randrange(2000,4000)
             await asyncio.sleep(wait_time/1000)
             self.pit_progress = self.pit_progress + 1
             if self.pit_progress == 3:
                 self.reset()
                 self.penalty = penalty
+                self.micros_pitting = micros_pitting
+                await self.cb()
+                break
+
             await self.cb()
 
     def throttle(self, max_throttle=100):
