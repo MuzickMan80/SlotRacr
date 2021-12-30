@@ -45,11 +45,11 @@ class Pit:
         if self.in_pits:
             return str(self.pit_progress)
         if self.pitting:
-            return "slow"
+            return "slo"
         if self.pit_this_lap:
-            return "ptrq"
+            return "pit"
         if self.out_of_fuel:
-            return "ngas"
+            return "out"
         if self.low_fuel:
             return "lgas"
         if self.penalty:
