@@ -1,7 +1,9 @@
 python-socketio
 aiohttp
+aiohttp_cors
 pigpio
 pytest-aiohttp
 pytest-asyncio
 pytest-cov
 jsons
+awsiotsdk

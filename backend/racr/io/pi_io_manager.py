@@ -6,9 +6,13 @@ lane_pins = [17,27,22,5,6,13,19,26]
 pit_pins = [-1,-1,-1,4,-1,-1,-1,-1]
 
 class PiIoManager(IoManager):
-    def __init__(self, async_loop):
+    def __init__(self, async_loop, ip=None):
         super().__init__(async_loop)
-        self.pi = pigpio.pi()
+
+        if ip:
+            self.pi = pigpio.pi(ip)
+        else:
+            self.pi = pigpio.pi()
 
         if not self.pi.connected:
             print('Failed to connect to pigpio server')

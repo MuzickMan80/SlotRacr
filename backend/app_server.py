@@ -1,4 +1,5 @@
 from aiohttp import web
+import aiohttp_cors
 import json
 import socketio
 from racr.track_manager import TrackManager
@@ -15,6 +16,16 @@ class TrackManagerApp(socketio.AsyncNamespace):
     async def start(self):
         self.webapp = web.Application()
         self.webapp.add_routes(app_rest_api.routes)
+        self.cors = aiohttp_cors.setup(self.webapp, defaults={
+            "*": aiohttp_cors.ResourceOptions(
+                allow_credentials=True,
+                expose_headers="*",
+                allow_headers="*",
+            )
+        })
+        # Configure CORS on all routes.
+        for route in list(self.webapp.router.routes()):
+            self.cors.add(route)
         self.sio.attach(self.webapp)
         self.sio.register_namespace(self)
         self.runner = web.AppRunner(self.webapp)

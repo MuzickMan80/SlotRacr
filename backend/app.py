@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
 
 import asyncio
-import os
 from app_server import TrackManagerApp
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--target_ip', help='IP Address of the pigpio service', default='127.0.0.1')
+
+args = parser.parse_args()
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
 
     #if os.name == "posix":
+    
     from racr.io.pi_io_manager import PiIoManager
-    app = TrackManagerApp(PiIoManager(loop))  
+    app = TrackManagerApp(PiIoManager(loop,args.target_ip))  
     #else:
     #    from racr.io.fake_io_manager import FakeIoManager
     #    app = TrackManagerApp(FakeIoManager(loop))
