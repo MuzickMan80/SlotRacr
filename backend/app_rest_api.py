@@ -1,5 +1,6 @@
 from aiohttp import web
 from aiohttp.web_request import Request
+from racr.settings.track_settings import save_settings
 from racr.settings.track_settings import track_settings
 import jsons
 
@@ -35,6 +36,7 @@ async def put_setting_property(request:Request):
     setting=request.match_info['setting']
     s=track_settings[group][setting]
     s.value = await request.json()
+    save_settings()
     return web.json_response(jsons.dump(s.value))
 
 

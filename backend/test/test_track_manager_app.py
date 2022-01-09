@@ -108,13 +108,13 @@ async def test_track_get_single_setting(backend_rest_client):
     response = await backend_rest_client.get('/settings/race/enable_pitting')
     assert(response.status == 200)
     settings = await response.json()
-    assert(settings['value'])
+    assert(isinstance(settings['value'], bool))
 
 async def test_track_get_single_setting_value(backend_rest_client):
     response = await backend_rest_client.get('/settings/race/enable_pitting/value')
     assert(response.status == 200)
     settings = await response.json()
-    assert(settings)
+    assert(isinstance(settings, bool))
 
 async def test_track_put_single_setting_value(backend_rest_client:TestClient):
     response = await backend_rest_client.put('/settings/race/enable_pitting/value',json=True)
