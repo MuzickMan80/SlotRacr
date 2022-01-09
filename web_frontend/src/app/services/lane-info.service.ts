@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WebsocketService } from './websocket.service';
-import { Subject } from 'rxjs';
-import { stringify } from '@angular/compiler/src/util';
+import { Observable, Subject } from 'rxjs';
 
 export interface LaneInfo {
   lane: number;
@@ -17,13 +16,12 @@ export interface LaneInfo {
 })
 export class LaneInfoService {
   
-  subject: Subject<MessageEvent<LaneInfo[]>>;
+  subject: Observable<MessageEvent<LaneInfo[]>>;
 
   constructor(private wsService: WebsocketService) {
-    this.subject = <Subject<any>>wsService
-      .connect()
+    this.subject = <Observable<any>>wsService.connect()
   }
 
-  getLaneInfos() { return this.subject.asObservable(); }
-  requestUpdate() { this.subject.next(); }
+  getLaneInfos() { return this.subject; }
+  requestUpdate() { this.wsService.request_update(); }
 }

@@ -3,12 +3,13 @@ from util.observable import Observable
 from .io.io_manager import IoManager, SECONDS
 from .lane.lane_timer import LaneTimer
 from racr.settings.track_settings import load_settings
+from .io.button import Button
 
 class TrackManager(Observable):
     def __init__(self,io_manager,observer):
         super().__init__(observer)
         load_settings()
-        # self.resetter = Button(io_manager, io_manager.get_reset_pin(), self.reset_handler)
+        self.resetter = Button(io_manager, io_manager.get_reset_pin(), self.reset_handler)
         self.io_manager: IoManager = io_manager
         self.lanes: list[LaneTimer] = []
         for lane in range(8):

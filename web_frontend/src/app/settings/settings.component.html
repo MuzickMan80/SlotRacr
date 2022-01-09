@@ -1,3 +1,10 @@
-<p class=settings>
-    <mat-slide-toggle>Test</mat-slide-toggle>
-</p>
+<div class="settings-group">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" fxLayout="column" fxLayoutGap="8px">
+
+        <div *ngFor="let setting of settings">
+            <app-setting [form]="form" [setting]="setting"></app-setting>
+        </div>
+
+        <button mat-raised-button color="accent" type="submit">Save Settings</button>
+    </form>
+</div>

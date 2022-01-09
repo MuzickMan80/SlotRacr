@@ -1,0 +1,10 @@
+<div [formGroup]="form" fxLayout="row" fxLayoutGap="10px">
+    <div fxFlex="1 1 10em">
+        <label [attr.for]="setting.name">{{ setting.label }}</label>
+    </div>
+
+    <div fxFlex="1 1 20em" [ngSwitch]="setting.controlType">
+        <input *ngSwitchCase="'textbox'" [formControlName]="setting.name" [id]="setting.name" [type]="setting.type" />
+        <mat-slide-toggle *ngSwitchCase="'toggle'" [formControlName]="setting.name" [id]="setting.name"></mat-slide-toggle>
+    </div>
+</div>

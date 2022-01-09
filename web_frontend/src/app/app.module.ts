@@ -14,16 +14,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { SettingsComponent } from './settings/settings.component';
+import { HttpClientModule } from '@angular/common/http';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LaneTableComponent,
     LayoutComponent,
-    NavigationComponent,
-    SettingsComponent
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +36,8 @@ import { SettingsComponent } from './settings/settings.component';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    MatSlideToggleModule
+    HttpClientModule,
+    SettingsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

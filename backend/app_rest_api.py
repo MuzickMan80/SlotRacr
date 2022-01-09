@@ -3,6 +3,7 @@ from aiohttp.web_request import Request
 from racr.settings.track_settings import save_settings
 from racr.settings.track_settings import track_settings
 import jsons
+import os
 
 routes = web.RouteTableDef()
 
@@ -39,4 +40,11 @@ async def put_setting_property(request:Request):
     save_settings()
     return web.json_response(jsons.dump(s.value))
 
-
+@routes.route('*', '/{tail:.*}')
+async def root_handler(request:Request):
+    root = '../web_frontend/dist/FrontEnd'
+    path = f'{root}/{request.path}'
+    if (os.path.exists(path)):
+        return web.FileResponse(path)
+    else:
+        return web.HTTPFound('/index.html')

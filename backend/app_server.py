@@ -15,6 +15,8 @@ class TrackManagerApp(socketio.AsyncNamespace):
 
     async def start(self):
         self.webapp = web.Application()
+        self.sio.attach(self.webapp)
+        self.sio.register_namespace(self)
         self.webapp.add_routes(app_rest_api.routes)
         self.cors = aiohttp_cors.setup(self.webapp, defaults={
             "*": aiohttp_cors.ResourceOptions(
@@ -25,12 +27,13 @@ class TrackManagerApp(socketio.AsyncNamespace):
         })
         # Configure CORS on all routes.
         for route in list(self.webapp.router.routes()):
-            self.cors.add(route)
-        self.sio.attach(self.webapp)
-        self.sio.register_namespace(self)
+            try:
+                self.cors.add(route)
+            except:
+                pass
         self.runner = web.AppRunner(self.webapp)
         await self.runner.setup()
-        self.site = web.TCPSite(self.runner, '0.0.0.0', 5000)
+        self.site = web.TCPSite(self.runner, '0.0.0.0', 80)
         await self.site.start()
         
     async def stop(self):
