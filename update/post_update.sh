@@ -12,6 +12,9 @@ sudo apt-get install -y libopenjp2-7 libsdl-ttf2.0-0
 sudo install -m 755 ~/SlotRacr/frontend/disable_cursor.service /etc/systemd/system
 sudo systemctl enable disable_cursor.service
 
+# Disable nginx to allow serving web content from backend
+sudo systemctl disable nginx
+
 # Setup web frontend
 # sudo cp -r ~/dist/FrontEnd/* /var/www/html
 

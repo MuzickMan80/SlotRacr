@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { forkJoin, Observable, of } from 'rxjs';
 import { SettingsService } from '../services/settings.service';
 import { SettingBase } from './setting-base';
 import { SettingControlService } from './setting-control.service';
@@ -20,8 +21,15 @@ export class SettingsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    for(const setting in this.settings) {
-      this.service.setSetting(setting.)
-    }
+    const settings = this.settings || []
+    const observables : Observable<any>[] = settings.map(s => {
+      const control = this.form.controls[s.name];
+      if (control.dirty) {
+        return this.service.setSetting(s.group, s.name, control.value);
+      } else {
+        return of<any>({});
+      }
+    });
+    forkJoin(observables).subscribe();
   }
 }
