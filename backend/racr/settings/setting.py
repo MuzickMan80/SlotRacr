@@ -32,5 +32,4 @@ class StringSetting(Setting):
     def __init__(self,name,default="",maxlen=None,description=""):
         super().__init__(SettingType.STRING_SETTING,name,default,description)
         self.maxlen=maxlen
-    
         
