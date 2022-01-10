@@ -41,7 +41,7 @@ export class SettingsService {
         'Content-Type':  'application/json'
         })
     };
-    return this.http.put<any>(`${environment.api_url}/settings/${group}/${key}/value`,value,httpOptions)
+    return this.http.put<any>(`${environment.api_url}/settings/${group}/${key}/value`,JSON.stringify(value),httpOptions)
         .pipe(
             catchError(this.handleError(''))
         )
