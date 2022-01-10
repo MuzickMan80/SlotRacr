@@ -9,13 +9,15 @@ export class SettingsFactory {
             return new ToggleSetting({
                 name: key,
                 label: s.name,
-                value: s.value as boolean
+                value: s.value as boolean,
+                group: s.group
             });
         }
         return new TextboxSetting({
             name: key,
             label: s.name,
-            value: s.value
+            value: s.value,
+            group: s.group
         });
     }
 }

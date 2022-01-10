@@ -23,14 +23,15 @@ class TrackManagerApp(socketio.AsyncNamespace):
                 allow_credentials=True,
                 expose_headers="*",
                 allow_headers="*",
+                allow_methods="*"
             )
         })
         # Configure CORS on all routes.
         for route in list(self.webapp.router.routes()):
             try:
                 self.cors.add(route)
-            except:
-                pass
+            except Exception as ex:
+                print(ex)
         self.runner = web.AppRunner(self.webapp)
         await self.runner.setup()
         self.site = web.TCPSite(self.runner, '0.0.0.0', 80)
