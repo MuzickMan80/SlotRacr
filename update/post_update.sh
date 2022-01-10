@@ -14,6 +14,9 @@ sudo systemctl enable disable_cursor.service
 
 # Disable nginx to allow serving web content from backend
 sudo systemctl disable nginx
+sudo systemctl stop nginx
+
+sudo setcap 'cap_net_bind_service=+ep' /usr/bin/python3.7
 
 # Setup web frontend
 # sudo cp -r ~/dist/FrontEnd/* /var/www/html
