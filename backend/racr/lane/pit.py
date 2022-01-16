@@ -10,6 +10,8 @@ class Pit:
         #self.button = PitButton(io_manager,lane,self.pit_button_pressed,self.pit_button_down)
         self.button = Button(lane_controller, lane-1, down_handler=self.pit_button_down)
         self.io_manager = io_manager
+        self.lane_controller = lane_controller
+        self.lane = lane
         self.reset()
         self.cb = cb
 
@@ -26,10 +28,14 @@ class Pit:
         self.lap_time=0
         self.pit_start_time=0
 
+    def light_pit_button(self,on):
+        self.lane_controller.set_light(self.lane-1,on)
+
     def pit_button_pressed(self):
         pass
 
     async def pit_button_down(self,down):
+        self.light_pit_button(down)
         if not self.pit_this_lap:
             micros_since_lap = self.io_manager.tick_diff_micros(self.lap_time, self.io_manager.last_tick)
             pit_this_lap = micros_since_lap < 2 * SECONDS and down

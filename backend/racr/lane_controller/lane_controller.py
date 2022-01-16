@@ -7,6 +7,7 @@ class LaneController:
         self.port = None
         try:
             self.port = serial.Serial('/dev/ttyACM0', 500000)
+            print("Opened serial port to lane controller")
             self.start_polling()
             self.task = None
             self.button_handlers = []
@@ -42,15 +43,17 @@ class LaneController:
 
     def send_command(self, command):
         response = None
-        self.port.writelines([command.encode(), b'\n'])
-        #print(command)
+        self.port.writelines([command.encode(), b'\r'])
+        #print(f'command: "{command}"')
         while True:
             line = self.port.readline().decode()
-            #print(line)
+            #print(f'response: "{line}"')
             if line == "ok\r\n":
                 break
             elif line == "err\r\n":
                 raise Exception("Error sending command")
+            elif line == "\r\n":
+                break
             else:
                 response = line
         return response

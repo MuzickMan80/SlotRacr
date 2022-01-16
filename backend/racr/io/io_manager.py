@@ -10,6 +10,9 @@ class IoManager:
         self.last_tick = 0
         self.async_loop = async_loop
 
+    def current_ticks(self):
+        return self.last_tick
+
     def get_lane_pin(self, lane) -> int:
         return -1
 
