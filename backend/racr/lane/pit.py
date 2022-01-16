@@ -32,8 +32,8 @@ class Pit:
     def light_pit_button(self,on):
         self.lane_controller.set_light(self.lane-1,on)
 
-    def set_lane_speed(self,speed):
-        self.lane_controller.set_lane(self.lane-1,speed,freq=100)
+    def set_lane_speed(self,speed,freq=100):
+        self.lane_controller.set_lane(self.lane-1,speed,freq)
 
     def pit_button_pressed(self):
         pass
