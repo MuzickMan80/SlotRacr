@@ -1,12 +1,14 @@
 from racr.io.io_manager import IoManager, SECONDS
 from .pit_button import PitButton
+from racr.lane_controller.lane_controller import LaneController, Button
 import random
 import asyncio
 import math
 
 class Pit:
-    def __init__(self,io_manager:IoManager,lane,cb) -> None:
-        self.button = PitButton(io_manager,lane,self.pit_button_pressed,self.pit_button_down)
+    def __init__(self,io_manager:IoManager,lane_controller:LaneController,lane,cb) -> None:
+        #self.button = PitButton(io_manager,lane,self.pit_button_pressed,self.pit_button_down)
+        self.button = Button(lane_controller, lane, self.pit_button_down)
         self.io_manager = io_manager
         self.reset()
         self.cb = cb
