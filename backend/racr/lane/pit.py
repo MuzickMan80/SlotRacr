@@ -27,9 +27,13 @@ class Pit:
         self.pit_progress=0
         self.lap_time=0
         self.pit_start_time=0
+        self.set_lane_speed(100)
 
     def light_pit_button(self,on):
         self.lane_controller.set_light(self.lane-1,on)
+
+    def set_lane_speed(self,speed):
+        self.lane_controller.set_lane(self.lane-1,speed,freq=100)
 
     def pit_button_pressed(self):
         pass
@@ -105,6 +109,7 @@ class Pit:
         penalty = random.randrange(100) <= penalty_prob
         self.penalty = penalty
         self.micros_pitting = micros_pitting
+        self.set_lane_speed(self.throttle())
 
         while True:
             wait_time = random.randrange(2000,4000)
@@ -117,6 +122,7 @@ class Pit:
                 await self.cb()
                 break
 
+            self.set_lane_speed(self.throttle())
             await self.cb()
 
     def throttle(self, max_throttle=100):
