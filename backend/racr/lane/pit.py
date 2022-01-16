@@ -133,7 +133,7 @@ class Pit:
         elif self.out_of_fuel:
             throttle=min(max_throttle, 25)
             self.set_lane_speed(throttle, 6)
-        elif self.pitting:
+        elif self.pitting or self.penalty:
             throttle=min(max_throttle, 50)
             self.set_lane_speed(throttle)
         return throttle
