@@ -85,7 +85,7 @@ class Pit:
         probability = 0
         while self.low_fuel:
             out_of_fuel = random.randrange(100) < probability
-            if out_of_fuel != self.out_of_fuel:
+            if out_of_fuel and not self.out_of_fuel:
                 self.out_of_fuel = out_of_fuel
                 await self.cb()
 
@@ -109,7 +109,7 @@ class Pit:
         penalty = random.randrange(100) <= penalty_prob
         self.penalty = penalty
         self.micros_pitting = micros_pitting
-        self.set_lane_speed(self.throttle())
+        self.throttle()
 
         while True:
             wait_time = random.randrange(2000,4000)
@@ -122,13 +122,19 @@ class Pit:
                 await self.cb()
                 break
 
-            self.set_lane_speed(self.throttle())
+            self.throttle()
             await self.cb()
 
     def throttle(self, max_throttle=100):
+        throttle = max_throttle
         if self.in_pits:
-            return 0
-        if self.out_of_fuel or self.pitting:
-            return min(max_throttle, 50)
-        return max_throttle
+            self.set_lane_speed(0)
+            throttle = 0
+        elif self.out_of_fuel:
+            throttle=min(max_throttle, 25)
+            self.set_lane_speed(throttle, 6)
+        elif self.pitting:
+            throttle=min(max_throttle, 50)
+            self.set_lane_speed(throttle)
+        return throttle
         
