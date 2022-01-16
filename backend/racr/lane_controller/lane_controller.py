@@ -14,6 +14,7 @@ class LaneController:
             for i in range(8):
                 self.button_handlers.append(None)
                 self.last_state.append(False)
+            print(self.button_handlers)
         except Exception as ex:
             print(f"Failed to open serial port: {ex}")
 
@@ -35,16 +36,17 @@ class LaneController:
                     handler = self.button_handlers[button]
                     if handler:
                         await handler(button_state)
+                button = button + 1
 
             await asyncio.sleep(.01)
 
     def send_command(self, command):
         response = None
         self.port.writelines([command.encode(), b'\n'])
-        print(command)
+        #print(command)
         while True:
             line = self.port.readline().decode()
-            print(line)
+            #print(line)
             if line == "ok\r\n":
                 break
             elif line == "err\r\n":

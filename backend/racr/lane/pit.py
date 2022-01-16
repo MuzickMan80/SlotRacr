@@ -8,7 +8,7 @@ import math
 class Pit:
     def __init__(self,io_manager:IoManager,lane_controller:LaneController,lane,cb) -> None:
         #self.button = PitButton(io_manager,lane,self.pit_button_pressed,self.pit_button_down)
-        self.button = Button(lane_controller, lane, self.pit_button_down)
+        self.button = Button(lane_controller, lane-1, down_handler=self.pit_button_down)
         self.io_manager = io_manager
         self.reset()
         self.cb = cb

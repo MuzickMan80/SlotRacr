@@ -8,11 +8,14 @@ class Button:
         lane_controller.monitor_button(lane, self.on_pressed)
 
     async def on_pressed(self, edge):
-        if self.pressed_handler and edge == self.pressed:
-            result = self.pressed_handler()
-            if inspect.isawaitable(result):
-                await result
-        if self.down_handler:
-            result = self.down_handler(edge == self.pressed)
-            if inspect.isawaitable(result):
-                await result
+        try:
+            if self.pressed_handler and edge == self.pressed:
+                result = self.pressed_handler()
+                if inspect.isawaitable(result):
+                    await result
+            if self.down_handler:
+                result = self.down_handler(edge == self.pressed)
+                if inspect.isawaitable(result):
+                    await result
+        except Exception as ex:
+            print(ex)
