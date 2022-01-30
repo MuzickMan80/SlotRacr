@@ -29,6 +29,17 @@ class LaneController:
                 self.button_handlers.append(None)
                 self.last_state.append(False)
             print(self.button_handlers)
+            
+            for i in range(8):
+                try:
+                    self.set_light(i,1)
+                except:
+                    pass
+                try:
+                    self.set_light(i,0)
+                except:
+                    pass
+
         except Exception as ex:
             print(f"Failed to open serial port: {ex}")
 
@@ -69,10 +80,10 @@ class LaneController:
     def send_command(self, port, command):
         response = None
         self.ports[port].writelines([command.encode(), b'\r'])
-        #print(f'command: "{command}"')
+        print(f'command: "{command}"')
         while True:
             line = self.ports[port].readline().decode()
-            #print(f'response: "{line}"')
+            print(f'response: "{line}"')
             if line == "ok\r\n":
                 break
             elif line == "err\r\n":
