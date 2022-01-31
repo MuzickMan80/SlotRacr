@@ -1,3 +1,4 @@
+from racr.settings.race_settings import lane_name
 from racr.race.race_simulator import RaceSimulator
 from util.observable import Observable
 from .io.io_manager import IoManager, SECONDS
@@ -38,3 +39,8 @@ class TrackManager(Observable):
 
     def enable_activity_simulator(self, enable : bool, rate : float):
         self.simulator.enable_activity_simulator(enable, rate)
+
+    def apply_settings(self):
+        for i in range(8):
+            self.lanes[i].name = lane_name[i].value
+            

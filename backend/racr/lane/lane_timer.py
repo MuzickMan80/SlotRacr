@@ -7,6 +7,7 @@ class LaneTimer(object):
         self.pin = pin
         self.on_lap = cb
         self.pit = Pit(io_manager, lane, cb)
+        self.name = ''
         self.reset()
         io_manager.monitor_pin(pin, self.lap)
     
@@ -43,7 +44,7 @@ class LaneTimer(object):
                 'laps': self.laps,
                 'pos': self.pos,
                 'started': self.started,
-                'name': '',
+                'name': self.name,
                 'color': 'white',
                 'state': self.pit.get_indicator(),
                 'throttle': self.pit.throttle(),

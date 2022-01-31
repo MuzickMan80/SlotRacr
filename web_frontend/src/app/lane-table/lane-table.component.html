@@ -1,4 +1,12 @@
 <table cdk-table [dataSource]="lanes">
+    <ng-container cdkColumnDef="pit">
+        <th cdk-header-cell *cdkHeaderCellDef>Status</th>
+        <td cdk-cell *cdkCellDef="let lane"> {{lane.state}} </td>
+    </ng-container>
+    <ng-container cdkColumnDef="name">
+        <th cdk-header-cell *cdkHeaderCellDef>Name</th>
+        <td cdk-cell *cdkCellDef="let lane"> {{lane.name}} </td>
+    </ng-container>
     <ng-container cdkColumnDef="lane">
         <th cdk-header-cell *cdkHeaderCellDef>Lane</th>
         <td cdk-cell *cdkCellDef="let lane"> {{lane.lane}} </td>

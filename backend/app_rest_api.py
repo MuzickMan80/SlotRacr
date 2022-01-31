@@ -38,6 +38,7 @@ async def put_setting_property(request:Request):
     s=track_settings[group][setting]
     s.value = await request.json()
     save_settings()
+    track.apply_settings()
     return web.json_response(jsons.dump(s.value))
 
 @routes.route('*', '/{tail:.*}')

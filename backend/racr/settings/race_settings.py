@@ -16,6 +16,9 @@ race_settings={
 
 lane_name=[]
 
+def set_lane_name(i, name):
+    
 for i in range(8):
-    lane_name.append(LaneNameSetting(i+1))
+    setter=lambda val,track: (track.lanes[i].name := val)
+    lane_name.append(LaneNameSetting(i+1,setter))
     race_settings[f'lane{i+1}_name'] = lane_name[i] 

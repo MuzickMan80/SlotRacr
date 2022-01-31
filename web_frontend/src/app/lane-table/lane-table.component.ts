@@ -9,7 +9,7 @@ import { LaneInfoService, LaneInfo } from '../services/lane-info.service'
 })
 export class LaneTableComponent implements OnInit {
   lanes: LaneInfo[] = [];
-  columnsToDisplay = ["lane", "laps", "top", "last"];
+  columnsToDisplay = ["pit", "name", "lane", "laps", "top", "last"];
 
   constructor(private service: LaneInfoService) { }
 
