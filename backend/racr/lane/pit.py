@@ -1,13 +1,17 @@
 from racr.io.io_manager import IoManager, SECONDS
 from .pit_button import PitButton
+from racr.lane_controller.lane_controller import LaneController, Button
 import random
 import asyncio
 import math
 
 class Pit:
-    def __init__(self,io_manager:IoManager,lane,cb) -> None:
-        self.button = PitButton(io_manager,lane,self.pit_button_pressed,self.pit_button_down)
+    def __init__(self,io_manager:IoManager,lane_controller:LaneController,lane,cb) -> None:
+        #self.button = PitButton(io_manager,lane,self.pit_button_pressed,self.pit_button_down)
+        self.button = Button(lane_controller, lane-1, down_handler=self.pit_button_down)
         self.io_manager = io_manager
+        self.lane_controller = lane_controller
+        self.lane = lane
         self.reset()
         self.cb = cb
 
@@ -23,11 +27,19 @@ class Pit:
         self.pit_progress=0
         self.lap_time=0
         self.pit_start_time=0
+        self.set_lane_speed(100)
+
+    def light_pit_button(self,on):
+        self.lane_controller.set_light(self.lane-1,on)
+
+    def set_lane_speed(self,speed,freq=100):
+        self.lane_controller.set_lane(self.lane-1,speed,freq)
 
     def pit_button_pressed(self):
         pass
 
     async def pit_button_down(self,down):
+        self.light_pit_button(down)
         if not self.pit_this_lap:
             micros_since_lap = self.io_manager.tick_diff_micros(self.lap_time, self.io_manager.last_tick)
             pit_this_lap = micros_since_lap < 2 * SECONDS and down
@@ -65,7 +77,7 @@ class Pit:
 
         self.pit_this_lap = False
         self.laps_driven = self.laps_driven+1
-        if self.laps_driven == 10:
+        if self.laps_driven == 5:
             self.low_fuel = True
             asyncio.create_task(self._running_out_of_fuel())
 
@@ -73,7 +85,7 @@ class Pit:
         probability = 0
         while self.low_fuel:
             out_of_fuel = random.randrange(100) < probability
-            if out_of_fuel != self.out_of_fuel:
+            if out_of_fuel and not self.out_of_fuel:
                 self.out_of_fuel = out_of_fuel
                 await self.cb()
 
@@ -97,6 +109,7 @@ class Pit:
         penalty = random.randrange(100) <= penalty_prob
         self.penalty = penalty
         self.micros_pitting = micros_pitting
+        self.throttle()
 
         while True:
             wait_time = random.randrange(2000,4000)
@@ -109,12 +122,19 @@ class Pit:
                 await self.cb()
                 break
 
+            self.throttle()
             await self.cb()
 
     def throttle(self, max_throttle=100):
+        throttle = max_throttle
         if self.in_pits:
-            return 0
-        if self.out_of_fuel or self.pitting:
-            return min(max_throttle, 50)
-        return max_throttle
+            self.set_lane_speed(0)
+            throttle = 0
+        elif self.out_of_fuel:
+            throttle=min(max_throttle, 25)
+            self.set_lane_speed(throttle, 6)
+        elif self.pitting or self.penalty:
+            throttle=min(max_throttle, 50)
+            self.set_lane_speed(throttle)
+        return throttle
         

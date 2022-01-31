@@ -1,5 +1,6 @@
 from racr.settings.race_settings import lane_name
 from racr.race.race_simulator import RaceSimulator
+from racr.lane_controller.lane_controller import LaneController
 from util.observable import Observable
 from .io.io_manager import IoManager, SECONDS
 from .lane.lane_timer import LaneTimer
@@ -7,15 +8,16 @@ from racr.settings.track_settings import load_settings
 from .io.button import Button
 
 class TrackManager(Observable):
-    def __init__(self,io_manager,observer):
+    def __init__(self,io_manager,lane_controller:LaneController,observer):
         super().__init__(observer)
         load_settings()
         self.resetter = Button(io_manager, io_manager.get_reset_pin(), self.reset_handler)
         self.io_manager: IoManager = io_manager
+        self.lane_controller: LaneController = lane_controller
         self.lanes: list[LaneTimer] = []
         for lane in range(8):
             pin = io_manager.get_lane_pin(lane)
-            self.lanes = self.lanes + [LaneTimer(io_manager,lane+1,pin,self.lap_handler)]
+            self.lanes = self.lanes + [LaneTimer(io_manager,lane_controller,lane+1,pin,self.lap_handler)]
 
         self.simulator = RaceSimulator(io_manager, self.lanes)
         

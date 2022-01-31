@@ -7,3 +7,4 @@ pytest-asyncio
 pytest-cov
 jsons
 awsiotsdk
+pyserial
