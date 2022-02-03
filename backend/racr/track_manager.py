@@ -1,16 +1,13 @@
-from racr.settings.race_settings import lane_name
 from racr.race.race_simulator import RaceSimulator
 from racr.lane_controller.lane_controller import LaneController
 from util.observable import Observable
 from .io.io_manager import IoManager, SECONDS
 from .lane.lane_timer import LaneTimer
-from racr.settings.track_settings import load_settings
 from .io.button import Button
 
 class TrackManager(Observable):
     def __init__(self,io_manager,lane_controller:LaneController,observer):
         super().__init__(observer)
-        load_settings()
         self.resetter = Button(io_manager, io_manager.get_reset_pin(), self.reset_handler)
         self.io_manager: IoManager = io_manager
         self.lane_controller: LaneController = lane_controller
@@ -42,7 +39,4 @@ class TrackManager(Observable):
     def enable_activity_simulator(self, enable : bool, rate : float):
         self.simulator.enable_activity_simulator(enable, rate)
 
-    def apply_settings(self):
-        for i in range(8):
-            self.lanes[i].name = lane_name[i].value
             

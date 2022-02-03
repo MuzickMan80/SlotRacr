@@ -3,6 +3,7 @@ import aiohttp_cors
 import json
 import socketio
 from racr.track_manager import TrackManager
+from racr.settings.track_settings import load_settings
 import app_rest_api
 
 class TrackManagerApp(socketio.AsyncNamespace):
@@ -11,6 +12,7 @@ class TrackManagerApp(socketio.AsyncNamespace):
     def __init__(self, io_manager, lane_controller):
         super().__init__()
         self.track = TrackManager(io_manager, lane_controller, self.emit_lane_dump)
+        load_settings(self.track)
         app_rest_api.track = self.track
 
     async def start(self):

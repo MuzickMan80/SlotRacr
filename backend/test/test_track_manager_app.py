@@ -4,7 +4,7 @@ from racr.io.fake_io_manager import FakeIoManager
 from aiohttp.test_utils import TestClient
 from app_server import TrackManagerApp
 import json
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, MagicMock
 import pytest
 import socketio
 
@@ -16,7 +16,8 @@ async def loop():
 @pytest.fixture
 async def backend_server(loop):
     io = FakeIoManager()
-    track = TrackManagerApp(io)
+    lc = MagicMock()
+    track = TrackManagerApp(io,lc)
     await track.start()
     yield track
     await track.stop()
@@ -33,7 +34,7 @@ class TrackClient(socketio.AsyncClientNamespace):
         self.update_cb = AsyncMock()
 
     async def connect(self):
-        await self.sio.connect('http://localhost:5000')
+        await self.sio.connect('http://localhost:80')
 
     async def disconnect(self):
         await self.sio.disconnect()

@@ -1,4 +1,6 @@
+from racr.track_manager import TrackManager
 from .race_settings import race_settings
+import racr.settings.race_settings as rs
 from .pit_settings import pit_settings
 import json
 
@@ -16,14 +18,15 @@ def save_settings():
                 stored_settings.append({
                     'group': group,
                     'name': setting,
-                    'value': settings[setting].value 
+                    'value': settings[setting].value
                 })
         with open('settings.json', 'w') as outfile:
             json.dump(stored_settings, outfile, indent=2)
     except Exception as err:
         print(err)
 
-def load_settings():
+def load_settings(track_mgr: TrackManager):
+    rs.track = track_mgr
     try:
         with open('settings.json') as jsonfile:
             stored_settings = json.load(jsonfile)

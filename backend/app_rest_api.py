@@ -1,5 +1,6 @@
 from aiohttp import web
 from aiohttp.web_request import Request
+from racr.track_manager import TrackManager
 from racr.settings.track_settings import save_settings
 from racr.settings.track_settings import track_settings
 import jsons
@@ -7,7 +8,7 @@ import os
 
 routes = web.RouteTableDef()
 
-track = None
+track: TrackManager = None
 
 @routes.get('/settings')
 async def get_settings(request):
@@ -29,7 +30,10 @@ async def get_setting_property(request):
     group=request.match_info['group']
     setting=request.match_info['setting']
     property=request.match_info['property']
-    return web.json_response(jsons.dump(track_settings[group][setting].__dict__[property]))
+    if property=='value':
+        return web.json_response(jsons.dump(track_settings[group][setting].value))
+    else:
+        return web.json_response(jsons.dump(track_settings[group][setting].__dict__[property]))
 
 @routes.put('/settings/{group}/{setting}/value')
 async def put_setting_property(request:Request):
@@ -38,7 +42,6 @@ async def put_setting_property(request:Request):
     s=track_settings[group][setting]
     s.value = await request.json()
     save_settings()
-    track.apply_settings()
     return web.json_response(jsons.dump(s.value))
 
 @routes.route('*', '/{tail:.*}')

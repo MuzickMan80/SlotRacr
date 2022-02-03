@@ -15,15 +15,14 @@ class Setting:
         self.setter=setter
 
     @property
+    def value(self):
+        return self.value_
+
+    @value.setter
     def value(self, value):
         self.value_ = value
         if self.setter:
             self.setter(value)
-
-    @property
-    def value(self):
-        return self.value_
-
 class BoolSetting(Setting):
     def __init__(self,name,default,description="",setter=None):
         super().__init__(SettingType.BOOL_SETTING,name,default,description,setter)
