@@ -11,5 +11,6 @@ def set_laps_until_out(laps):
         race_settings.track.lanes[lane].pit.laps_until_out = laps
 
 pit_settings={
-    'require_crew_alert': require_crew_alert
+    'require_crew_alert': require_crew_alert,
+    'laps_until_out': laps_until_out
 }
