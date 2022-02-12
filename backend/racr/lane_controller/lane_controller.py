@@ -17,7 +17,7 @@ class LaneController:
     def __init__(self):
         self.ports = []
         try:
-            self.ports.append(serial.Serial('/dev/ttyACM0', 500000, timeout=0.1)
+            self.ports.append(serial.Serial('/dev/ttyACM0', 500000, timeout=0.1))
             print("Opened serial port to lane controller 1")
             self.ports.append(serial.Serial('/dev/ttyACM1', 500000, timeout=0.1))
             print("Opened serial port to lane controller 2")
