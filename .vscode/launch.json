@@ -21,6 +21,18 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/backend",
             "args": ["--target_ip", "192.168.1.2", "--windowed"]
+        },
+        {
+            "name": "Debug Unit Test",
+            "type": "python",
+            "request": "launch",
+            "justMyCode": false,
+            "program": "${file}",
+            "purpose": ["debug-test"],
+            "console": "integratedTerminal",
+            "env": {
+                "PYTEST_ADDOPTS": "--no-cov"
+            },
         }
     ]
 }

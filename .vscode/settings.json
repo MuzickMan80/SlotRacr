@@ -31,7 +31,6 @@
             }
         ]
     },
-    "pythonTestExplorer.testFramework": "pytest",
     "coverage-gutters.coverageFileNames": [
         "lcov.info",
         "cov.xml",
@@ -39,8 +38,12 @@
         "jacoco.xml"
     ],
     "python.testing.pytestArgs": [
-        "backend"
+        "--cov-report=xml:coverage.xml",
+        "--cov=backend",
+        "--cov-append"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "coverage-gutters.showLineCoverage": true,
+    "coverage-gutters.showGutterCoverage": false
 }

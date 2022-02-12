@@ -23,5 +23,5 @@ def set_lane_name(i, name):
     track.lanes[i].name = name
 
 for i in range(8):
-    lane_name.append(LaneNameSetting(i+1,set_lane_name))
+    lane_name.append(LaneNameSetting(i+1,setter=lambda n,i=i: set_lane_name(i,n)))
     race_settings[f'lane{i+1}_name'] = lane_name[i] 

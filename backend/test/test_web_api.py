@@ -1,4 +1,5 @@
 import asyncio
+from racr.track_manager import TrackManager
 from racr.io.io_manager import SECONDS
 from racr.io.fake_io_manager import FakeIoManager
 from aiohttp.test_utils import TestClient
@@ -126,3 +127,16 @@ async def test_track_put_single_setting_value(backend_rest_client:TestClient):
     assert(response.status == 200)
     settings = await response.json()
     assert(settings == False)
+
+async def test_track_put_track_name(backend_rest_client:TestClient,backend_server:TrackManagerApp):
+    response = await backend_rest_client.put('/settings/race/lane1_name/value',json="fred")
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == "fred")
+    assert(backend_server.track.lanes[0].name == "fred")
+
+    response = await backend_rest_client.put('/settings/race/lane1_name/value',json="joe")
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == "joe")
+    assert(backend_server.track.lanes[0].name == "joe")
