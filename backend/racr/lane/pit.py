@@ -23,6 +23,7 @@ class Pit:
         self.pitting=False
         self.pit_this_lap=False
         self.penalty=False
+        self.laps_until_out=45
         self.micros_pitting=0
         self.pit_progress=0
         self.lap_time=0
@@ -80,7 +81,7 @@ class Pit:
 
         self.pit_this_lap = False
         self.laps_driven = self.laps_driven+1
-        if self.laps_driven == 5:
+        if self.laps_driven == self.laps_until_out:
             self.low_fuel = True
             asyncio.create_task(self._running_out_of_fuel())
 
