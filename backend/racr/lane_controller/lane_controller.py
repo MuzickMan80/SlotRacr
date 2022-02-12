@@ -5,11 +5,11 @@ from .button import Button
 lane_mappings = [
     (1,0),
     (1,1),
-    (1,6),
+    (1,2),
     (1,3),
     (0,0),
     (0,1),
-    (0,4),
+    (0,2),
     (0,3)
 ]
 
@@ -60,20 +60,23 @@ class LaneController:
     async def poll_loop(self):
         while True:
             for port in range(2):
-                response = self.send_command(port,'r')
-                button=0
-                for char in response:
-                    if button >= 8:
-                        break
-                    button_state = char == '1'
-                    lane = self.get_lane(port, button) 
-                    if lane != -1:
-                        if button_state != self.last_state[lane]:
-                            self.last_state[lane] = button_state
-                            handler = self.button_handlers[lane]
-                            if handler:
-                                await handler(button_state)
-                    button = button + 1
+                try:
+                    response = self.send_command(port,'r')
+                    button=0
+                    for char in response:
+                        if button >= 8:
+                            break
+                        button_state = char == '1'
+                        lane = self.get_lane(port, button) 
+                        if lane != -1:
+                            if button_state != self.last_state[lane]:
+                                self.last_state[lane] = button_state
+                                handler = self.button_handlers[lane]
+                                if handler:
+                                    await handler(button_state)
+                        button = button + 1
+                except Exception as err:
+                    print(f'Error occurred reading buttons from {port}: {err}')
 
             await asyncio.sleep(.01)
 
@@ -97,12 +100,24 @@ class LaneController:
     def monitor_button(self, button, handler):
         self.button_handlers[button] = handler
 
-    def set_lane(self, lane, percent=0, freq=100):
+    def set_frequency(self, freq=100):
+        self.send_command(0,f'f{freq}')
+        self.send_command(1,f'f{freq}')
+
+    def set_oog_freq(self, freq=6):
+        period=round(1000/freq)
+        self.send_command(0,f's{period}')
+        self.send_command(1,f's{period}')
+
+    def set_lane(self, lane, percent=0):
+        self.set_oog(lane, percent, 100, 0)
+
+    def set_oog(self, lane, percent, onPercent, offPercent):
         lane_map = lane_mappings[lane]
         on_time = 65535*(percent/100)
-        self.send_command(lane_map[0],f'o{lane_map[1]},{on_time}')
-        if percent != 0 and percent != 100:
-            self.send_command(lane_map[0],f'f{lane_map[1]},{freq}')
+        on_pwr = 65535*(onPercent/100)
+        off_pwr = 65535*(offPercent/100)
+        self.send_command(lane_map[0],f'g{lane_map[1]},{on_time},{on_pwr},{off_pwr}')        
 
     def set_light(self, light, on):
         lane_map = lane_mappings[light]

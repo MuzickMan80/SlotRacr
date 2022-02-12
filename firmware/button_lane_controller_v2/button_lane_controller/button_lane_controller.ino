@@ -222,6 +222,15 @@ bool sendTrackPower(int lane)
   return true;
 }
 
+bool sendTrackPowers()
+{
+  for (int lane = 0; lane < countof(currentSensePins); ++lane)
+  {
+    sendTrackPower(lane);
+  }
+  return true;
+}
+
 struct OutOfGasState
 {
   bool enabled;
@@ -365,6 +374,9 @@ void runCommand(char* cmd)
       outNum = atoi(strtok(cmd+1, ","));
       ok=sendTrackPower(outNum);
       break;  
+    case 'q':
+      ok=sendTrackPowers();
+      break;
     case 'g':
       outNum = atoi(strtok(cmd+1, ","));
       outPower = atoi(strtok(NULL, ","));
