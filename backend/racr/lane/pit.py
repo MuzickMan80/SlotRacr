@@ -32,8 +32,11 @@ class Pit:
     def light_pit_button(self,on):
         self.lane_controller.set_light(self.lane-1,on)
 
-    def set_lane_speed(self,speed,freq=100):
-        self.lane_controller.set_lane(self.lane-1,speed,freq)
+    def set_lane_speed(self,speed):
+        self.lane_controller.set_lane(self.lane-1,speed)
+
+    def set_lane_oog(self):
+        self.lane_controller.set_oog(self.lane-1, 35, 77, 0)
 
     def pit_button_pressed(self):
         pass
@@ -132,7 +135,7 @@ class Pit:
             throttle = 0
         elif self.out_of_fuel:
             throttle=min(max_throttle, 25)
-            self.set_lane_speed(throttle, 6)
+            self.set_lane_oog()
         elif self.pitting or self.penalty:
             throttle=min(max_throttle, 50)
             self.set_lane_speed(throttle)
