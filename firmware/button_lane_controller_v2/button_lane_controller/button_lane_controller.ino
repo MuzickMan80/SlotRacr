@@ -270,7 +270,7 @@ bool setOutOfGasPeriod(int periodMs)
 // car type 1:
 // 200ms, 15k, 65k, 13k
 // 170ms, 23k, 50k, 0k
-bool startOutOfGas(int lane, long duty, uint16_t onPower, uint16_t offPower)
+bool startOutOfGas(int lane, int32_t duty, int32_t onPower, int32_t offPower)
 {
   if (lane < 0 || lane >= countof(trackPins))
     return false;
@@ -336,56 +336,56 @@ void runOutOfGas()
 void runCommand(char* cmd)
 {
   int pinStates;
-  int outNum;
-  int outFreq;
-  int outPower;
-  int onPower;
-  int idlePower;
-  int outState;
+  int32_t outNum;
+  int32_t outFreq;
+  int32_t outPower;
+  int32_t onPower;
+  int32_t idlePower;
+  int32_t outState;
   bool ok=true;
   switch(cmd[0]) {
     case 'r':
       sendButtonStates();
       break;
     case 'w':
-      outNum = atoi(strtok(cmd+1, ","));
-      outState = atoi(strtok(NULL, ","));
+      outNum = atol(strtok(cmd+1, ","));
+      outState = atol(strtok(NULL, ","));
       ok=writeOutputState(outNum, outState);
       break;
     case 'o':
-      outNum = atoi(strtok(cmd+1, ","));
-      outPower = atoi(strtok(NULL, ","));
+      outNum = atol(strtok(cmd+1, ","));
+      outPower = atol(strtok(NULL, ","));
       ok=writeOutputPower(outNum, outPower);
       break;
     case 'f':
-      outFreq = atoi(strtok(NULL, ","));
+      outFreq = atol(strtok(NULL, ","));
       ok=writeOutputFreq(outFreq);
       break;
     case 'b':
-      outNum = atoi(strtok(cmd+1, ","));
-      outFreq = atoi(strtok(NULL, ","));
+      outNum = atol(strtok(cmd+1, ","));
+      outFreq = atol(strtok(NULL, ","));
       ok=writeBuzzer(outNum, outFreq);
       break;
     case 't':
-      outState = atoi(strtok(cmd+1, ","));
+      outState = atol(strtok(cmd+1, ","));
       test = outState;
       break;
     case 'p':
-      outNum = atoi(strtok(cmd+1, ","));
+      outNum = atol(strtok(cmd+1, ","));
       ok=sendTrackPower(outNum);
       break;  
     case 'q':
       ok=sendTrackPowers();
       break;
     case 'g':
-      outNum = atoi(strtok(cmd+1, ","));
-      outPower = atoi(strtok(NULL, ","));
-      onPower = atoi(strtok(NULL, ","));
-      idlePower = atoi(strtok(NULL, ","));
+      outNum = atol(strtok(cmd+1, ","));
+      outPower = atol(strtok(NULL, ","));
+      onPower = atol(strtok(NULL, ","));
+      idlePower = atol(strtok(NULL, ","));
       ok=startOutOfGas(outNum, outPower, onPower, idlePower);
       break;
     case 's':
-      outFreq = atoi(strtok(cmd+1, ","));
+      outFreq = atol(strtok(cmd+1, ","));
       ok=setOutOfGasPeriod(outFreq);
       break;
     default:

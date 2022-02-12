@@ -17,9 +17,9 @@ class LaneController:
     def __init__(self):
         self.ports = []
         try:
-            self.ports.append(serial.Serial('/dev/ttyACM0', 500000, timeout=1))
+            self.ports.append(serial.Serial('/dev/ttyACM0', 500000, timeout=0.1)
             print("Opened serial port to lane controller 1")
-            self.ports.append(serial.Serial('/dev/ttyACM1', 500000, timeout=1))
+            self.ports.append(serial.Serial('/dev/ttyACM1', 500000, timeout=0.1))
             print("Opened serial port to lane controller 2")
             self.tasks = []
             self.start_polling()
@@ -82,17 +82,19 @@ class LaneController:
 
     def send_command(self, port, command):
         response = None
-        self.ports[port].writelines([command.encode(), b'\r'])
-        print(f'command: "{command}"')
+        serport = self.ports[port]
+        serport.reset_input_buffer()
+        serport.writelines([command.encode(), b'\r'])
+        # print(f'command: "{command}"')
         while True:
             line = self.ports[port].readline().decode()
-            print(f'response: "{line}"')
+            # print(f'response: "{line}"')
             if line == "ok\r\n":
                 break
             elif line == "err\r\n":
                 raise Exception("Error sending command")
             elif line == "\r\n":
-                pass
+                break
             else:
                 response = line
         return response
