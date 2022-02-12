@@ -17,9 +17,9 @@ class LaneController:
     def __init__(self):
         self.ports = []
         try:
-            self.ports.append(serial.Serial('/dev/ttyACM0', 500000))
+            self.ports.append(serial.Serial('/dev/ttyACM0', 500000, timeout=1))
             print("Opened serial port to lane controller 1")
-            self.ports.append(serial.Serial('/dev/ttyACM1', 500000))
+            self.ports.append(serial.Serial('/dev/ttyACM1', 500000, timeout=1))
             print("Opened serial port to lane controller 2")
             self.tasks = []
             self.start_polling()
@@ -92,7 +92,7 @@ class LaneController:
             elif line == "err\r\n":
                 raise Exception("Error sending command")
             elif line == "\r\n":
-                break
+                pass
             else:
                 response = line
         return response
@@ -114,9 +114,9 @@ class LaneController:
 
     def set_oog(self, lane, percent, onPercent, offPercent):
         lane_map = lane_mappings[lane]
-        on_time = 65535*(percent/100)
-        on_pwr = 65535*(onPercent/100)
-        off_pwr = 65535*(offPercent/100)
+        on_time = int(65535*(percent/100))
+        on_pwr = int(65535*(onPercent/100))
+        off_pwr = int(65535*(offPercent/100))
         self.send_command(lane_map[0],f'g{lane_map[1]},{on_time},{on_pwr},{off_pwr}')        
 
     def set_light(self, light, on):
