@@ -46,7 +46,7 @@ async def put_setting_property(request:Request):
 
 @routes.route('*', '/{tail:.*}')
 async def root_handler(request:Request):
-    root = '../web_frontend/dist/FrontEnd'
+    root = 'SlotRacr/web_frontend/dist/FrontEnd'
     path = f'{root}/{request.path}'
     if (os.path.isfile(path)):
         return web.FileResponse(path)
