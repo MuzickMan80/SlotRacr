@@ -4,7 +4,7 @@ After=pygpiod.service timer_update.service
 Wants=pygpiod.service timer_update.service
 
 [Service]
-WorkingDirectory=/home/pi/SlotRacr/backend
+WorkingDirectory=/home/pi
 ExecStart=/home/pi/SlotRacr/backend/app.py
 User=pi
 
