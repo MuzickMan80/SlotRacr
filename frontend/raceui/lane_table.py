@@ -13,7 +13,6 @@ class TableDims:
         self.origHeight=1080
         self.size = size
         self.cols=[
-            self.scale(150),
             self.scale(200),
             self.scale(180),
             self.scale(250),
