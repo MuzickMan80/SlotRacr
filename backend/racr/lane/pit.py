@@ -1,17 +1,15 @@
 from racr.io.io_manager import IoManager, SECONDS
-from .pit_button import PitButton
 from racr.lane_controller.lane_controller import LaneController, Button
 import random
 import asyncio
-import math
 
 class Pit:
     def __init__(self,io_manager:IoManager,lane_controller:LaneController,lane,cb) -> None:
-        #self.button = PitButton(io_manager,lane,self.pit_button_pressed,self.pit_button_down)
         self.button = Button(lane_controller, lane-1, down_handler=self.pit_button_down)
         self.io_manager = io_manager
         self.lane_controller = lane_controller
         self.lane = lane
+        self.laps_until_out=45
         self.reset()
         self.cb = cb
 
@@ -23,7 +21,6 @@ class Pit:
         self.pitting=False
         self.pit_this_lap=False
         self.penalty=False
-        self.laps_until_out=45
         self.micros_pitting=0
         self.pit_progress=0
         self.lap_time=0
