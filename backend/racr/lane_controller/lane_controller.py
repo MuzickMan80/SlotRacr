@@ -111,7 +111,7 @@ class LaneController:
         self.send_command(1,f's{period}')
 
     def set_lane(self, lane, percent=0):
-        self.set_oog(lane, percent, 100, 0)
+        self.set_oog(lane, 100, percent, percent)
 
     def set_oog(self, lane, percent, onPercent, offPercent):
         try:

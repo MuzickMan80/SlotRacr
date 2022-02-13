@@ -35,7 +35,7 @@ class PiIoManager(IoManager):
     def tick_diff_micros(self, start, end):
         return pigpio.tickDiff(start, end)
 
-    def monitor_pin(self, pin, cb, rising=True, falling=False, pullUp=False, pullDown=False):
+    def monitor_pin(self, pin, cb, rising=True, falling=False, pullUp=False, pullDown=False, filterUs=0):
         self._register_callback(pin, cb)
 
         self.pi.set_mode(pin, pigpio.INPUT)
@@ -45,8 +45,9 @@ class PiIoManager(IoManager):
             self.pi.set_pull_up_down(pin, pigpio.PUD_DOWN)
         else:
             self.pi.set_pull_up_down(pin, pigpio.PUD_OFF)
-            
-        print(pin, self.pi.read(pin))
+
+        if filterUs > 0:
+            self.pi.set_glitch_filter(pin, filterUs)
 
         if rising and falling:
             self.pi.callback(pin, 2, self._io_update)

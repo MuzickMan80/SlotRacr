@@ -9,6 +9,7 @@ class Pit:
         self.io_manager = io_manager
         self.lane_controller = lane_controller
         self.lane = lane
+        self.require_crew_alert = True
         self.laps_until_out=45
         self.reset()
         self.cb = cb
@@ -41,7 +42,7 @@ class Pit:
 
     async def pit_button_down(self,down):
         self.light_pit_button(down)
-        if not self.pit_this_lap:
+        if self.require_crew_alert and not self.out_of_fuel and not self.pit_this_lap:
             micros_since_lap = self.io_manager.tick_diff_micros(self.lap_time, self.io_manager.last_tick)
             pit_this_lap = micros_since_lap < 2 * SECONDS and down
             if pit_this_lap != self.pit_this_lap:
@@ -52,7 +53,6 @@ class Pit:
             if self.pitting:
                 self.pit_start_time = self.io_manager.last_tick
             await self.cb()
-
 
     def get_indicator(self) -> str:
         if self.in_pits:
