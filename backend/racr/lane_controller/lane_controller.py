@@ -16,19 +16,18 @@ lane_mappings = [
 class LaneController:
     def __init__(self):
         self.ports = []
+        self.tasks = []
+        self.button_handlers = []
+        self.last_state = []
+        for i in range(8):
+            self.button_handlers.append(None)
+            self.last_state.append(False)
         try:
             self.ports.append(serial.Serial('/dev/ttyACM0', 500000, timeout=0.1))
             print("Opened serial port to lane controller 1")
             self.ports.append(serial.Serial('/dev/ttyACM1', 500000, timeout=0.1))
             print("Opened serial port to lane controller 2")
-            self.tasks = []
             self.start_polling()
-            self.button_handlers = []
-            self.last_state = []
-            for i in range(8):
-                self.button_handlers.append(None)
-                self.last_state.append(False)
-            print(self.button_handlers)
             
             for i in range(8):
                 try:
