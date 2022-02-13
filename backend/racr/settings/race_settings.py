@@ -15,8 +15,8 @@ num_laps=IntSetting("Number Of Laps", 100, 1, 1000, "Laps", "Number of laps in t
     setter=lambda x: setattr(track, "num_laps", x))
 
 enable_simulator=BoolSetting("Enable simulator", False, "Enables an event simulator for testing",
-    setter=lambda x: setattr(track, "enable_activity_simulator", x))
-    
+    setter=lambda x: track.enable_activity_simulator(x,1))
+
 race_settings={
     'enable_pitting': enable_pitting,
     'number_of_laps': num_laps,
