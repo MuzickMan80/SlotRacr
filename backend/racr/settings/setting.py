@@ -14,19 +14,24 @@ class Setting:
         self.value_=default
         self.setter=setter
 
+    def normalize(self, value):
+        return value
+
     @property
     def value(self):
         return self.value_
 
     @value.setter
     def value(self, value):
-        self.value_ = value
+        self.value_ = self.normalize(value)
         if self.setter:
-            self.setter(value)
+            self.setter(self.value_)
 
 class BoolSetting(Setting):
     def __init__(self,name,default,description="",setter=None):
         super().__init__(SettingType.BOOL_SETTING,name,default,description,setter)
+    def normalize(self, value):
+        return bool(value)
 
 class IntSetting(Setting):
     def __init__(self,name,default,min,max,units="",description="",setter=None):
@@ -34,6 +39,8 @@ class IntSetting(Setting):
         self.min=min
         self.max=max
         self.units=units
+    def normalize(self, value):
+        return int(value)
 
 # class ProbabilitySetting(IntSetting):
 #     def __init__(self,name,default,min=0,max=100,units="%",description="",setter=None):
@@ -43,4 +50,5 @@ class StringSetting(Setting):
     def __init__(self,name,default="",maxlen=None,description="",setter=None):
         super().__init__(SettingType.STRING_SETTING,name,default,description,setter)
         self.maxlen=maxlen
-        
+    def normalize(self, value):
+        return str(value)

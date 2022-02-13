@@ -34,6 +34,6 @@ def load_settings(track_mgr: TrackManager):
                 try:
                     track_settings[setting['group']][setting['name']].value = setting['value']
                 except Exception as err:
-                    print(err)
+                    print(f'Error restoring setting {setting["name"]}: {err}')
     except Exception as err:
         print(err)

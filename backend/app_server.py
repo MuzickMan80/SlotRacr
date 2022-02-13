@@ -12,7 +12,6 @@ class TrackManagerApp(socketio.AsyncNamespace):
     def __init__(self, io_manager, lane_controller):
         super().__init__()
         self.track = TrackManager(io_manager, lane_controller, self.emit_lane_dump)
-        load_settings(self.track)
         app_rest_api.track = self.track
 
     async def start(self):
@@ -38,6 +37,7 @@ class TrackManagerApp(socketio.AsyncNamespace):
         await self.runner.setup()
         self.site = web.TCPSite(self.runner, '0.0.0.0', 80)
         await self.site.start()
+        load_settings(self.track)
         
     async def stop(self):
         await self.site.stop()
