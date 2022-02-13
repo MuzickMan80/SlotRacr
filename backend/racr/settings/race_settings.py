@@ -1,11 +1,9 @@
 
 from racr.settings.setting import StringSetting
-from racr.settings.setting import BoolSetting
+from racr.settings.setting import BoolSetting, IntSetting
 from racr.track_manager import TrackManager
 
 track: TrackManager
-
-enable_pitting=BoolSetting("Enable Pitting",True,"Require drivers to perform Pit Stops during the race")
 
 class LaneNameSetting(StringSetting):
     def __init__(self, lane, setter):
@@ -13,8 +11,16 @@ class LaneNameSetting(StringSetting):
 
 enable_pitting=BoolSetting("Enable Pitting",True,"Require drivers to perform Pit Stops during the race")
 
+num_laps=IntSetting("Number Of Laps", 100, 1, 1000, "Laps", "Number of laps in the race",
+    setter=lambda x: setattr(track, "num_laps", x))
+
+enable_simulator=BoolSetting("Enable simulator", False, "Enables an event simulator for testing",
+    setter=lambda x: setattr(track, "enable_activity_simulator", x))
+    
 race_settings={
-    'enable_pitting': enable_pitting
+    'enable_pitting': enable_pitting,
+    'number_of_laps': num_laps,
+    'enable_simulator': enable_simulator
 }
 
 lane_name=[]

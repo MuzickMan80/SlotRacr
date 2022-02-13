@@ -24,7 +24,7 @@ class FakeIoManager(IoManager):
         self._io_update(pin, edge, tick)
         await asyncio.sleep(0.001)
 
-    def monitor_pin(self, pin, cb, rising=True, falling=False, pullUp=False, pullDown=True):
+    def monitor_pin(self, pin, cb, rising=True, falling=False, pullUp=False, pullDown=True, filterUs=0):
         self._register_callback(pin, cb)
 
     def tick_diff_micros(self, start, end):
