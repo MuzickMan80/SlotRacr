@@ -86,7 +86,7 @@ class LaneController:
         serport.writelines([command.encode(), b'\r'])
         # print(f'command: "{command}"')
         while True:
-            line = self.ports[port].readline().decode()
+            line = serport.readline().decode()
             # print(f'response: "{line}"')
             if line == "ok\r\n":
                 break
@@ -114,11 +114,14 @@ class LaneController:
         self.set_oog(lane, percent, 100, 0)
 
     def set_oog(self, lane, percent, onPercent, offPercent):
-        lane_map = lane_mappings[lane]
-        on_time = int(65535*(percent/100))
-        on_pwr = int(65535*(onPercent/100))
-        off_pwr = int(65535*(offPercent/100))
-        self.send_command(lane_map[0],f'g{lane_map[1]},{on_time},{on_pwr},{off_pwr}')        
+        try:
+            lane_map = lane_mappings[lane]
+            on_time = int(65535*(percent/100))
+            on_pwr = int(65535*(onPercent/100))
+            off_pwr = int(65535*(offPercent/100))
+            self.send_command(lane_map[0],f'g{lane_map[1]},{on_time},{on_pwr},{off_pwr}')      
+        except Exception as err:
+            print(f'Error setting lane speed: {err}')  
 
     def set_light(self, light, on):
         lane_map = lane_mappings[light]
