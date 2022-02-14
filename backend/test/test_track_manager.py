@@ -8,8 +8,8 @@ import pytest
 async def test_track_manager():
     io = FakeIoManager()
     cb = MagicMock()
-    lc = MagicMock()
-    track = TrackManager(io,lc,cb)
+    
+    track = TrackManager(io,cb)
     
     await io.invoke_callback(io.get_lane_pin(0), 2*SECONDS)
     assert cb.call_count == 1
@@ -26,8 +26,7 @@ async def test_track_manager():
 async def test_async_track_manager():
     io = FakeIoManager()
     cb = AsyncMock()
-    lc = MagicMock()
-    track = TrackManager(io,lc,cb)
+    track = TrackManager(io,cb)
     
     await io.invoke_callback(io.get_lane_pin(0), 2*SECONDS)
     assert cb.call_count == 1

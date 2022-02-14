@@ -12,6 +12,7 @@ class IoManager:
         self.buttons = []
         self.last_tick = 0
         self.async_loop = async_loop
+        self.lane_controller = LaneController()
 
     def current_ticks(self):
         return self.last_tick

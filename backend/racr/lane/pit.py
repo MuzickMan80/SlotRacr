@@ -4,10 +4,10 @@ import random
 import asyncio
 
 class Pit:
-    def __init__(self,io_manager:IoManager,lane_controller:LaneController,lane,cb) -> None:
-        self.button = Button(lane_controller, lane, down_handler=self.pit_button_down)
+    def __init__(self,io_manager:IoManager,lane,cb) -> None:
+        self.button = Button(io_manager.lane_controller, lane, down_handler=self.pit_button_down)
         self.io_manager = io_manager
-        self.lane_controller = lane_controller
+        self.lane_controller = io_manager.lane_controller
         self.lane = lane
         self.require_crew_alert = True
         self.laps_until_out=45

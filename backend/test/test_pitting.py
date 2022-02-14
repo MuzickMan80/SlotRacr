@@ -16,9 +16,9 @@ async def run_tasks(delay=0):
 async def test_oog_sequence(mock_sleep):
     io = FakeIoManager()
     cb = AsyncMock()
-    lc = MagicMock(spec=LaneController)
+    lc=io.lane_controller
     laneIdx = 0
-    lane = LaneTimer(io, lc, lane=laneIdx, cb=cb)
+    lane = LaneTimer(io, lane=laneIdx, cb=cb)
     lane.pit.laps_until_out = 3
     
     assert lc.set_lane.call_count == 2

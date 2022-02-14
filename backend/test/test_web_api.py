@@ -17,8 +17,7 @@ async def loop():
 @pytest.fixture
 async def backend_server(loop):
     io = FakeIoManager()
-    lc = MagicMock()
-    track = TrackManagerApp(io,lc)
+    track = TrackManagerApp(io)
     await track.start()
     yield track
     await track.stop()

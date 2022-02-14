@@ -8,9 +8,8 @@ import pytest
 async def test_lane_timer():
     io = FakeIoManager()
     cb = AsyncMock()
-    lc = MagicMock()
     laneIdx=0
-    lane = LaneTimer(io, lc, lane=laneIdx, cb=cb)
+    lane = LaneTimer(io, lane=laneIdx, cb=cb)
     
     await io.invoke_lane_pin_callback(laneIdx,5*SECONDS)
     assert lane.laps == 0

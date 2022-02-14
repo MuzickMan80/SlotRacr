@@ -2,11 +2,11 @@ from .pit import Pit
 from racr.lane_controller.lane_controller import LaneController
 
 class LaneTimer(object):
-    def __init__(self, io_manager, lane_controller: LaneController, lane, cb):
+    def __init__(self, io_manager, lane, cb):
         self.lane = lane
         self.io_manager = io_manager
         self.on_lap = cb
-        self.pit = Pit(io_manager, lane_controller, lane, cb)
+        self.pit = Pit(io_manager, lane, cb)
         self.name = ''
         self.reset()
         io_manager.monitor_lane_pin(lane, self.lap)
