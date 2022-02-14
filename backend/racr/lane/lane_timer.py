@@ -1,17 +1,15 @@
 from .pit import Pit
-import jsons
 from racr.lane_controller.lane_controller import LaneController
 
 class LaneTimer(object):
-    def __init__(self, io_manager, lane_controller: LaneController, lane, pin, cb):
+    def __init__(self, io_manager, lane_controller: LaneController, lane, cb):
         self.lane = lane
         self.io_manager = io_manager
-        self.pin = pin
         self.on_lap = cb
         self.pit = Pit(io_manager, lane_controller, lane, cb)
         self.name = ''
         self.reset()
-        io_manager.monitor_pin(pin, self.lap)
+        io_manager.monitor_lane_pin(lane, self.lap)
     
     async def lap(self, event, tick):
         if self.started:
@@ -40,7 +38,7 @@ class LaneTimer(object):
         return self
 
     def state(self):
-        return {'lane': self.lane,
+        return {'lane': self.lane+1,
                 'best': self.time_string(self.best),
                 'last': self.time_string(self.last),
                 'laps': self.laps,

@@ -8,14 +8,13 @@ from .io.button import Button
 class TrackManager(Observable):
     def __init__(self,io_manager,lane_controller:LaneController,observer):
         super().__init__(observer)
-        self.resetter = Button(io_manager, io_manager.get_reset_pin(), self.reset_handler)
+        io_manager.monitor_reset_pin(self.reset_handler)
         self.io_manager: IoManager = io_manager
         self.lane_controller: LaneController = lane_controller
         self.lanes: list[LaneTimer] = []
         self.num_laps = 100
         for lane in range(8):
-            pin = io_manager.get_lane_pin(lane)
-            self.lanes = self.lanes + [LaneTimer(io_manager,lane_controller,lane+1,pin,self.lap_handler)]
+            self.lanes = self.lanes + [LaneTimer(io_manager,lane_controller,lane,self.lap_handler)]
 
         self.simulator = RaceSimulator(io_manager, self.lanes)
         

@@ -1,32 +1,33 @@
 from racr.io.io_manager import SECONDS
 from racr.io.fake_io_manager import FakeIoManager
 from racr.lane.lane_timer import LaneTimer
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, AsyncMock
 import pytest
 
 @pytest.mark.asyncio 
 async def test_lane_timer():
     io = FakeIoManager()
-    cb = MagicMock()
+    cb = AsyncMock()
     lc = MagicMock()
-    lane = LaneTimer(io, lc, lane=1, pin=5, cb=cb)
+    laneIdx=0
+    lane = LaneTimer(io, lc, lane=laneIdx, cb=cb)
     
-    await io.invoke_callback(5,5*SECONDS)
+    await io.invoke_lane_pin_callback(laneIdx,5*SECONDS)
     assert lane.laps == 0
     assert cb.call_count == 1
 
-    await io.invoke_callback(5,13*SECONDS)
+    await io.invoke_lane_pin_callback(laneIdx,13*SECONDS)
     assert lane.laps == 1
     assert cb.call_count == 2
     assert lane.last == 8 * SECONDS
     assert lane.best == 8 * SECONDS
 
-    await io.invoke_callback(5,13.1*SECONDS)
+    await io.invoke_lane_pin_callback(laneIdx,13.1*SECONDS)
     assert lane.laps == 1
     assert lane.skippedTriggers == 1
     assert cb.call_count == 2
 
-    await io.invoke_callback(5, 27*SECONDS)
+    await io.invoke_lane_pin_callback(laneIdx, 27*SECONDS)
     assert lane.last == 14 * SECONDS
     assert lane.best == 8 * SECONDS
 

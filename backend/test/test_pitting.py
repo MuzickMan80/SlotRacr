@@ -17,8 +17,8 @@ async def test_oog_sequence(mock_sleep):
     io = FakeIoManager()
     cb = AsyncMock()
     lc = MagicMock(spec=LaneController)
-    trigger_pin = 5
-    lane = LaneTimer(io, lc, lane=1, pin=trigger_pin, cb=cb)
+    laneIdx = 0
+    lane = LaneTimer(io, lc, lane=laneIdx, cb=cb)
     lane.pit.laps_until_out = 3
     
     assert lc.set_lane.call_count == 2
@@ -26,12 +26,12 @@ async def test_oog_sequence(mock_sleep):
 
     # Lap
     for lap in range(3):
-        await io.invoke_callback(trigger_pin,lap * 5 * SECONDS)
+        await io.invoke_lane_pin_callback(laneIdx,lap * 5 * SECONDS)
         assert lane.laps == lap
         assert lane.pit.low_fuel == False
         assert lane.pit.out_of_fuel == False
 
-    await io.invoke_callback(trigger_pin,20*SECONDS)
+    await io.invoke_lane_pin_callback(laneIdx,20*SECONDS)
     assert lane.laps == 3
     assert lane.pit.low_fuel
     assert not lane.pit.out_of_fuel
@@ -54,7 +54,7 @@ async def test_oog_sequence(mock_sleep):
     assert not lane.pit.in_pits
     pit_cb = lc.monitor_button.call_args.args[1]
     await pit_cb(True)
-    await io.invoke_callback(trigger_pin,30*SECONDS)
+    await io.invoke_lane_pin_callback(laneIdx,30*SECONDS)
     await sleep(.001)
     assert lane.pit.in_pits
     

@@ -5,7 +5,7 @@ import asyncio
 
 class Pit:
     def __init__(self,io_manager:IoManager,lane_controller:LaneController,lane,cb) -> None:
-        self.button = Button(lane_controller, lane-1, down_handler=self.pit_button_down)
+        self.button = Button(lane_controller, lane, down_handler=self.pit_button_down)
         self.io_manager = io_manager
         self.lane_controller = lane_controller
         self.lane = lane
@@ -29,13 +29,13 @@ class Pit:
         self.update_throttle()
 
     def light_pit_button(self,on):
-        self.lane_controller.set_light(self.lane-1,on)
+        self.lane_controller.set_light(self.lane,on)
 
     def set_lane_speed(self,speed):
-        self.lane_controller.set_lane(self.lane-1,speed)
+        self.lane_controller.set_lane(self.lane,speed)
 
     def set_lane_oog(self):
-        self.lane_controller.set_oog(self.lane-1, 35, 77, 0)
+        self.lane_controller.set_oog(self.lane, 35, 77, 0)
 
     def pit_button_pressed(self):
         pass
