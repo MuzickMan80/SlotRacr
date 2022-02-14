@@ -26,7 +26,7 @@ class Pit:
         self.pit_progress=0
         self.lap_time=0
         self.pit_start_time=0
-        self.set_lane_speed(100)
+        self.update_throttle()
 
     def light_pit_button(self,on):
         self.lane_controller.set_light(self.lane-1,on)
@@ -88,7 +88,9 @@ class Pit:
             out_of_fuel = random.randrange(100) < probability
             if out_of_fuel and not self.out_of_fuel:
                 self.out_of_fuel = out_of_fuel
+                self.update_throttle()
                 await self.cb()
+                return
 
             probability = probability + 5
             wait_time = random.randrange(500,1000)
@@ -100,7 +102,6 @@ class Pit:
         return min(1, max(0, normalized_val))
 
     async def _pitting(self):
-        
         micros_pitting = self.io_manager.tick_diff_micros(self.pit_start_time, self.io_manager.last_tick)
         # Should be 0 if >1.5 seconds, or 100% if <1.0 seconds
         sure_penalty = 1 * SECONDS
@@ -110,7 +111,7 @@ class Pit:
         penalty = random.randrange(100) <= penalty_prob
         self.penalty = penalty
         self.micros_pitting = micros_pitting
-        self.throttle()
+        self.update_throttle()
 
         while True:
             wait_time = random.randrange(2000,4000)
@@ -123,19 +124,22 @@ class Pit:
                 await self.cb()
                 break
 
-            self.throttle()
             await self.cb()
 
-    def throttle(self, max_throttle=100):
-        throttle = max_throttle
+    def update_throttle(self):
+        throttle = 100
         if self.in_pits:
             self.set_lane_speed(0)
             throttle = 0
         elif self.out_of_fuel:
-            throttle=min(max_throttle, 25)
+            throttle=min(throttle, 25)
             self.set_lane_oog()
         elif self.pitting or self.penalty:
-            throttle=min(max_throttle, 50)
+            throttle=min(throttle, 50)
             self.set_lane_speed(throttle)
+        else:
+            self.set_lane_speed(throttle)
+
+        self.throttle=throttle
         return throttle
         

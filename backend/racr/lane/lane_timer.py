@@ -49,7 +49,7 @@ class LaneTimer(object):
                 'name': self.name,
                 'color': 'white',
                 'state': self.pit.get_indicator(),
-                'throttle': self.pit.throttle(),
+                'throttle': 0,
                 'pit': {
                     'in_pits': self.pit.in_pits,
                     'laps_driven': self.pit.laps_driven,
