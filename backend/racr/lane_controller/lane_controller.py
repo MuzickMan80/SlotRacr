@@ -1,6 +1,5 @@
 import serial
 import asyncio
-from .button import Button
 
 lane_mappings = [
     (1,0),
@@ -19,7 +18,7 @@ class LaneController:
         self.tasks = []
         self.button_handlers = []
         self.last_state = []
-        for i in range(8):
+        for i in range(10):
             self.button_handlers.append(None)
             self.last_state.append(False)
         try:
@@ -56,6 +55,17 @@ class LaneController:
                 return lane
         return -1
 
+    def get_button(self,port,idx):
+        if port == 0 and idx == 4:
+            return 8
+        if port == 0 and idx == 5:
+            return 9
+        for lane in range(8):
+            lane_map = lane_mappings[lane]
+            if lane_map[0] == port and lane_map[1] == idx:
+                return lane
+        return -1
+
     async def poll_loop(self):
         while True:
             for port in range(2):
@@ -66,18 +76,21 @@ class LaneController:
                         if button >= 8:
                             break
                         button_state = char == '1'
-                        lane = self.get_lane(port, button) 
+                        lane = self.get_button(port, button) 
                         if lane != -1:
                             if button_state != self.last_state[lane]:
+                                await self.handle_button(lane, button_state)
                                 self.last_state[lane] = button_state
-                                handler = self.button_handlers[lane]
-                                if handler:
-                                    await handler(button_state)
                         button = button + 1
                 except Exception as err:
                     print(f'Error occurred reading buttons from {port}: {err}')
 
             await asyncio.sleep(.01)
+
+    async def handle_button(self, lane, state):
+        handler = self.button_handlers[lane]
+        if handler:
+            await handler(state)
 
     def send_command(self, port, command):
         response = None

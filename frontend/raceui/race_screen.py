@@ -41,6 +41,7 @@ class RaceWindow(Window):
         self.foreground=pygame.Surface(size)
 
         self.checkerboard = GIFImage('assets/checkered_flag.gif', size)
+        self.whiteflag = GIFImage('assets/white-flag.gif', size)
 
     def cleanup(self):
         timer_socket.disconnect()
@@ -51,9 +52,19 @@ class RaceWindow(Window):
         lanes = timer_socket.get_lanes(self.target_ip)
         self.table.update(lanes)
 
+        flag = lanes["race"]["flag"]
+
         screen_rect=(0,0,self.size[0],self.size[1])
         self.bgSurface.blit(self.bg, screen_rect)
-        #self.checkerboard.render(self.bgSurface, screen_rect)
+
+        if flag == "checkerboard":
+            self.checkerboard.render(self.bgSurface, screen_rect)
+        elif flag == "white":
+            self.whiteflag.render(self.bgSurface, screen_rect)
+        elif flag == "red":
+            self.bgSurface.fill((255,0,0), screen_rect)
+        elif flag == "yellow":
+            self.bgSurface.fill((255,255,0), screen_rect)
 
         self.table.draw(self.tableBg,False)
         self.info.draw(self.tableBg,False)

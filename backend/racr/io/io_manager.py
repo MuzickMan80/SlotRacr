@@ -31,6 +31,12 @@ class IoManager:
 
     def get_pit_pin(self, lane) -> int:
         return -1
+        
+    def monitor_warn_pin(self, cb):
+        self.lane_controller.monitor_button(8, cb)
+
+    def monitor_stop_pin(self, cb):
+        self.lane_controller.monitor_button(9, cb)
 
     def _io_update(self, event, edge, tick):
         asyncio.run_coroutine_threadsafe(self._async_io_update(event, edge, tick), self.async_loop)

@@ -1,8 +1,8 @@
-from racr.lane_controller.lane_controller import LaneController
+
 from racr.io.io_manager import SECONDS
 from racr.io.fake_io_manager import FakeIoManager
 from racr.lane.lane_timer import LaneTimer
-from unittest.mock import MagicMock, AsyncMock, patch
+from unittest.mock import AsyncMock, patch
 import pytest
 import asyncio
 

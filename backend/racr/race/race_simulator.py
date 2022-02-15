@@ -2,6 +2,7 @@
 import asyncio
 import random
 from racr.io.io_manager import IoManager, SECONDS
+from racr.flags import Flags
 
 class RaceSimulator:
     def __init__(self, io_manager: IoManager, lanes):
@@ -19,6 +20,7 @@ class RaceSimulator:
 
     async def _simulate_activity(self, rate: float):
         tick = self.io_manager.last_tick
+        count = 0
         while True:
             lane = random.choice(self.lanes)
             try:
@@ -27,3 +29,10 @@ class RaceSimulator:
                 print(f'Error simulating step: {ex}')
             await asyncio.sleep(rate)
             tick = tick + rate * SECONDS
+
+            count = count + 1
+            if count == 10:
+                count = 0
+                state = random.uniform(0,1)<.25
+                button = 8+int(random.uniform(0,1)<0.5)
+                await self.io_manager.lane_controller.handle_button(button, state)

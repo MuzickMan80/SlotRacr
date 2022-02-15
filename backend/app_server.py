@@ -46,7 +46,7 @@ class TrackManagerApp(socketio.AsyncNamespace):
 
     async def emit_lane_dump(self):
         state = {
-            "race": { "type": "race", "started": False },
+            "race": { "type": "race", "started": False, "flag": self.track.flag },
             "lanes": list(map(lambda l: l.state(), self.track.lanes))
         }
         lane_dump = json.dumps(state)

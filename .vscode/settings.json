@@ -39,7 +39,8 @@
     ],
     "python.testing.pytestArgs": [
         "--cov-report=xml:coverage.xml",
-        "--cov=backend",
+        "--cov-report=html:coverage",
+        "--cov=backend/racr",
         "--cov-append"
     ],
     "python.testing.unittestEnabled": false,

@@ -1,5 +1,4 @@
 from .pit import Pit
-from racr.lane_controller.lane_controller import LaneController
 
 class LaneTimer(object):
     def __init__(self, io_manager, lane, cb):
@@ -66,3 +65,6 @@ class LaneTimer(object):
             return round(s,3)
         else:
             return None
+
+    def notify_flag(self, flag):
+        self.pit.notify_flag(flag)

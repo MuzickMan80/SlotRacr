@@ -1,16 +1,17 @@
 from racr.io.io_manager import IoManager, SECONDS
-from racr.lane_controller.lane_controller import LaneController, Button
+from racr.flags import Flags
 import random
 import asyncio
 
 class Pit:
     def __init__(self,io_manager:IoManager,lane,cb) -> None:
-        self.button = Button(io_manager.lane_controller, lane, down_handler=self.pit_button_down)
+        io_manager.lane_controller.monitor_button(lane,self.pit_button_down)
         self.io_manager = io_manager
         self.lane_controller = io_manager.lane_controller
         self.lane = lane
         self.require_crew_alert = True
-        self.laps_until_out=45
+        self.laps_until_out = 45
+        self.flag = Flags.green
         self.reset()
         self.cb = cb
 
@@ -128,13 +129,13 @@ class Pit:
 
     def update_throttle(self):
         throttle = 100
-        if self.in_pits:
+        if self.in_pits or self.flag == Flags.red:
             self.set_lane_speed(0)
             throttle = 0
         elif self.out_of_fuel:
             throttle=min(throttle, 25)
             self.set_lane_oog()
-        elif self.pitting or self.penalty:
+        elif self.pitting or self.penalty or self.flag == Flags.yellow:
             throttle=min(throttle, 50)
             self.set_lane_speed(throttle)
         else:
@@ -142,4 +143,7 @@ class Pit:
 
         self.throttle=throttle
         return throttle
-        
+    
+    def notify_flag(self, flag):
+        self.flag = flag
+        self.update_throttle()
