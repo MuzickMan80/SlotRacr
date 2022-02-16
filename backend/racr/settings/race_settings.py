@@ -23,11 +23,13 @@ race_settings={
     'enable_simulator': enable_simulator
 }
 
-lane_name=[]
-
 def set_lane_name(i, name):
     track.lanes[i].name = name
 
+def set_lane_speed(i, speed):
+    track.lanes[i].pit.speed.set_max_speed(speed)
+
 for i in range(8):
-    lane_name.append(LaneNameSetting(i+1,setter=lambda n,i=i: set_lane_name(i,n)))
-    race_settings[f'lane{i+1}_name'] = lane_name[i] 
+    race_settings[f'lane{i+1}_name'] = LaneNameSetting(i+1,setter=lambda n,i=i: set_lane_name(i,n))
+    race_settings[f'lane{i+1}_maxspeed'] = IntSetting(f'Lane {i+1} speed', 100, 1, 100, "Percent", 
+        setter=lambda s,i=i: set_lane_speed(i,s))

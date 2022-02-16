@@ -1,4 +1,5 @@
 from racr.io.io_manager import IoManager, SECONDS
+from racr.lane.speed_control import SpeedControl
 from racr.flags import Flags
 import random
 import asyncio
@@ -12,6 +13,7 @@ class Pit:
         self.require_crew_alert = True
         self.laps_until_out = 45
         self.flag = Flags.green
+        self.speed = SpeedControl(io_manager, lane)
         self.reset()
         self.cb = cb
 
@@ -31,12 +33,6 @@ class Pit:
 
     def light_pit_button(self,on):
         self.lane_controller.set_light(self.lane,on)
-
-    def set_lane_speed(self,speed):
-        self.lane_controller.set_lane(self.lane,speed)
-
-    def set_lane_oog(self):
-        self.lane_controller.set_oog(self.lane, 35, 77, 0)
 
     def pit_button_pressed(self):
         pass
@@ -128,21 +124,9 @@ class Pit:
             await self.cb()
 
     def update_throttle(self):
-        throttle = 100
-        if self.in_pits or self.flag == Flags.red:
-            self.set_lane_speed(0)
-            throttle = 0
-        elif self.out_of_fuel:
-            throttle=min(throttle, 25)
-            self.set_lane_oog()
-        elif self.pitting or self.penalty or self.flag == Flags.yellow:
-            throttle=min(throttle, 50)
-            self.set_lane_speed(throttle)
-        else:
-            self.set_lane_speed(throttle)
-
-        self.throttle=throttle
-        return throttle
+        stop = self.in_pits or self.flag == Flags.red
+        slow = self.pitting or self.penalty or self.flag == Flags.yellow
+        self.speed.set_speed(slow, stop, self.out_of_fuel)
     
     def notify_flag(self, flag):
         self.flag = flag

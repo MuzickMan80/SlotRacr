@@ -1,7 +1,7 @@
 import socketio
 import json
 
-lanes={'lanes': []}
+lanes={'lanes': [], 'race': {'flag': 'green'}}
 connected=False
 
 sio = socketio.Client()
