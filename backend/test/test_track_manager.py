@@ -11,16 +11,16 @@ async def test_track_manager():
     
     track = TrackManager(io,cb)
     
-    await io.invoke_callback(io.get_lane_pin(0), 2*SECONDS)
+    await io.invoke_lane_pin_callback(0, 2*SECONDS)
     assert cb.call_count == 1
-    assert track.lanes[0].started
+    assert track.lanes[0].timer.started
 
-    await io.invoke_callback(io.get_lane_pin(0), 5*SECONDS)
+    await io.invoke_lane_pin_callback(0, 7*SECONDS)
     assert cb.call_count == 2
 
-    await io.invoke_callback(io.get_reset_pin(), 7*SECONDS, False)
+    await io.invoke_callback(io.get_reset_pin(), 12*SECONDS, False)
     assert cb.call_count == 3
-    assert not track.lanes[0].started
+    assert not track.lanes[0].timer.started
     
 @pytest.mark.asyncio
 async def test_async_track_manager():

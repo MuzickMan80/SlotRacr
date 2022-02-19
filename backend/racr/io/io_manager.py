@@ -55,3 +55,6 @@ class IoManager:
 
     def monitor_pin(self, pin, cb, rising=True, falling=False, pullUp=False, pullDown=False, filterUs=0):
         raise RuntimeError("Not implemented")
+    
+    def tick_diff_micros(self, start, end):
+        return end-start

@@ -24,7 +24,7 @@ class RaceSimulator:
         while True:
             lane = random.choice(self.lanes)
             try:
-                await lane.lap(True, tick)
+                await lane.timer.lap(True, tick)
             except Exception as ex:
                 print(f'Error simulating step: {ex}')
             await asyncio.sleep(rate)

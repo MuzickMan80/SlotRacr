@@ -1,29 +1,28 @@
 from .pit import Pit
+from racr.io.io_manager import IoManager
 
 class LaneTimer(object):
-    def __init__(self, io_manager, lane, cb):
+    def __init__(self, io_manager: IoManager, lane, cb):
         self.lane = lane
         self.io_manager = io_manager
-        self.on_lap = cb
-        self.pit = Pit(io_manager, lane, cb)
-        self.name = ''
+        self.observer = cb
+        self.minimum_lap_time = 4
         self.reset()
         io_manager.monitor_lane_pin(lane, self.lap)
     
     async def lap(self, event, tick):
         if self.started:
             diff = self.io_manager.tick_diff_micros(self.lapStartTime, tick)
-            if diff < 500000:
+            if diff < self.minimum_lap_time * 1e6:
                 self.skippedTriggers = self.skippedTriggers + 1
                 return
             self.last = diff
             self.laps = self.laps + 1
-            await self.pit.lap()
             if self.best == None or self.last < self.best:
                 self.best = self.last
         self.lapStartTime = tick
         self.started = True
-        await self.on_lap()
+        await self.observer()
 
     def reset(self):
         self.best = None
@@ -33,38 +32,4 @@ class LaneTimer(object):
         self.laps = 0
         self.pos = 0
         self.skippedTriggers = 0
-        self.pit.reset()
         return self
-
-    def state(self):
-        return {'lane': self.lane+1,
-                'best': self.time_string(self.best),
-                'last': self.time_string(self.last),
-                'laps': self.laps,
-                'pos': self.pos,
-                'started': self.started,
-                'name': self.name,
-                'color': 'white',
-                'state': self.pit.get_indicator(),
-                'throttle': 0,
-                'pit': {
-                    'in_pits': self.pit.in_pits,
-                    'laps_driven': self.pit.laps_driven,
-                    'low_fuel': self.pit.low_fuel,
-                    'out_of_fuel': self.pit.out_of_fuel,
-                    'pit_progress': self.pit.pit_progress,
-                    'pit_this_lap': self.pit.pit_this_lap,
-                    'pitting': self.pit.pitting,
-                    'micros_pitting': self.pit.micros_pitting
-                }}
-
-    def time_string(self, time):
-        s = 0
-        if time:
-            s = time / 1000000
-            return round(s,3)
-        else:
-            return None
-
-    def notify_flag(self, flag):
-        self.pit.notify_flag(flag)

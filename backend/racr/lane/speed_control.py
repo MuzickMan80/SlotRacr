@@ -8,6 +8,7 @@ class SpeedControl():
         self.stop = False
         self.out_of_gas = False
         self.max_speed = 100
+        self.speed = -2
         self.update_speed()
 
     def set_speed(self, slow, stop, oog):
@@ -38,7 +39,11 @@ class SpeedControl():
         return throttle
 
     def set_lane_speed(self,speed):
-        self.io_manager.lane_controller.set_lane(self.lane,speed)
+        if self.speed != speed:
+            self.speed = speed
+            self.io_manager.lane_controller.set_lane(self.lane,speed)
 
     def set_lane_oog(self):
-        self.io_manager.lane_controller.set_oog(self.lane, 35, 77, 0)
+        if self.speed != -1:
+            self.speed = -1
+            self.io_manager.lane_controller.set_oog(self.lane, 35, 77, 0)

@@ -1,7 +1,7 @@
 
 from racr.io.io_manager import SECONDS
 from racr.io.fake_io_manager import FakeIoManager
-from racr.lane.lane_timer import LaneTimer
+from racr.lane.lane import Lane
 from unittest.mock import AsyncMock, patch
 import pytest
 import asyncio
@@ -18,35 +18,35 @@ async def test_oog_sequence(mock_sleep):
     cb = AsyncMock()
     lc=io.lane_controller
     laneIdx = 0
-    lane = LaneTimer(io, lane=laneIdx, cb=cb)
-    lane.pit.laps_until_out = 3
+    lane = Lane(io, laneIdx, cb)
+    lane.fuel.laps_until_out = 3
     
-    assert lc.set_lane.call_count == 2
+    assert lc.set_lane.call_count == 1
     lc.set_lane.assert_called_with(0,100)
 
     # Lap
     for lap in range(3):
         await io.invoke_lane_pin_callback(laneIdx,lap * 5 * SECONDS)
-        assert lane.laps == lap
-        assert lane.pit.low_fuel == False
-        assert lane.pit.out_of_fuel == False
+        assert lane.timer.laps == lap
+        assert lane.fuel.low_fuel == False
+        assert lane.fuel.out_of_fuel == False
 
     await io.invoke_lane_pin_callback(laneIdx,20*SECONDS)
-    assert lane.laps == 3
-    assert lane.pit.low_fuel
-    assert not lane.pit.out_of_fuel
+    assert lane.timer.laps == 3
+    assert lane.fuel.low_fuel
+    assert not lane.fuel.out_of_fuel
 
-    assert lc.set_lane.call_count == 2
+    assert lc.set_lane.call_count == 1
     assert lc.set_oog.call_count == 0
 
     mock_sleep.reset_mock()
     for _ in range(20):
         await sleep(.001)
-        if lane.pit.out_of_fuel:
+        if lane.fuel.out_of_fuel:
             break
 
-    assert lane.pit.out_of_fuel
-    assert lc.set_lane.call_count == 2
+    assert lane.fuel.out_of_fuel
+    assert lc.set_lane.call_count == 1
     assert lc.set_oog.call_count == 1
     lc.set_oog.assert_called_with(0,35,77,0)
 
@@ -58,7 +58,7 @@ async def test_oog_sequence(mock_sleep):
     await sleep(.001)
     assert lane.pit.in_pits
     
-    assert lc.set_lane.call_count == 3
+    assert lc.set_lane.call_count == 2
     assert lc.set_oog.call_count == 1
     lc.set_lane.assert_called_with(0,0)
 
@@ -68,7 +68,7 @@ async def test_oog_sequence(mock_sleep):
             break
     assert not lane.pit.in_pits
     assert not lane.pit.pitting
-    assert lane.pit.laps_driven == 0
-    assert lc.set_lane.call_count == 4
+    assert lane.fuel.laps_driven == 0
+    assert lc.set_lane.call_count == 3
     assert lc.set_oog.call_count == 1
     lc.set_lane.assert_called_with(0,100)

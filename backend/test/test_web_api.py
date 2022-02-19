@@ -145,10 +145,10 @@ async def test_track_put_oof_laps(backend_rest_client:TestClient,backend_server:
     assert(response.status == 200)
     settings = await response.json()
     assert(settings == 10)
-    assert(backend_server.track.lanes[0].pit.laps_until_out == 10)
+    assert(backend_server.track.lanes[0].fuel.laps_until_out == 10)
 
     response = await backend_rest_client.put('/settings/pit/laps_until_out/value',json=20)
     assert(response.status == 200)
     settings = await response.json()
     assert(settings == 20)
-    assert(backend_server.track.lanes[0].pit.laps_until_out == 20)
+    assert(backend_server.track.lanes[0].fuel.laps_until_out == 20)

@@ -1,9 +1,13 @@
 
+import inspect
+
+
 class SettingType:
     BOOL_SETTING="bool"
     INT_SETTING="int"
     STRING_SETTING="string"
     COLOR_SETTING="color"
+    FLOAT_SETTING="float"
 
 class Setting:
     def __init__(self,type,name,default,description,setter=None) -> None:
@@ -11,21 +15,18 @@ class Setting:
         self.name=name
         self.default=default
         self.description=description
-        self.value_=default
+        self.value=default
         self.setter=setter
 
     def normalize(self, value):
         return value
 
-    @property
-    def value(self):
-        return self.value_
-
-    @value.setter
-    def value(self, value):
-        self.value_ = self.normalize(value)
+    async def set_value(self, value):
+        self.value = self.normalize(value)
         if self.setter:
-            self.setter(self.value_)
+            result = self.setter(self.value)            
+            if inspect.isawaitable(result):
+                await result
 
 class BoolSetting(Setting):
     def __init__(self,name,default,description="",setter=None):
@@ -41,6 +42,15 @@ class IntSetting(Setting):
         self.units=units
     def normalize(self, value):
         return int(value)
+
+class FloatSetting(Setting):
+    def __init__(self,name,default,min,max,units="",description="",setter=None):
+        super().__init__(SettingType.FLOAT_SETTING,name,default,description,setter)
+        self.min=min
+        self.max=max
+        self.units=units
+    def normalize(self, value):
+        return float(value)
 
 # class ProbabilitySetting(IntSetting):
 #     def __init__(self,name,default,min=0,max=100,units="%",description="",setter=None):

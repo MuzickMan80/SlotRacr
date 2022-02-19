@@ -30,17 +30,14 @@ async def get_setting_property(request):
     group=request.match_info['group']
     setting=request.match_info['setting']
     property=request.match_info['property']
-    if property=='value':
-        return web.json_response(jsons.dump(track_settings[group][setting].value))
-    else:
-        return web.json_response(jsons.dump(track_settings[group][setting].__dict__[property]))
+    return web.json_response(jsons.dump(track_settings[group][setting].__dict__[property]))
 
 @routes.put('/settings/{group}/{setting}/value')
 async def put_setting_property(request:Request):
     group=request.match_info['group']
     setting=request.match_info['setting']
     s=track_settings[group][setting]
-    s.value = await request.json()
+    await s.set_value(await request.json())
     save_settings()
     return web.json_response(jsons.dump(s.value))
 
