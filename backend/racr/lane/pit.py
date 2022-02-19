@@ -37,7 +37,7 @@ class Pit(Observable):
 
     def _is_crew_alert(self):
         return (self.require_crew_alert and
-            not self._car_already_slow()
+            not self._car_already_slow() and
             not self.pit_this_lap)
 
     async def _alert_crew(self, down):
