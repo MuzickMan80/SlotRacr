@@ -17,11 +17,16 @@ def get_lane_name_setter(i):
 def set_lane_speed(i, speed):
     track.lanes[i].speed.set_max_speed(speed)
 
+def set_lane_slow_speed(i, speed):
+    track.lanes[i].speed.set_warn_speed(speed)
+
 lane_settings = {}
 
 for i in range(8):
     lane_settings[f'lane_{i+1}'] = {
         'name': LaneNameSetting(i+1,setter=get_lane_name_setter(i)),
-        'maxspeed': IntSetting(f'Lane {i+1} speed', 100, 1, 100, "Percent", 
-            setter=lambda s,i=i: set_lane_speed(i,s))
+        'maxspeed': IntSetting(f'Lane {i+1} Speed', 100, 1, 100, "Percent", 
+            setter=lambda s,i=i: set_lane_speed(i,s)),
+        'slowspeed': IntSetting(f'Lane {i+1} Slow Speed', 40, 1, 100, "Percent", 
+            setter=lambda s,i=i: set_lane_slow_speed(i,s))
     }
