@@ -60,12 +60,13 @@ async def test_oog_sequence(mock_sleep):
     await io.invoke_lane_pin_callback(laneIdx,30*SECONDS)
     await sleep(.001)
     assert lane.pit.in_pits
+    assert lane.state()["state"] == "0.2"
     
     assert lc.set_lane.call_count == 2
     assert lc.set_oog.call_count == 1
     lc.set_lane.assert_called_with(0,0)
 
-    for _ in range(20):
+    for _ in range(200):
         await sleep(.001)
         if not lane.pit.in_pits:
             break

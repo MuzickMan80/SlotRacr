@@ -30,7 +30,7 @@ class LaneStateReporter:
 
     def get_indicator(self) -> str:
         if self.pit.in_pits:
-            return str(self.pit_progress)
+            return str(self.pit.pit_progress)
         if self.pit.pitting:
             return "slo"
         if self.pit.pit_this_lap:

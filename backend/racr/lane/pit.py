@@ -63,15 +63,14 @@ class Pit(Observable):
         self.micros_pitting = micros_pitting
         await self.notify_observer_async()
 
-        while True:
-            wait_time = random.randrange(2000,4000)
-            await asyncio.sleep(wait_time/1000)
-            self.pit_progress = self.pit_progress + 1
-            if self.pit_progress == 3:
-                self.reset()
-                self.penalty = penalty
-                self.micros_pitting = micros_pitting
-                await self.notify_observer_async()
-                break
+        pit_time = random.triangular(10,40,13)
+        self.pit_progress = 0
+        sleep_time = 0.2
+        while self.in_pits and self.pit_progress < pit_time:
+            self.pit_progress = self.pit_progress + sleep_time
+            await asyncio.sleep(sleep_time)
 
+        if self.in_pits:
+            self.reset()
+            self.penalty = penalty
             await self.notify_observer_async()
