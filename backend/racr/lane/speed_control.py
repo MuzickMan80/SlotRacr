@@ -10,15 +10,15 @@ class SpeedControl():
         self.max_speed = 100
         self.warn_speed = 40
         self.speed = -2
+        self.oog_duty = 35
+        self.oog_on_pwr = 100
+        self.oog_off_pwr = 0
         self.update_speed()
 
     def set_speed(self, slow, stop, oog):
         self.slow = slow
         self.stop = stop
         self.out_of_gas = oog
-        self.oog_duty = 35
-        self.oog_on_pwr = 77
-        self.oog_off_pwr = 0
         self.update_speed()
 
     def set_max_speed(self, max_speed):
@@ -66,4 +66,4 @@ class SpeedControl():
     def set_lane_oog(self):
         if self.speed != -1:
             self.speed = -1
-            self.io_manager.lane_controller.set_oog(self.lane, 35, 77, 0)
+            self.io_manager.lane_controller.set_oog(self.lane, self.oog_duty, self.oog_on_pwr, self.oog_off_pwr)

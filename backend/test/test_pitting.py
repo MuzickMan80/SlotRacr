@@ -51,7 +51,7 @@ async def test_oog_sequence(mock_sleep):
     assert lane.fuel.out_of_fuel
     assert lc.set_lane.call_count == 1
     assert lc.set_oog.call_count == 1
-    lc.set_oog.assert_called_with(0,35,77,0)
+    lc.set_oog.assert_called_with(0,35,100,0)
 
     # Ensure we can pit
     assert not lane.pit.in_pits
