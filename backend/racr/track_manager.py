@@ -59,9 +59,9 @@ class TrackManager(Observable):
         i = 1
         for l in lane_pos:
             if l.timer.laps > 0:
-                l.pos = i
+                l.timer.pos = i
             else:
-                l.pos = len(self.lanes)
+                l.timer.pos = len(self.lanes)
             i = 1 + i
         self.current_lap = max(map(lambda l: l.timer.laps, self.lanes))
         await self.calculate_current_flag()
