@@ -32,10 +32,12 @@ class Pit(Observable):
             self.penalty=False
             self.lap_time=0
 
+    def _car_already_slow(self):
+        return self.under_yellow or self.out_of_fuel
+
     def _is_crew_alert(self):
         return (self.require_crew_alert and
-            not self.out_of_fuel and
-            not self.under_yellow and
+            not self._car_already_slow()
             not self.pit_this_lap)
 
     async def _alert_crew(self, down):
@@ -86,7 +88,7 @@ class Pit(Observable):
         no_penalty = 1.5 * SECONDS
         penalty_prob = 100 * self._normalize(micros_pitting, zero_val=no_penalty, one_val=sure_penalty)
         
-        penalty = random.randrange(100) <= penalty_prob
+        penalty = not self._car_already_slow() and random.randrange(100) <= penalty_prob
         self.penalty = penalty
         self.micros_pitting = micros_pitting
         await self.notify_observer_async()
