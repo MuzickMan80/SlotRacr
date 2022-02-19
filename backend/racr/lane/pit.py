@@ -41,12 +41,14 @@ class Pit(Observable):
     async def _alert_crew(self, down):
         micros_since_lap = self.io_manager.tick_diff_micros(self.lap_time, self.io_manager.current_ticks())
         pit_this_lap = micros_since_lap < self.max_crew_alert_time * SECONDS and down
-        print(f'_alert_crew {down} {self.micros_since_lap}')
+        print(f'_alert_crew {down} {micros_since_lap}')
         if pit_this_lap != self.pit_this_lap:
             self.pit_this_lap = pit_this_lap
             await self.notify_observer_async()
 
     async def pit_button_down(self,down):
+        
+        print(f'pit_button_down {down} {self.pitting}')
         if self._is_crew_alert():
             await self._alert_crew(down)
         elif self.pitting != down:
