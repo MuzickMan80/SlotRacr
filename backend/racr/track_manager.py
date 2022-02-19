@@ -55,7 +55,7 @@ class TrackManager(Observable):
     async def lap_handler(self):
         tick = self.io_manager.last_tick
         lane_pos = self.lanes.copy()
-        lane_pos.sort(key=lambda l: (-l.timer.laps, self.io_manager.tick_diff_micros(l.timer.lapStartTime, tick)))
+        lane_pos.sort(key=lambda l: (-l.timer.laps, -self.io_manager.tick_diff_micros(l.timer.lapStartTime, tick)))
         i = 1
         for l in lane_pos:
             if l.timer.laps > 0:
@@ -67,5 +67,5 @@ class TrackManager(Observable):
         await self.calculate_current_flag()
         await self.notify_observer_async()
 
-    def enable_activity_simulator(self, enable : bool, rate : float):
-        self.simulator.enable_activity_simulator(enable, rate)
+    async def enable_activity_simulator(self, enable : bool, rate : float = 1):
+        await self.simulator.enable_activity_simulator(enable, rate)

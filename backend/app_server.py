@@ -37,7 +37,7 @@ class TrackManagerApp(socketio.AsyncNamespace):
         await self.runner.setup()
         self.site = web.TCPSite(self.runner, '0.0.0.0', 80)
         await self.site.start()
-        load_settings(self.track)
+        await load_settings(self.track)
         
     async def stop(self):
         await self.site.stop()
@@ -62,4 +62,4 @@ class TrackManagerApp(socketio.AsyncNamespace):
 
     async def on_simulate_activity(self, sid, data):
         print('server_simulate_activity ' + str(data))
-        self.track.enable_activity_simulator(data['enable'], data['rate'])
+        await self.track.enable_activity_simulator(data['enable'], data['rate'])

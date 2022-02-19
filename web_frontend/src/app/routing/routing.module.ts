@@ -4,11 +4,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { LaneTableComponent } from '../lane-table/lane-table.component';
 import { RaceSettingsComponent } from '../settings/race-settings.component';
 import { PitSettingsComponent } from '../settings/pit-settings.component';
+import { LaneSettingsComponent } from '../settings/lane-settings.component';
 
 const routes: Routes = [
   { path: 'home', component: LaneTableComponent},
   { path: 'race-settings', component: RaceSettingsComponent},
   { path: 'pit-settings', component: PitSettingsComponent},
+  { path: 'lane-settings', component: LaneSettingsComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full'}
 ]
 

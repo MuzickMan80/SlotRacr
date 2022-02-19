@@ -5,7 +5,7 @@ import asyncio
 class Fuel(Observable):
     def __init__(self, observer):
         super().__init__(observer)
-        self.laps_until_out = 45
+        self.laps_until_low = 45
         self.max_laps_after_out = 15
         self.mean_laps_after_out = 10
         self.laps_after_out = 10
@@ -18,7 +18,7 @@ class Fuel(Observable):
     async def update_lane_status(self, laps):
         self.last_lap = laps
         self.laps_driven = laps - self.last_pit_lap
-        if self.laps_driven == self.laps_until_out:
+        if self.laps_driven == self.laps_until_low:
             self.low_fuel = True
             asyncio.create_task(self._running_out_of_fuel())
 

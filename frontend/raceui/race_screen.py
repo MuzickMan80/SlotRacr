@@ -57,7 +57,7 @@ class RaceWindow(Window):
         screen_rect=(0,0,self.size[0],self.size[1])
         self.bgSurface.blit(self.bg, screen_rect)
 
-        if flag == "checkerboard":
+        if flag == "checkered":
             self.checkerboard.render(self.bgSurface, screen_rect)
         elif flag == "white":
             self.whiteflag.render(self.bgSurface, screen_rect)

@@ -1,7 +1,7 @@
-
 from racr.io.io_manager import SECONDS
 from racr.io.fake_io_manager import FakeIoManager
 from racr.lane.lane import Lane
+from racr.lane.pit import Pit
 from unittest.mock import AsyncMock, patch
 import pytest
 import asyncio
@@ -19,7 +19,7 @@ async def test_oog_sequence(mock_sleep):
     lc=io.lane_controller
     laneIdx = 0
     lane = Lane(io, laneIdx, cb)
-    lane.fuel.laps_until_out = 3
+    lane.fuel.laps_until_low = 3
     
     assert lc.set_lane.call_count == 1
     lc.set_lane.assert_called_with(0,100)
@@ -72,3 +72,79 @@ async def test_oog_sequence(mock_sleep):
     assert lc.set_lane.call_count == 3
     assert lc.set_oog.call_count == 1
     lc.set_lane.assert_called_with(0,100)
+
+    
+@pytest.mark.asyncio
+@patch('asyncio.sleep',side_effect=run_tasks)
+async def test_crew_alert_ignore(mock_sleep):
+    io = FakeIoManager()
+    cb = AsyncMock()
+    lc=io.lane_controller
+    laneIdx = 0
+
+    pit = Pit(io, laneIdx, cb)
+    io.last_tick = 1*SECONDS
+    await pit.lap()
+    assert not pit.penalty
+    
+    io.last_tick = 4*SECONDS
+    pit_cb = lc.monitor_button.call_args.args[1]
+    await pit_cb(True)
+    assert not pit.pit_this_lap
+    await pit_cb(False)
+    assert not pit.pit_this_lap
+    
+
+@patch('asyncio.sleep',side_effect=run_tasks)
+async def test_crew_alert_no_pit(mock_sleep):
+    io = FakeIoManager()
+    cb = AsyncMock()
+    lc=io.lane_controller
+    laneIdx = 0
+
+    pit = Pit(io, laneIdx, cb)
+    io.last_tick = 1*SECONDS
+    await pit.lap()
+    assert not pit.penalty
+    
+    io.last_tick = 2*SECONDS
+    pit_cb = lc.monitor_button.call_args.args[1]
+    await pit_cb(True)
+    assert pit.pit_this_lap
+    await pit_cb(False)
+    assert pit.pit_this_lap
+
+    await pit_cb(True)
+    assert pit.pitting
+    await pit_cb(False)
+    assert not pit.pitting
+    
+    await pit.lap()
+    assert not pit.pit_this_lap
+
+
+@patch('asyncio.sleep',side_effect=run_tasks)
+async def test_crew_alert_pit(mock_sleep):
+    io = FakeIoManager()
+    cb = AsyncMock()
+    lc=io.lane_controller
+    laneIdx = 0
+
+    pit = Pit(io, laneIdx, cb)
+    io.last_tick = 1*SECONDS
+    await pit.lap()
+    assert not pit.penalty
+    
+    io.last_tick = 2*SECONDS
+    pit_cb = lc.monitor_button.call_args.args[1]
+    await pit_cb(True)
+    assert pit.pit_this_lap
+    await pit_cb(False)
+    assert pit.pit_this_lap
+
+    await pit_cb(True)
+    assert pit.pitting
+    await pit.lap()
+    assert pit.in_pits
+
+

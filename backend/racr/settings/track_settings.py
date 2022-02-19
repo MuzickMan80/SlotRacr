@@ -1,13 +1,16 @@
 from racr.track_manager import TrackManager
 from .race_settings import race_settings
 import racr.settings.race_settings as rs
+import racr.settings.lane_settings as ls
 from .pit_settings import pit_settings
+from .lane_settings import lane_settings
 import json
 
 track_settings={
     'race': race_settings,
     'pit': pit_settings
 }
+track_settings.update(lane_settings)
 
 def save_settings():
     try:
@@ -25,14 +28,15 @@ def save_settings():
     except Exception as err:
         print(err)
 
-def load_settings(track_mgr: TrackManager):
+async def load_settings(track_mgr: TrackManager):
     rs.track = track_mgr
+    ls.track = track_mgr
     try:
         with open('settings.json') as jsonfile:
             stored_settings = json.load(jsonfile)
             for setting in stored_settings:
                 try:
-                    track_settings[setting['group']][setting['name']].value = setting['value']
+                    await track_settings[setting['group']][setting['name']].set_value(setting['value'])
                 except Exception as err:
                     print(f'Error restoring setting {setting["name"]}: {err}')
     except Exception as err:

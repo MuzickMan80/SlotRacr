@@ -9,11 +9,13 @@ class RaceSimulator:
         self.io_manager = io_manager
         self.lanes = lanes
         self.simulator = None
+        self.enabled = False
 
-    def enable_activity_simulator(self, enable : bool, rate : float):
+    async def enable_activity_simulator(self, enable : bool, rate : float):
         if self.simulator:
-            self.simulator.cancel()
-            self.simulator = None
+            self.enabled = False
+            await self.simulator
+        self.enabled = enable
         if enable:
             loop = asyncio.get_event_loop()
             self.simulator = loop.create_task(self._simulate_activity(rate))
@@ -21,7 +23,7 @@ class RaceSimulator:
     async def _simulate_activity(self, rate: float):
         tick = self.io_manager.last_tick
         count = 0
-        while True:
+        while self.enabled:
             lane = random.choice(self.lanes)
             try:
                 await lane.timer.lap(True, tick)

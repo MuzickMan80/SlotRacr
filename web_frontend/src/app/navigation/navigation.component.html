@@ -5,9 +5,10 @@
       [opened]="false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item [routerLink]="'/home'">Current Race</a>
-      <a mat-list-item [routerLink]="'/race-settings'">Race Settings</a>
-      <a mat-list-item [routerLink]="'/pit-settings'">Pit Settings</a>
+      <a mat-list-item (click)="drawer.toggle()" [routerLink]="'/home'">Current Race</a>
+      <a mat-list-item (click)="drawer.toggle()" [routerLink]="'/race-settings'">Race Settings</a>
+      <a mat-list-item (click)="drawer.toggle()" [routerLink]="'/pit-settings'">Pit Settings</a>
+      <a mat-list-item (click)="drawer.toggle()" [routerLink]="'/lane-settings'">Lane Settings</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

@@ -8,12 +8,13 @@ import { SettingsFactory } from "./setting-factory";
 @Component({
     selector: 'app-pit-settings',
     template: `
-      <div>
+      <div class="settings-container">
         <h2>Pit Settings</h2>
         <div *ngIf="(setting$ | async)">
             <app-settings [settings]="settings"></app-settings>
         </div>
-      </div>`
+      </div>`,
+    styles: ['.settings-container { background-color: white; }']
   })
   export class PitSettingsComponent {
     setting$: Observable<SettingBase[]>;
