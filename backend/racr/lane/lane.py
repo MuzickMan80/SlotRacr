@@ -40,6 +40,7 @@ class Lane(Observable):
     
     async def set_current_flag(self, flag: Flags):
         self.flag = flag
+        self.pit.under_yellow = flag == Flags.yellow
         self.update_throttle()
 
     def update_throttle(self):

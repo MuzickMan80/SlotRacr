@@ -27,18 +27,27 @@ class Pit(Observable):
         self.pit_progress=0
         self.pit_start_time=0
         self.out_of_fuel=False
+        self.under_yellow=False
         if not after_pits:
             self.penalty=False
             self.lap_time=0
 
+    def _is_crew_alert(self):
+        return (self.require_crew_alert and
+            not self.out_of_fuel and
+            not self.under_yellow and
+            not self.pit_this_lap)
+
+    async def _alert_crew(self):
+        micros_since_lap = self.io_manager.tick_diff_micros(self.lap_time, self.io_manager.last_tick)
+        pit_this_lap = micros_since_lap < self.max_crew_alert_time * SECONDS
+        if pit_this_lap != self.pit_this_lap:
+            self.pit_this_lap = pit_this_lap
+            await self.notify_observer_async()
 
     async def pit_button_down(self,down):
-        if self.require_crew_alert and not self.out_of_fuel and not self.pit_this_lap:
-            micros_since_lap = self.io_manager.tick_diff_micros(self.lap_time, self.io_manager.last_tick)
-            pit_this_lap = micros_since_lap < self.max_crew_alert_time * SECONDS and down
-            if pit_this_lap != self.pit_this_lap:
-                self.pit_this_lap = pit_this_lap
-                await self.notify_observer_async()
+        if down and self._is_crew_alert():
+            await self._alert_crew()
         elif self.pitting != down:
             self.pitting = down
             if self.pitting:

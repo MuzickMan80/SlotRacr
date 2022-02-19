@@ -177,9 +177,30 @@ async def test_crew_alert_pit(mock_sleep):
     pit_cb = lc.monitor_button.call_args.args[1]
     await pit_cb(True)
     assert pit.pit_this_lap
+    assert not pit.pitting
     await pit_cb(False)
     assert pit.pit_this_lap
 
+    await pit_cb(True)
+    assert pit.pitting
+    await pit.lap()
+    assert pit.in_pits
+
+@patch('asyncio.sleep',side_effect=run_tasks)
+async def test_pit_under_yellow(mock_sleep):
+    io = FakeIoManager()
+    cb = AsyncMock()
+    lc=io.lane_controller
+    laneIdx = 0
+
+    pit = Pit(io, laneIdx, cb)
+    io.last_tick = 1*SECONDS
+    await pit.lap()
+    
+    pit.under_yellow = True
+    io.last_tick = 4*SECONDS
+    pit_cb = lc.monitor_button.call_args.args[1]
+    
     await pit_cb(True)
     assert pit.pitting
     await pit.lap()
