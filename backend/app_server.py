@@ -50,7 +50,6 @@ class TrackManagerApp(socketio.AsyncNamespace):
             "lanes": list(map(lambda l: l.state(), self.track.lanes))
         }
         lane_dump = json.dumps(state)
-        print(lane_dump)
         await self.emit('update', lane_dump)
 
     def on_connect(self, sid, environ):

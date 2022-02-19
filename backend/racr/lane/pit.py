@@ -33,7 +33,7 @@ class Pit(Observable):
             self.lap_time=0
 
     def _car_already_slow(self):
-        return self.under_yellow or self.out_of_fuel
+        return self.under_yellow or self.out_of_fuel or self.penalty
 
     def _is_crew_alert(self):
         return (self.require_crew_alert and
@@ -49,8 +49,7 @@ class Pit(Observable):
             await self.notify_observer_async()
 
     async def pit_button_down(self,down):
-        
-        print(f'pit_button_down {down} {self.pitting}')
+        print(f'pit_button_down {down} {self.__dict__}')
         if self._is_crew_alert():
             await self._alert_crew(down)
         elif self.pitting != down:
@@ -58,6 +57,7 @@ class Pit(Observable):
             if self.pitting:
                 self.pit_start_time = self.io_manager.current_ticks()
             await self.notify_observer_async()
+        print(f'pit_button_down {down} {self.__dict__}')
 
     async def lap(self):
         self.lap_time = self.io_manager.last_tick
@@ -74,6 +74,9 @@ class Pit(Observable):
         return min(1, max(0, normalized_val))
 
     def _calcPitTime(self):
+        if self.penalty:
+            return 3
+
         variance = self.max_pit_time - self.min_pit_time
         mode = (self.pit_time_mode - self.min_pit_time) / variance
         alpha = mode * (self.pit_time_concentration - 2) + 1
@@ -91,6 +94,7 @@ class Pit(Observable):
         penalty = not self._car_already_slow() and random.randrange(100) <= penalty_prob
         self.penalty = penalty
         self.micros_pitting = micros_pitting
+        print(f'{self.__dict__}')
         await self.notify_observer_async()
 
         pit_time = self._calcPitTime()
