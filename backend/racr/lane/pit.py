@@ -35,7 +35,7 @@ class Pit(Observable):
     async def pit_button_down(self,down):
         if self.require_crew_alert and not self.out_of_fuel and not self.pit_this_lap:
             micros_since_lap = self.io_manager.tick_diff_micros(self.lap_time, self.io_manager.last_tick)
-            pit_this_lap = micros_since_lap < 2 * SECONDS and down
+            pit_this_lap = micros_since_lap < self.max_crew_alert_time * SECONDS and down
             if pit_this_lap != self.pit_this_lap:
                 self.pit_this_lap = pit_this_lap
                 await self.notify_observer_async()

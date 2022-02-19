@@ -57,8 +57,16 @@ def set_typical_pit_time_concentration(seconds):
 typical_pit_time_concentration=FloatSetting("Typical pit time concentration",15,min=0,max=100,units="",
     description="Typical pit time concentration",setter=set_typical_pit_time_concentration)
 
+def set_max_crew_alert_time(seconds):
+    for lane in range(8):
+        race_settings.track.lanes[lane].pit.max_crew_alert_time = seconds
+
+max_crew_alert_time=FloatSetting("Max crew alert time",2,min=0,max=10,units="seconds",
+    description="Max crew alert time",setter=set_max_crew_alert_time)
+
 pit_settings={
     'require_crew_alert': require_crew_alert,
+    'max_crew_alert_time': max_crew_alert_time,
     'laps_until_low': laps_until_low,
     'max_laps_after_low': max_laps_after_low,
     'mean_laps_after_low': mean_laps_after_low,
