@@ -20,6 +20,7 @@ class Lane(Observable):
     async def reset(self):
         self.timer.reset()
         self.pit.reset()
+        self.fuel.reset()
 
     async def lane_updated(self):
         await self.fuel.update_lane_status(self.timer.laps)

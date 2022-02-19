@@ -2,6 +2,7 @@ from racr.io.io_manager import SECONDS
 from racr.io.fake_io_manager import FakeIoManager
 from racr.lane.lane import Lane
 from racr.lane.pit import Pit
+from racr.lane.fuel import Fuel
 from unittest.mock import AsyncMock, patch
 import pytest
 import asyncio
@@ -70,11 +71,45 @@ async def test_oog_sequence(mock_sleep):
             break
     assert not lane.pit.in_pits
     assert not lane.pit.pitting
-    assert lane.fuel.laps_driven == 0
+    assert lane.fuel._laps_driven == 0
     assert lc.set_lane.call_count == 3
     assert lc.set_oog.call_count == 1
     lc.set_lane.assert_called_with(0,100)
 
+
+@pytest.mark.asyncio
+@patch('asyncio.sleep',side_effect=run_tasks)
+async def test_fuel_timing(mock_sleep: AsyncMock):
+    cb = AsyncMock()
+    fuel = Fuel(cb)
+    fuel.laps_until_low = 3
+    fuel.max_laps_after_low = 5
+    fuel.mean_laps_after_low = 3
+    fuel.seconds_per_lap = 3
+    for i in range(10):
+        mock_sleep.reset_mock()
+        fuel.reset()
+        laps_to_low = 0
+        time_after_low = 0
+        for lap in range(10):   
+            await fuel.update_lane_status(lap)
+            
+            if fuel.low_fuel and laps_to_low == 0:
+                laps_to_low = lap
+            
+            if fuel.low_fuel:
+                for _ in range(20):
+                    await sleep(.001)
+                    if fuel.out_of_fuel:
+                        break
+                times = map(lambda a: a.args[0], mock_sleep.await_args_list)
+                time_after_low = sum(times)
+                print(time_after_low)
+                break
+        
+        assert laps_to_low == fuel.laps_until_low
+        assert time_after_low > 0
+        assert time_after_low < fuel.seconds_per_lap * fuel.max_laps_after_low
     
 @pytest.mark.asyncio
 @patch('asyncio.sleep',side_effect=run_tasks)
