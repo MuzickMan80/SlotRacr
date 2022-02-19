@@ -62,7 +62,7 @@ class Pit(Observable):
     async def lap(self):
         self.lap_time = self.io_manager.last_tick
 
-        if self.pitting:
+        if self.pitting or self.penalty:
             self.in_pits = True
             asyncio.create_task(self._pitting())
 
