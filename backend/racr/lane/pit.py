@@ -16,18 +16,21 @@ class Pit(Observable):
         self.max_pit_time = 40
         self.pit_time_mode = 13
         self.pit_time_concentration = 10
+        self.max_crew_alert_time = 2
         self.reset()
 
-    def reset(self):
+    def reset(self, after_pits = False):
         self.in_pits=False
         self.pitting=False
         self.pit_this_lap=False
-        self.penalty=False
         self.micros_pitting=0
         self.pit_progress=0
-        self.lap_time=0
         self.pit_start_time=0
         self.out_of_fuel=False
+        if not after_pits:
+            self.penalty=False
+            self.lap_time=0
+
 
     async def pit_button_down(self,down):
         if self.require_crew_alert and not self.out_of_fuel and not self.pit_this_lap:
@@ -87,6 +90,5 @@ class Pit(Observable):
             )
 
         if self.in_pits:
-            self.reset()
-            self.penalty = penalty
+            self.reset(True)
             await self.notify_observer_async()

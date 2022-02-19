@@ -28,7 +28,7 @@ class Fuel(Observable):
 
     async def update_pit_status(self, in_pits):
         if in_pits:
-            self._last_pit_lap - self._last_lap
+            self._last_pit_lap = self._last_lap
             self.low_fuel = False
             self.out_of_fuel = False
             self._laps_driven = 0
