@@ -1,3 +1,4 @@
+from statistics import variance
 from racr.io.io_manager import IoManager, SECONDS
 from util.observable import Observable
 import random
@@ -11,6 +12,10 @@ class Pit(Observable):
         self.lane_controller = io_manager.lane_controller
         self.lane = lane
         self.require_crew_alert = True
+        self.min_pit_time = 10
+        self.max_pit_time = 40
+        self.pit_time_mode = 13
+        self.pit_time_concentration = 10
         self.reset()
 
     def reset(self):
@@ -51,6 +56,14 @@ class Pit(Observable):
         normalized_val = (val - zero_val) / val_range
         return min(1, max(0, normalized_val))
 
+    def _calcPitTime(self):
+        variance = self.max_pit_time - self.min_pit_time
+        mode = (self.pit_time_mode - self.min_pit_time) / variance
+        alpha = mode * (self.pit_time_concentration - 2) + 1
+        beta = (1-mode) * (self.pit_time_concentration - 2) + 1
+        rand = random.betavariate(alpha, beta)
+        return self.min_pit_time + rand * variance
+
     async def _pitting(self):
         micros_pitting = self.io_manager.tick_diff_micros(self.pit_start_time, self.io_manager.last_tick)
         # Should be 0 if >1.5 seconds, or 100% if <1.0 seconds
@@ -63,7 +76,7 @@ class Pit(Observable):
         self.micros_pitting = micros_pitting
         await self.notify_observer_async()
 
-        pit_time = random.triangular(10,40,13)
+        pit_time = self._calcPitTime()
         self.pit_progress = 0
         sleep_time = 0.2
         while self.in_pits and self.pit_progress < pit_time:

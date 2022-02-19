@@ -66,7 +66,7 @@ async def test_oog_sequence(mock_sleep):
     assert lc.set_oog.call_count == 1
     lc.set_lane.assert_called_with(0,0)
 
-    for _ in range(200):
+    for _ in range(400):
         await sleep(.001)
         if not lane.pit.in_pits:
             break
