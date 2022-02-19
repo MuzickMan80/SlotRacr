@@ -27,9 +27,9 @@ class Pit(Observable):
         self.pit_progress=0
         self.pit_start_time=0
         self.out_of_fuel=False
-        self.under_yellow=False
         if not after_pits:
             self.penalty=False
+            self.under_yellow=False
             self.lap_time=0
 
     def _car_already_slow(self):
