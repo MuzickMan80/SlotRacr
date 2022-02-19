@@ -21,7 +21,7 @@ class PiIoManager(IoManager):
         print('gpio connection succeeded')
 
     def current_ticks(self):
-        return pigpio.get_current_tick()
+        return self.pi.get_current_tick()
 
     def get_lane_pin(self, lane) -> int:
         return lane_pins[lane]
