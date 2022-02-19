@@ -50,7 +50,7 @@ class SpeedControl():
             throttle=min(throttle, 25)
             self.set_lane_oog()
         elif self.slow:
-            throttle=min(throttle, self.max_speed * self.warn_speed / 100)
+            throttle=min(throttle, self.warn_speed)
             self.set_lane_speed(throttle)
         else:
             self.set_lane_speed(throttle)
