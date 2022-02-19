@@ -68,6 +68,7 @@ class Pit(Observable):
         sleep_time = 0.2
         while self.in_pits and self.pit_progress < pit_time:
             self.pit_progress = self.pit_progress + sleep_time
+            await self.notify_observer_async()
             await asyncio.sleep(sleep_time)
 
         if self.in_pits:
