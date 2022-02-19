@@ -18,9 +18,8 @@ async def loop():
 async def backend_server(loop):
     io = FakeIoManager()
     track = TrackManagerApp(io)
+    track.track.simulator.disabled = True
     await track.start()
-    if track.track.simulator.enabled:
-        await track.track.enable_activity_simulator(False)
     yield track
     await track.stop()
 

@@ -20,6 +20,8 @@ async def test_oog_sequence(mock_sleep):
     laneIdx = 0
     lane = Lane(io, laneIdx, cb)
     lane.fuel.laps_until_low = 3
+    lane.fuel.max_laps_after_low = 0
+    lane.fuel.mean_laps_after_low = 0
     
     assert lc.set_lane.call_count == 1
     lc.set_lane.assert_called_with(0,100)

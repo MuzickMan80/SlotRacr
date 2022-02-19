@@ -10,13 +10,14 @@ class RaceSimulator:
         self.lanes = lanes
         self.simulator = None
         self.enabled = False
+        self.disabled = False
 
     async def enable_activity_simulator(self, enable : bool, rate : float):
         if self.simulator:
             self.enabled = False
             await self.simulator
         self.enabled = enable
-        if enable:
+        if enable and not self.disabled:
             loop = asyncio.get_event_loop()
             self.simulator = loop.create_task(self._simulate_activity(rate))
 

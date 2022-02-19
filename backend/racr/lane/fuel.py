@@ -6,9 +6,9 @@ class Fuel(Observable):
     def __init__(self, observer):
         super().__init__(observer)
         self.laps_until_low = 45
-        self.max_laps_after_out = 15
-        self.mean_laps_after_out = 10
-        self.laps_after_out = 10
+        self.max_laps_after_low = 15
+        self.mean_laps_after_low = 10
+        self.laps_after_low = 10
         self.laps_driven = 0
         self.last_pit_lap = 0
         self.last_lap = 0
