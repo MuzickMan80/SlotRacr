@@ -4,7 +4,7 @@ class LedController: # pragma: no cover
     def __init__(self):
         self.port = None
         try:
-            self.port = serial.Serial('/dev/ttyACM2', 500000, timeout=0.1)
+            self.port = serial.Serial('/dev/ttyACM1', 500000, timeout=0.1)
             print("Opened serial port to led controller")
             
             for i in range(3):
@@ -27,7 +27,7 @@ class LedController: # pragma: no cover
     def send_command(self, command):
         if not self.port:
             return
-            
+
         response = None
         serport = self.port
         serport.reset_input_buffer()
