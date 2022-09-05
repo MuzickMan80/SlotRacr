@@ -24,7 +24,7 @@ def set_lane_slow_speed(i, speed):
 def set_lane_oof_duty(i, duty):
     track.lanes[i].speed.set_oog_duty(duty)
 
-def set_lane_oof_duty(i, speed):
+def set_lane_oof_off(i, speed):
     track.lanes[i].speed.set_oog_off(speed)
 
 lane_settings = {}
@@ -39,5 +39,5 @@ for i in range(8):
         'oof_duty': IntSetting(f'Lane {i+1} Out Of Gas Duty Cycle', 40, 1, 100, "Percent", 
             setter=lambda s,i=i: set_lane_oof_duty(i,s)),
         'oof_off': IntSetting(f'Lane {i+1} Out Of Gas Off Power', 20, 1, 100, "Percent", 
-            setter=lambda s,i=i: set_lane_oof_duty(i,s))
+            setter=lambda s,i=i: set_lane_oof_off(i,s))
     }

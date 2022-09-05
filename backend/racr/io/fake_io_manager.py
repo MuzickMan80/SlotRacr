@@ -5,7 +5,6 @@ from unittest.mock import MagicMock
 
 reset_pin = 1
 lane_pins = [2,3,4,5,6,7,8,9]
-pit_pins = [10,11,12,13,14,15,16,17]
 
 class FakeIoManager(IoManager):
     def __init__(self, async_loop=None):
@@ -19,9 +18,6 @@ class FakeIoManager(IoManager):
 
     def get_reset_pin(self) -> int:
         return reset_pin
-
-    def get_pit_pin(self, lane) -> int:
-        return pit_pins[lane]
 
     async def invoke_lane_pin_callback(self, lane, tick, edge=False):
         await self.invoke_callback(self.get_lane_pin(lane), tick, edge)

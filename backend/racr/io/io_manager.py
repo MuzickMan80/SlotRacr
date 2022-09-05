@@ -17,21 +17,18 @@ class IoManager:
     def current_ticks(self):
         return self.last_tick
 
-    def get_lane_pin(self, lane) -> int:
+    def get_lane_pin(self, lane) -> int: # pragma: no cover
         return -1
 
     def monitor_lane_pin(self, lane, cb):
         self.monitor_pin(self.get_lane_pin(lane), cb)
 
-    def get_reset_pin(self) -> int:
+    def get_reset_pin(self) -> int: # pragma: no cover
         return -1
 
     def monitor_reset_pin(self, cb):
         self.buttons.append(Button(self, self.get_reset_pin(), cb))
 
-    def get_pit_pin(self, lane) -> int:
-        return -1
-        
     def monitor_warn_pin(self, cb):
         self.lane_controller.monitor_button(8, cb)
 

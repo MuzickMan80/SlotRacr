@@ -41,7 +41,8 @@
         "--cov-report=xml:coverage.xml",
         "--cov-report=html:coverage",
         "--cov=backend/racr",
-        "--cov-append"
+        "--cov-append",
+        "--cov-report=term-missing:skip-covered"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,

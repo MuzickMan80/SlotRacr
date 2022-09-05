@@ -12,7 +12,7 @@ lane_mappings = [
     (0,3)
 ]
 
-class LaneController:
+class LaneController: # pragma: no cover
     def __init__(self):
         self.ports = []
         self.tasks = []

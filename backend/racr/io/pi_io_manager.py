@@ -3,9 +3,8 @@ import pigpio
 
 reset_pin = 4
 lane_pins = [17,27,22,5,6,13,19,26]
-pit_pins = [-1,-1,-1,-1,-1,-1,-1,-1]
 
-class PiIoManager(IoManager):
+class PiIoManager(IoManager): # pragma: no cover
     def __init__(self, async_loop, ip=None):
         super().__init__(async_loop)
 
@@ -28,9 +27,6 @@ class PiIoManager(IoManager):
 
     def get_reset_pin(self) -> int:
         return reset_pin
-
-    def get_pit_pin(self, lane) -> int:
-        return pit_pins[lane]
 
     def tick_diff_micros(self, start, end):
         return pigpio.tickDiff(start, end)
