@@ -1,0 +1,705 @@
+{
+  "uuid": "7e23093b1237cb3c2939378f5cbe8b4a",
+  "path": "Offline/SlotRacr%20v2",
+  "name": "SlotRacr v2",
+  "content": "",
+  "created_at": "2022-01-21 18:28:57",
+  "updated_at": "2022-02-06 17:49:20",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "e36dc268dfe54274245ecee2cf463bfe",
+      "title": "Arduino",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "164a2047c3e84a8c8b3215d8c9cda81b": 1,
+        "957e881d316940fd87da12a9b414c04d": 8,
+        "b0248eb51e084227889f2cb84eab79c4": 8,
+        "0512d5973cde43a59b0f3da588205e54": 1
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "15EDGRM-3.81-03P-14-00A(H)",
+          1,
+          "CONN-TH_15EDGRM-3.81-03P-14-00A-H",
+          "CN5",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C507016",
+            "BOM_Manufacturer": "DEGSON",
+            "BOM_Manufacturer Part": "15EDGRM-3.81-03P-14-00A(H)",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "6c5e4a4e06e94fe89fb370d0875097b6",
+            "uuid": "0512d5973cde43a59b0f3da588205e54"
+          }
+        ],
+        [
+          "YJL2302B",
+          8,
+          "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+          "Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C699316",
+            "BOM_Manufacturer": "Yangzhou Yangjie Elec Tech",
+            "BOM_Manufacturer Part": "YJL2302B",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "bade90667a6e4731855e9a223387b8a6",
+            "uuid": "957e881d316940fd87da12a9b414c04d"
+          }
+        ],
+        [
+          "47",
+          8,
+          "R0603",
+          "R1,R2,R3,R4,R9,R10,R11,R12",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "Arduino Mega 2560 R3",
+          1,
+          "TWIX_MEGA_PCB____ARDUINO-MEGA2560-FOOTPRINT_",
+          "U4",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "f8a6669a21cb4d79a10ccf56ddf1278a",
+            "uuid": "164a2047c3e84a8c8b3215d8c9cda81b"
+          }
+        ],
+        [
+          "1u",
+          4,
+          "C0603",
+          "C1,C2,C3,C4",
+          {
+            "BOM_Supplier Part": "C162280",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer Part": "GRM188R7YA105KA12D",
+            "BOM_Manufacturer": "Murata Electronics",
+            "puuid": "f8151fdc728a41ebbc304e11d39e5437",
+            "uuid": "24eeb2ceca08480b92b847b6a310acda"
+          }
+        ],
+        [
+          "IRLZ14SPBF",
+          4,
+          "TO-263-2_L10.0-W9.1-P5.08-LS15.2-TL",
+          "Q1,Q2,Q3,Q4",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "VISHAY",
+            "BOM_Manufacturer Part": "IRLZ14SPBF",
+            "BOM_Supplier Part": "C142638",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "f84df67bb65a467dae42f7038025abb3",
+            "uuid": "448706c83e7e4b1a836293179186f715"
+          }
+        ],
+        [
+          "47R",
+          4,
+          "R0603",
+          "R5,R6,R7,R8",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "47k",
+          4,
+          "R0603",
+          "R13,R14,R15,R16",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "1k",
+          4,
+          "R0603",
+          "R17,R18,R19,R20",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "470k",
+          4,
+          "R0603",
+          "R21,R22,R23,R24",
+          {
+            "BOM_Supplier Part": "C226716",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer Part": "AC0402DR-07470KL",
+            "BOM_Manufacturer": "YAGEO",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "0.05",
+          4,
+          "R1210",
+          "R25,R26,R27,R28",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C146871",
+            "BOM_Manufacturer": "Ever Ohms Tech",
+            "BOM_Manufacturer Part": "CR1210F0R05P05",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "8d980e0cb4b8404e96542d2888a244bd",
+            "uuid": "6f4e0c0e708a4d59bc2695a49823b354"
+          }
+        ],
+        [
+          "NET-TIE",
+          1,
+          "NET-TIE",
+          "W1",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "baef608003104129b1941c839d448232",
+            "uuid": "4da520c117d14f2d921503d23a8fd8e7"
+          }
+        ],
+        [
+          "MCP6004T-I/ST",
+          1,
+          "TSSOP-14_L5.0-W4.4-P0.65-LS6.4-BL",
+          "U1",
+          {
+            "BOM_Supplier Part": "C50282",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "MICROCHIP",
+            "BOM_Manufacturer Part": "MCP6004T-I/ST",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "80a3980f11914ca3a11dea6a81230c3d",
+            "uuid": "32d1f2b4b0a84244a388336719feb5d2"
+          }
+        ],
+        [
+          "WJ15EDGRM-3.81-5P-14-00A",
+          4,
+          "CONN-TH_5P-P3.81_WJ15EDGRM-3.81-5P-14-00A",
+          "CN1,CN2,CN3,CN4",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "ReliaPro",
+            "BOM_Manufacturer Part": "WJ15EDGRM-3.81-5P-14-00A",
+            "BOM_Supplier Part": "C50223",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "6de083b5308443ffac22edb0e977e2aa",
+            "uuid": "2ca421d9fbee4643a127346c39369dbb"
+          }
+        ]
+      ],
+      "updateTime": 1644191360,
+      "createTime": 1642466987,
+      "histories": [],
+      "created_at": "2022-01-17 18:49:47",
+      "updated_at": "2022-02-06 17:49:20"
+    },
+    {
+      "uuid": "c8f135d95c6459d3fa3928cdc152ef30",
+      "title": "Op Amps",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "7ecb13e02293465a9efa5be37f1a00e7": 1,
+        "46d24474122c40ccb45eb9b7556271dc": 1,
+        "70d1fd8df8224433844592e4a5df471f": 1,
+        "32d1f2b4b0a84244a388336719feb5d2": 1,
+        "b0248eb51e084227889f2cb84eab79c4": 16,
+        "6f4e0c0e708a4d59bc2695a49823b354": 4,
+        "24eeb2ceca08480b92b847b6a310acda": 4,
+        "448706c83e7e4b1a836293179186f715": 4,
+        "4da520c117d14f2d921503d23a8fd8e7": 1
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "15EDGRM-3.81-03P-14-00A(H)",
+          1,
+          "CONN-TH_15EDGRM-3.81-03P-14-00A-H",
+          "CN5",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C507016",
+            "BOM_Manufacturer": "DEGSON",
+            "BOM_Manufacturer Part": "15EDGRM-3.81-03P-14-00A(H)",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "6c5e4a4e06e94fe89fb370d0875097b6",
+            "uuid": "0512d5973cde43a59b0f3da588205e54"
+          }
+        ],
+        [
+          "YJL2302B",
+          8,
+          "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+          "Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C699316",
+            "BOM_Manufacturer": "Yangzhou Yangjie Elec Tech",
+            "BOM_Manufacturer Part": "YJL2302B",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "bade90667a6e4731855e9a223387b8a6",
+            "uuid": "957e881d316940fd87da12a9b414c04d"
+          }
+        ],
+        [
+          "47",
+          8,
+          "R0603",
+          "R1,R2,R3,R4,R9,R10,R11,R12",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "Arduino Mega 2560 R3",
+          1,
+          "TWIX_MEGA_PCB____ARDUINO-MEGA2560-FOOTPRINT_",
+          "U4",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "f8a6669a21cb4d79a10ccf56ddf1278a",
+            "uuid": "164a2047c3e84a8c8b3215d8c9cda81b"
+          }
+        ],
+        [
+          "1u",
+          4,
+          "C0603",
+          "C1,C2,C3,C4",
+          {
+            "BOM_Supplier Part": "C162280",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer Part": "GRM188R7YA105KA12D",
+            "BOM_Manufacturer": "Murata Electronics",
+            "puuid": "f8151fdc728a41ebbc304e11d39e5437",
+            "uuid": "24eeb2ceca08480b92b847b6a310acda"
+          }
+        ],
+        [
+          "IRLZ14SPBF",
+          4,
+          "TO-263-2_L10.0-W9.1-P5.08-LS15.2-TL",
+          "Q1,Q2,Q3,Q4",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "VISHAY",
+            "BOM_Manufacturer Part": "IRLZ14SPBF",
+            "BOM_Supplier Part": "C142638",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "f84df67bb65a467dae42f7038025abb3",
+            "uuid": "448706c83e7e4b1a836293179186f715"
+          }
+        ],
+        [
+          "47R",
+          4,
+          "R0603",
+          "R5,R6,R7,R8",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "47k",
+          4,
+          "R0603",
+          "R13,R14,R15,R16",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "1k",
+          4,
+          "R0603",
+          "R17,R18,R19,R20",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "470k",
+          4,
+          "R0603",
+          "R21,R22,R23,R24",
+          {
+            "BOM_Supplier Part": "C226716",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer Part": "AC0402DR-07470KL",
+            "BOM_Manufacturer": "YAGEO",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "0.05",
+          4,
+          "R1210",
+          "R25,R26,R27,R28",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C146871",
+            "BOM_Manufacturer": "Ever Ohms Tech",
+            "BOM_Manufacturer Part": "CR1210F0R05P05",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "8d980e0cb4b8404e96542d2888a244bd",
+            "uuid": "6f4e0c0e708a4d59bc2695a49823b354"
+          }
+        ],
+        [
+          "NET-TIE",
+          1,
+          "NET-TIE",
+          "W1",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "baef608003104129b1941c839d448232",
+            "uuid": "4da520c117d14f2d921503d23a8fd8e7"
+          }
+        ],
+        [
+          "MCP6004T-I/ST",
+          1,
+          "TSSOP-14_L5.0-W4.4-P0.65-LS6.4-BL",
+          "U1",
+          {
+            "BOM_Supplier Part": "C50282",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "MICROCHIP",
+            "BOM_Manufacturer Part": "MCP6004T-I/ST",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "80a3980f11914ca3a11dea6a81230c3d",
+            "uuid": "32d1f2b4b0a84244a388336719feb5d2"
+          }
+        ],
+        [
+          "WJ15EDGRM-3.81-5P-14-00A",
+          4,
+          "CONN-TH_5P-P3.81_WJ15EDGRM-3.81-5P-14-00A",
+          "CN1,CN2,CN3,CN4",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "ReliaPro",
+            "BOM_Manufacturer Part": "WJ15EDGRM-3.81-5P-14-00A",
+            "BOM_Supplier Part": "C50223",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "6de083b5308443ffac22edb0e977e2aa",
+            "uuid": "2ca421d9fbee4643a127346c39369dbb"
+          }
+        ]
+      ],
+      "updateTime": 1642824511,
+      "createTime": 1642472281,
+      "histories": [],
+      "created_at": "2022-01-17 20:18:01",
+      "updated_at": "2022-01-21 22:08:31"
+    },
+    {
+      "uuid": "cd614a221c661e3c3f2956885ffaf55b",
+      "title": "Connectors",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "2ca421d9fbee4643a127346c39369dbb": 4
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "15EDGRM-3.81-03P-14-00A(H)",
+          1,
+          "CONN-TH_15EDGRM-3.81-03P-14-00A-H",
+          "CN5",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C507016",
+            "BOM_Manufacturer": "DEGSON",
+            "BOM_Manufacturer Part": "15EDGRM-3.81-03P-14-00A(H)",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "6c5e4a4e06e94fe89fb370d0875097b6",
+            "uuid": "0512d5973cde43a59b0f3da588205e54"
+          }
+        ],
+        [
+          "YJL2302B",
+          8,
+          "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+          "Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C699316",
+            "BOM_Manufacturer": "Yangzhou Yangjie Elec Tech",
+            "BOM_Manufacturer Part": "YJL2302B",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "bade90667a6e4731855e9a223387b8a6",
+            "uuid": "957e881d316940fd87da12a9b414c04d"
+          }
+        ],
+        [
+          "47",
+          8,
+          "R0603",
+          "R1,R2,R3,R4,R9,R10,R11,R12",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "Arduino Mega 2560 R3",
+          1,
+          "TWIX_MEGA_PCB____ARDUINO-MEGA2560-FOOTPRINT_",
+          "U4",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "f8a6669a21cb4d79a10ccf56ddf1278a",
+            "uuid": "164a2047c3e84a8c8b3215d8c9cda81b"
+          }
+        ],
+        [
+          "1u",
+          4,
+          "C0603",
+          "C1,C2,C3,C4",
+          {
+            "BOM_Supplier Part": "C162280",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer Part": "GRM188R7YA105KA12D",
+            "BOM_Manufacturer": "Murata Electronics",
+            "puuid": "f8151fdc728a41ebbc304e11d39e5437",
+            "uuid": "24eeb2ceca08480b92b847b6a310acda"
+          }
+        ],
+        [
+          "IRLZ14SPBF",
+          4,
+          "TO-263-2_L10.0-W9.1-P5.08-LS15.2-TL",
+          "Q1,Q2,Q3,Q4",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "VISHAY",
+            "BOM_Manufacturer Part": "IRLZ14SPBF",
+            "BOM_Supplier Part": "C142638",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "f84df67bb65a467dae42f7038025abb3",
+            "uuid": "448706c83e7e4b1a836293179186f715"
+          }
+        ],
+        [
+          "47R",
+          4,
+          "R0603",
+          "R5,R6,R7,R8",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "1k",
+          8,
+          "R0603",
+          "R13,R14,R15,R16,R17,R18,R19,R20",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "470k",
+          4,
+          "R0603",
+          "R21,R22,R23,R24",
+          {
+            "BOM_Supplier Part": "C226716",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer Part": "AC0402DR-07470KL",
+            "BOM_Manufacturer": "YAGEO",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "b0248eb51e084227889f2cb84eab79c4"
+          }
+        ],
+        [
+          "0.05",
+          4,
+          "R1210",
+          "R25,R26,R27,R28",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C146871",
+            "BOM_Manufacturer": "Ever Ohms Tech",
+            "BOM_Manufacturer Part": "CR1210F0R05P05",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "8d980e0cb4b8404e96542d2888a244bd",
+            "uuid": "6f4e0c0e708a4d59bc2695a49823b354"
+          }
+        ],
+        [
+          "NET-TIE",
+          1,
+          "NET-TIE",
+          "W1",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "baef608003104129b1941c839d448232",
+            "uuid": "4da520c117d14f2d921503d23a8fd8e7"
+          }
+        ],
+        [
+          "MCP6004T-I/ST",
+          1,
+          "TSSOP-14_L5.0-W4.4-P0.65-LS6.4-BL",
+          "U1",
+          {
+            "BOM_Supplier Part": "C50282",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "MICROCHIP",
+            "BOM_Manufacturer Part": "MCP6004T-I/ST",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "80a3980f11914ca3a11dea6a81230c3d",
+            "uuid": "32d1f2b4b0a84244a388336719feb5d2"
+          }
+        ],
+        [
+          "WJ15EDGRM-3.81-5P-14-00A",
+          4,
+          "CONN-TH_5P-P3.81_WJ15EDGRM-3.81-5P-14-00A",
+          "CN1,CN2,CN3,CN4",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "ReliaPro",
+            "BOM_Manufacturer Part": "WJ15EDGRM-3.81-5P-14-00A",
+            "BOM_Supplier Part": "C50223",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "6de083b5308443ffac22edb0e977e2aa",
+            "uuid": "2ca421d9fbee4643a127346c39369dbb"
+          }
+        ]
+      ],
+      "updateTime": 1642814290,
+      "createTime": 1642647462,
+      "histories": [],
+      "created_at": "2022-01-19 20:57:42",
+      "updated_at": "2022-01-21 19:18:10"
+    },
+    {
+      "uuid": "70c290d16146fcf85d72e9ffe31132ac",
+      "title": "PCB_SlotRacr",
+      "filename": "PCB_SlotRacr.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "f84df67bb65a467dae42f7038025abb3": 4,
+        "80a3980f11914ca3a11dea6a81230c3d": 1,
+        "6de083b5308443ffac22edb0e977e2aa": 4,
+        "bade90667a6e4731855e9a223387b8a6": 8,
+        "398691f1f785460098bbe5ee6590333c": 24,
+        "f8151fdc728a41ebbc304e11d39e5437": 4,
+        "8d980e0cb4b8404e96542d2888a244bd": 4,
+        "f8a6669a21cb4d79a10ccf56ddf1278a": 1,
+        "6c5e4a4e06e94fe89fb370d0875097b6": 1,
+        "baef608003104129b1941c839d448232": 1
+      },
+      "BOM": [],
+      "updateTime": 1642825653,
+      "createTime": 1642468549,
+      "histories": [],
+      "created_at": "2022-01-17 19:15:49",
+      "updated_at": "2022-01-21 22:27:33"
+    }
+  ],
+  "sort": [
+    "e36dc268dfe54274245ecee2cf463bfe",
+    "c8f135d95c6459d3fa3928cdc152ef30",
+    "cd614a221c661e3c3f2956885ffaf55b"
+  ],
+  "title": "SlotRacr v2",
+  "foldername": "SlotRacr v2",
+  "schfilename": "SlotRacr v2.json",
+  "schfilemtime": 1644191361035
+}

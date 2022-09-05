@@ -1,0 +1,55 @@
+{
+  "uuid": "81897da55d48ecb0d77bd200b78d6468",
+  "path": "Offline/lane_terminal",
+  "name": "lane_terminal",
+  "content": "",
+  "created_at": "2022-01-30 10:25:59",
+  "updated_at": "2022-02-10 16:30:15",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "961843a43b3e371959bf2f1f2fec9273",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "f09c21f2cd014f5fa31f4acea5779a09": 5
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "Header 2x12",
+          5,
+          "HEADER-2X12",
+          "P1,P2,P3,P4,P5",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "daa2aaf3fab947f2bd0e8cb1d11a305d",
+            "uuid": "f09c21f2cd014f5fa31f4acea5779a09"
+          }
+        ]
+      ],
+      "updateTime": 1644532215,
+      "createTime": 1644532215,
+      "histories": [],
+      "created_at": "2022-02-10 16:30:15",
+      "updated_at": "2022-02-10 16:30:15"
+    }
+  ],
+  "sort": [],
+  "title": "lane_terminal",
+  "foldername": "lane_terminal",
+  "schfilename": "lane_terminal.json",
+  "schfilemtime": 1644532215164
+}
