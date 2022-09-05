@@ -3,9 +3,10 @@ from racr.flags import Flags
 from util.observable import Observable
 from .io.io_manager import IoManager, SECONDS
 from .lane.lane import Lane
-
+from .io.led_controller import LedController
+from .track_lights import TrackLights
 class TrackManager(Observable):
-    def __init__(self,io_manager: IoManager,observer):
+    def __init__(self, io_manager: IoManager, observer):
         super().__init__(observer)
         io_manager.monitor_reset_pin(self.reset_handler)
         io_manager.monitor_warn_pin(self.warn_handler)
@@ -21,6 +22,7 @@ class TrackManager(Observable):
             self.lanes = self.lanes + [Lane(io_manager,lane,self.lap_handler)]
 
         self.simulator = RaceSimulator(io_manager, self.lanes)
+        self.lights = TrackLights(LedController(), self)
         
     async def reset_handler(self):
         for lane in self.lanes:
