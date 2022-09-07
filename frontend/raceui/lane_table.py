@@ -15,10 +15,10 @@ class TableDims:
         self.cols=[
             self.scale(200),
             self.scale(180),
-            self.scale(250),
+            self.scale(350),
             self.scale(200),
-            self.scale(450),
-            self.scale(450)
+            self.scale(350),
+            self.scale(350)
             ]
         self.margin=self.scale(2)
         self.headerHeight=self.scale(70)
@@ -60,7 +60,6 @@ class TableCell:
         self.dirty=False
         self.round=round
     def drawBg(self,screen):
-        #return pygame.draw.rect(screen,self.bgcolor, self.rect, 0, self.round)
         return pygame.draw.rect(screen, self.bgcolor, self.rect)
     def drawFg(self,screen):
         text_bmp = self.font.render(self.text, True, self.color)
@@ -97,14 +96,17 @@ class TableRow:
             self.cells[i].update(labels[i])
 
 class LaneTable:
-    def __init__(self,size,dseg,header_font):
+    def __init__(self,size,dseg,header_font,text_font):
         self.size = size
         self.dims = dims = TableDims(size)
         self.headerRow = TableRow(dims, dims.top, dims.headerHeight, headerBackground, header_font, headerColor)
         self.headerRow.update(labels)
         self.rows = []
         for row in range(numLanes):
-            self.rows.append(TableRow(dims, dims.top+dims.headerHeight+row*dims.rowHeight, dims.rowHeight, cellBackground, dseg, cellForeground))
+            row = TableRow(dims, dims.top+dims.headerHeight+row*dims.rowHeight, dims.rowHeight, cellBackground, dseg, cellForeground)
+            row.cells[0].font = text_font
+            row.cells[2].font = text_font
+            self.rows.append(row)
 
     def draw(self,screen,fg):
         rects = []
