@@ -55,8 +55,6 @@ async def test_oog_sequence(mock_sleep):
 
     # Ensure we can pit
     assert not lane.pit.in_pits
-    pit_cb = lc.monitor_button.call_args.args[1]
-    await pit_cb(True)
     await io.invoke_lane_pin_callback(laneIdx,30*SECONDS)
     await sleep(.001)
     assert lane.pit.in_pits

@@ -49,7 +49,6 @@ class Pit(Observable):
             await self.notify_observer_async()
 
     async def pit_button_down(self,down):
-        #print(f'pit_button_down {down} {self.__dict__}')
         if self._is_crew_alert():
             await self._alert_crew(down)
         elif self.pitting != down:
@@ -57,12 +56,11 @@ class Pit(Observable):
             if self.pitting:
                 self.pit_start_time = self.io_manager.current_ticks()
             await self.notify_observer_async()
-        #print(f'pit_button_down {down} {self.__dict__}')
 
     async def lap(self):
         self.lap_time = self.io_manager.last_tick
 
-        if self.pitting or self.penalty:
+        if self.pitting or self.penalty or self.out_of_fuel:
             self.in_pits = True
             asyncio.create_task(self._pitting())
 
