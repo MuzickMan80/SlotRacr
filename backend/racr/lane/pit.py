@@ -17,6 +17,7 @@ class Pit(Observable):
         self.pit_time_mode = 13
         self.pit_time_concentration = 10
         self.max_crew_alert_time = 2
+        self.out_of_fuel_penalty = 10
         self.reset()
 
     def reset(self, after_pits = False):
@@ -27,6 +28,7 @@ class Pit(Observable):
         self.pit_progress=0
         self.pit_start_time=0
         self.out_of_fuel=False
+        self.accident=False
         if not after_pits:
             self.penalty=False
             self.under_yellow=False
@@ -80,7 +82,12 @@ class Pit(Observable):
         alpha = mode * (self.pit_time_concentration - 2) + 1
         beta = (1-mode) * (self.pit_time_concentration - 2) + 1
         rand = random.betavariate(alpha, beta)
-        return self.min_pit_time + rand * variance
+        pit_time = self.min_pit_time + rand * variance
+
+        if self.out_of_fuel:
+            pit_time += self.out_of_fuel_penalty
+            
+        return pit_time
 
     def _came_in_too_fast(self):        
         micros_pitting = self.io_manager.tick_diff_micros(self.pit_start_time, self.io_manager.last_tick)

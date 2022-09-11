@@ -16,6 +16,7 @@ class TrackManager(Observable):
         self.num_laps = 100
         self.current_lap = 0
         self.flag = Flags.green
+        self.web_state = Flags.green
         self.warn_button = False
         self.stop_button = False
         for lane in range(8):
@@ -35,6 +36,10 @@ class TrackManager(Observable):
 
     async def stop_handler(self, down):
         self.stop_button = down
+        await self.calculate_current_flag()
+
+    async def set_web_state(self, state: Flags):
+        self.web_state = state
         await self.calculate_current_flag()
 
     async def calculate_current_flag(self):

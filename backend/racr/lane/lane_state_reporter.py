@@ -17,7 +17,8 @@ class LaneStateReporter:
             'started': timer.started,
             'name': lane.name,
             'color': 'white',
-            'state': self.get_indicator()
+            'state': self.get_indicator(),
+            'pitinfo': self.get_pit_info(),
             }
 
     def time_string(self, time):
@@ -42,3 +43,14 @@ class LaneStateReporter:
         if self.pit.penalty:
             return "plty"
         return "go"
+
+    def get_pit_info(self) -> str:
+        if self.pit.in_pits:
+            if self.pit.accident:
+                return "Repairing Car"
+            elif self.pit.out_of_fuel:
+                return "Restarting engine"
+            else:
+                return "Pitting"
+        else:
+            return ""
