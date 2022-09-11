@@ -6,21 +6,20 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--target_ip', help='IP Address of the pigpio service', default=None)
+parser.add_argument('--mock', help='Mock IO backend', action='store_true')
 
 args = parser.parse_args()
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
 
-    #if os.name == "posix":
-    
-    from racr.io.pi_io_manager import PiIoManager
-    from racr.lane_controller.lane_controller import LaneController
-    app = TrackManagerApp(PiIoManager(loop,args.target_ip))
-    
-    #else:
-    #    from racr.io.fake_io_manager import FakeIoManager
-    #    app = TrackManagerApp(FakeIoManager(loop))
+    if not args.mock:
+        from racr.io.pi_io_manager import PiIoManager
+        from racr.lane_controller.lane_controller import LaneController
+        app = TrackManagerApp(PiIoManager(loop,args.target_ip))
+    else:
+        from racr.io.fake_io_manager import FakeIoManager
+        app = TrackManagerApp(FakeIoManager(loop))
 
     async def run_app():
         await app.start()

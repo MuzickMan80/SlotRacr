@@ -41,6 +41,10 @@ async def put_setting_property(request:Request):
     save_settings()
     return web.json_response(jsons.dump(s.value))
 
+@routes.get('/io')
+async def get_io(request:Request):
+    return web.json_response(jsons.dump(track.io_manager))
+
 @routes.route('*', '/{tail:.*}')
 async def root_handler(request:Request):
     root = 'SlotRacr/web_frontend/dist/FrontEnd'
