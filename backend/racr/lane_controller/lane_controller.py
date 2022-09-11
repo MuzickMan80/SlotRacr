@@ -89,6 +89,7 @@ class LaneController: # pragma: no cover
 
     async def handle_button(self, lane, state):
         handler = self.button_handlers[lane]
+        self.set_light(lane, state)
         if handler:
             await handler(state)
 
