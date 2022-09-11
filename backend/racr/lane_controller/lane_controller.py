@@ -22,9 +22,9 @@ class LaneController: # pragma: no cover
             self.button_handlers.append(None)
             self.last_state.append(False)
         try:
-            self.ports.append(serial.Serial('/dev/ttyACM0', 500000, timeout=0.1))
-            print("Opened serial port to lane controller 1")
             self.ports.append(serial.Serial('/dev/ttyACM2', 500000, timeout=0.1))
+            print("Opened serial port to lane controller 1")
+            self.ports.append(serial.Serial('/dev/ttyACM0', 500000, timeout=0.1))
             print("Opened serial port to lane controller 2")
             self.start_polling()
             
