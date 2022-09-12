@@ -205,3 +205,17 @@ async def test_pit_under_yellow(mock_sleep):
     assert pit.in_pits
 
 
+@patch('asyncio.sleep',side_effect=run_tasks)
+async def test_accident(mock_sleep):
+    io = FakeIoManager()
+    cb = AsyncMock()
+    lc=io.lane_controller
+    laneIdx = 0
+
+    pit = Pit(io, laneIdx, cb)
+    pit.accident = True
+    io.last_tick = 1*SECONDS
+    await pit.lap()
+    assert pit.in_pits
+
+

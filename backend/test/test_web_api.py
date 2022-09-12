@@ -2,6 +2,7 @@ import asyncio
 from racr.track_manager import TrackManager
 from racr.io.io_manager import SECONDS
 from racr.io.fake_io_manager import FakeIoManager
+from racr.flags import Flags
 from aiohttp.test_utils import TestClient
 from app_server import TrackManagerApp
 import json
@@ -153,3 +154,52 @@ async def test_track_put_oof_laps(backend_rest_client:TestClient,backend_server:
     settings = await response.json()
     assert(settings == 20)
     assert(backend_server.track.lanes[0].fuel.laps_until_low == 20)
+
+async def test_race_state(backend_rest_client:TestClient,backend_server:TrackManagerApp):
+    response = await backend_rest_client.put('/race/state',json="yellow")
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == "yellow")
+    assert(backend_server.track.web_state == "yellow")
+
+    response = await backend_rest_client.get('/race/state')
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == "yellow")
+        
+    response = await backend_rest_client.put('/race/state',json="green")
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == "green")
+    assert(backend_server.track.web_state == Flags.green)
+
+    response = await backend_rest_client.get('/race/state')
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == "green")
+
+    
+async def test_accident(backend_rest_client:TestClient,backend_server:TrackManagerApp):
+    assert(not backend_server.track.lanes[1].pit.accident)
+
+    response = await backend_rest_client.put('/race/lane/1/accident',json=True)
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == True)
+    assert(backend_server.track.lanes[1].pit.accident)
+
+    response = await backend_rest_client.get('/race/lane/1/accident')
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == True)
+        
+    response = await backend_rest_client.put('/race/lane/1/accident',json=False)
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == False)
+    assert(not backend_server.track.lanes[1].pit.accident)
+
+    response = await backend_rest_client.get('/race/lane/1/accident')
+    assert(response.status == 200)
+    settings = await response.json()
+    assert(settings == False)

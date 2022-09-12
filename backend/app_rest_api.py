@@ -44,23 +44,23 @@ async def put_setting_property(request:Request):
 
 @routes.put('/race/state')
 async def put_state(request:Request):
-    await track.set_web_state(Flags.parse(request.json()))
+    await track.set_web_state(Flags.parse(await request.json()))
     return web.json_response(jsons.dump(track.web_state))
 
 @routes.get('/race/state')
 async def get_state(request:Request):
     return web.json_response(jsons.dump(track.web_state))
 
-@routes.put('/race/{lane}/accident')
+@routes.put('/race/lane/{lane}/accident')
 async def put_state(request:Request):
     lane=request.match_info['lane']
-    await track.set_web_state(Flags.parse(request.json()))
-    return web.json_response(jsons.dump(track.web_state))
+    track.lanes[int(lane)].pit.accident = bool(await request.json())
+    return web.json_response(jsons.dump(track.lanes[int(lane)].pit.accident))
 
-@routes.get('/race/{lane}/accident')
+@routes.get('/race/lane/{lane}/accident')
 async def get_state(request:Request):
     lane=request.match_info['lane']
-    return web.json_response(jsons.dump(track.web_state))
+    return web.json_response(jsons.dump(track.lanes[int(lane)].pit.accident))
 
 @routes.route('*', '/{tail:.*}')
 async def root_handler(request:Request):

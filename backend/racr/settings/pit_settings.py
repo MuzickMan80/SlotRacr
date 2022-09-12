@@ -64,6 +64,13 @@ def set_oof_pit_penalty(seconds):
 out_of_fuel_pit_penalty=FloatSetting("Out of fuel pit penalty",10,min=0,max=100,units="",
     description="Out of fuel pit penalty" ,setter=set_oof_pit_penalty)
 
+def set_accident_pit_penalty(seconds):
+    for lane in range(8):
+        race_settings.track.lanes[lane].pit.accident_penalty = seconds
+
+out_of_fuel_pit_penalty=FloatSetting("Accident pit penalty",30,min=0,max=100,units="",
+    description="Accident pit penalty" ,setter=set_accident_pit_penalty)
+
 def set_max_crew_alert_time(seconds):
     for lane in range(8):
         race_settings.track.lanes[lane].pit.max_crew_alert_time = seconds

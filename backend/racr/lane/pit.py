@@ -18,6 +18,7 @@ class Pit(Observable):
         self.pit_time_concentration = 10
         self.max_crew_alert_time = 2
         self.out_of_fuel_penalty = 10
+        self.accident_penalty = 30
         self.reset()
 
     def reset(self, after_pits = False):
@@ -62,7 +63,7 @@ class Pit(Observable):
     async def lap(self):
         self.lap_time = self.io_manager.last_tick
 
-        if self.pitting or self.penalty or self.out_of_fuel:
+        if self.pitting or self.penalty or self.out_of_fuel or self.accident:
             self.in_pits = True
             asyncio.create_task(self._pitting())
 
@@ -86,7 +87,10 @@ class Pit(Observable):
 
         if self.out_of_fuel:
             pit_time += self.out_of_fuel_penalty
-            
+
+        if self.accident:
+            pit_time += self.accident_penalty
+
         return pit_time
 
     def _came_in_too_fast(self):        
