@@ -19,6 +19,7 @@ class LaneStateReporter:
             'color': 'white',
             'state': self.get_indicator(),
             'pitinfo': self.get_pit_info(),
+            'accident': self.pit.accident
             }
 
     def time_string(self, time):

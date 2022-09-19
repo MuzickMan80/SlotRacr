@@ -54,7 +54,7 @@ async def get_state(request:Request):
 @routes.put('/race/lane/{lane}/accident')
 async def put_state(request:Request):
     lane=request.match_info['lane']
-    track.lanes[int(lane)].pit.accident = bool(await request.json())
+    await track.lanes[int(lane)].pit.set_accident(bool(await request.json()))
     return web.json_response(jsons.dump(track.lanes[int(lane)].pit.accident))
 
 @routes.get('/race/lane/{lane}/accident')

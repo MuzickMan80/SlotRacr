@@ -15,7 +15,6 @@ if __name__ == '__main__':
 
     if not args.mock:
         from racr.io.pi_io_manager import PiIoManager
-        from racr.lane_controller.lane_controller import LaneController
         app = TrackManagerApp(PiIoManager(loop,args.target_ip))
     else:
         from racr.io.fake_io_manager import FakeIoManager
