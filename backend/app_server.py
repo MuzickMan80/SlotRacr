@@ -1,3 +1,4 @@
+import asyncio
 from aiohttp import web
 import aiohttp_cors
 import json
@@ -11,8 +12,10 @@ class TrackManagerApp(socketio.AsyncNamespace):
 
     def __init__(self, io_manager):
         super().__init__()
-        self.track = TrackManager(io_manager, self.emit_lane_dump)
+        self.track_updated = False
+        self.track = TrackManager(io_manager, self.on_track_updated)
         app_rest_api.track = self.track
+        self.running = False
 
     async def start(self):
         self.webapp = web.Application()
@@ -38,15 +41,29 @@ class TrackManagerApp(socketio.AsyncNamespace):
         self.site = web.TCPSite(self.runner, '0.0.0.0', 80)
         await self.site.start()
         await load_settings(self.track)
+        self.running = True
+        asyncio.get_event_loop().create_task(self.update_emitter_task())
         
     async def stop(self):
+        self.running = False
         await self.site.stop()
         await self.runner.shutdown()
         await self.runner.cleanup()
 
+    async def on_track_updated(self):
+        self.track_updated = True
+
+    async def update_emitter_task(self):
+        while self.running:
+            if self.track_updated:
+                self.track_updated = False
+                await self.emit_lane_dump()
+                
+            await asyncio.sleep(0.2)
+
     async def emit_lane_dump(self):
         state = {
-            "race": { "type": "race", "started": False, "flag": self.track.flag },
+            "race": { "type": "race", "started": False, "flag": self.track.flag, "state": self.track.web_state },
             "lanes": list(map(lambda l: l.state(), self.track.lanes))
         }
         lane_dump = json.dumps(state)
