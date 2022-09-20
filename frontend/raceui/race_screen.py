@@ -22,10 +22,13 @@ class RaceWindow(Window):
         header_font_size = int(size[1]/20)
         header_font = pygame.font.SysFont(default_font_name, header_font_size)
         
-        text_font_size = int(size[1]/10)
+        text_font_size = int(size[1]/12)
         text_font = pygame.font.SysFont(default_font_name, text_font_size)
 
-        self.table = LaneTable(size,dseg,header_font,text_font)
+        pit_info_font_size = int(size[1]/15)
+        pit_info_font = pygame.font.SysFont(default_font_name, pit_info_font_size)
+
+        self.table = LaneTable(size,dseg,header_font,text_font,pit_info_font)
 
         info_h = header_font_size * 1.2
         info_w = header_font_size * 8

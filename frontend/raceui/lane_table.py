@@ -84,19 +84,38 @@ class TableRow:
             area=pygame.Rect(x+dims.margin,y+dims.margin,col-dims.margin*2,height-dims.margin*2)
             self.cells.append(TableCell(area, bgcolor, font, color, dims.cellCornerRadius))
             x=x+col
+        
+        left = self.cells[3].rect.left
+        width = self.cells[-1].rect.right - left
+        area=pygame.Rect(left,y+dims.margin,width,height-dims.margin*2)
+        self.pit_info_cell = TableCell(area, bgcolor, font, color, dims.cellCornerRadius)
+        self.pit_info = ''
+
     def draw(self,screen,fg):
         rects = []
-        for cell in self.cells:
-            if cell.dirty or not fg:
-                rects.append(cell.draw(screen,fg))
-                cell.dirty=not fg
+        if self.pit_info:
+            for cell in self.cells[:3]:
+                if cell.dirty or not fg:
+                    rects.append(cell.draw(screen,fg))
+                    cell.dirty=not fg
+            if self.pit_info_cell.dirty or not fg:
+                rects.append(self.pit_info_cell.draw(screen,fg))
+                self.pit_info_cell.dirty=not fg
+        else:
+            for cell in self.cells:
+                if cell.dirty or not fg:
+                    rects.append(cell.draw(screen,fg))
+                    cell.dirty=not fg
         return rects
-    def update(self,labels):
+    def update(self,labels,pitinfo=''):
         for i in range(len(self.cells)):
             self.cells[i].update(labels[i])
+        if pitinfo:
+            self.pit_info = pitinfo
+            self.pit_info_cell.update(pitinfo)
 
 class LaneTable:
-    def __init__(self,size,dseg,header_font,text_font):
+    def __init__(self,size,dseg,header_font,text_font,pit_info_font):
         self.size = size
         self.dims = dims = TableDims(size)
         self.headerRow = TableRow(dims, dims.top, dims.headerHeight, headerBackground, header_font, headerColor)
@@ -106,6 +125,7 @@ class LaneTable:
             row = TableRow(dims, dims.top+dims.headerHeight+row*dims.rowHeight, dims.rowHeight, cellBackground, dseg, cellForeground)
             row.cells[0].font = text_font
             row.cells[2].font = text_font
+            row.pit_info_cell.font = pit_info_font
             self.rows.append(row)
 
     def draw(self,screen,fg):
@@ -119,7 +139,7 @@ class LaneTable:
 
     def updateLane(self,lane,row):
         labels=[lane["state"],f'{lane["lane"]}',lane["name"],formatLaps(lane),formatTime(lane,lane['best']),formatTime(lane,lane['last'])]
-        self.rows[row].update(labels)
+        self.rows[row].update(labels,lane["pitinfo"])
 
     def update(self,lanes):
         row=0
