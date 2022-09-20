@@ -11,6 +11,7 @@ class Lane(Observable):
         super().__init__(observer)
         self.name = ''
         self.lane = lane
+        self.color = 'green'
         self.timer = LaneTimer(io_manager, lane, self.lane_updated)
         self.pit = Pit(io_manager, lane, self.pit_updated)
         self.speed = SpeedControl(io_manager, lane)
@@ -45,7 +46,7 @@ class Lane(Observable):
 
     def update_throttle(self):
         stop = self.pit.in_pits or self.flag == Flags.red
-        slow = self.pit.pitting or self.pit.penalty or self.flag == Flags.yellow
+        slow = self.pit.pitting or self.pit.penalty or self.pit.accident or self.flag == Flags.yellow
         self.speed.set_speed(slow, stop, self.fuel.out_of_fuel)
     
     def state(self):

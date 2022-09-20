@@ -14,6 +14,12 @@ def get_lane_name_setter(i):
         await track.notify_observer_async()
     return lane_name_setter
 
+def get_lane_color_setter(i):
+    async def lane_color_setter(color):
+        track.lanes[i].color = color
+        await track.notify_observer_async()
+    return lane_color_setter
+
 def set_lane_speed(i, speed):
     track.lanes[i].speed.set_max_speed(speed)
     track.lanes[i].speed.set_oog_on(speed)
@@ -32,6 +38,7 @@ lane_settings = {}
 for i in range(8):
     lane_settings[f'lane_{i+1}'] = {
         'name': LaneNameSetting(i+1,setter=get_lane_name_setter(i)),
+        'color': StringSetting(f'Lane {i+1} Color', "green", setter=get_lane_color_setter(i)),
         'maxspeed': IntSetting(f'Lane {i+1} Speed', 100, 1, 100, "Percent", 
             setter=lambda s,i=i: set_lane_speed(i,s)),
         'slowspeed': IntSetting(f'Lane {i+1} Slow Speed', 40, 1, 100, "Percent", 

@@ -42,7 +42,6 @@ async def test_oog_sequence(mock_sleep):
     assert lc.set_lane.call_count == 1
     assert lc.set_oog.call_count == 0
 
-    mock_sleep.reset_mock()
     for _ in range(20):
         await sleep(.001)
         if lane.fuel.out_of_fuel:
@@ -204,7 +203,6 @@ async def test_pit_under_yellow(mock_sleep):
     await pit.lap()
     assert pit.in_pits
 
-
 @patch('asyncio.sleep',side_effect=run_tasks)
 async def test_accident(mock_sleep):
     io = FakeIoManager()
@@ -217,5 +215,13 @@ async def test_accident(mock_sleep):
     io.last_tick = 1*SECONDS
     await pit.lap()
     assert pit.in_pits
+    assert not pit.penalty
 
+    for _ in range(4000):
+        await sleep(.001)
+        if not pit.in_pits:
+            break
+    
+    assert not pit.in_pits
+    assert not pit.accident
 

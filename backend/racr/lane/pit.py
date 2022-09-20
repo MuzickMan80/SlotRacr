@@ -1,6 +1,7 @@
 from statistics import variance
 from racr.io.io_manager import IoManager, SECONDS
 from util.observable import Observable
+from .pit_info import get_pit_info
 import random
 import asyncio
 
@@ -22,7 +23,6 @@ class Pit(Observable):
         self.reset()
 
     def reset(self, after_pits = False):
-        self.in_pits=False
         self.pitting=False
         self.pit_this_lap=False
         self.micros_pitting=0
@@ -30,13 +30,15 @@ class Pit(Observable):
         self.pit_start_time=0
         self.out_of_fuel=False
         self.accident=False
+        self.in_pits=False
+        self.pit_info = ""
         if not after_pits:
             self.penalty=False
             self.under_yellow=False
             self.lap_time=0
 
     def _car_already_slow(self):
-        return self.under_yellow or self.out_of_fuel or self.penalty
+        return self.under_yellow or self.out_of_fuel or self.penalty or self.accident
 
     def _is_crew_alert(self):
         return (self.require_crew_alert and
@@ -65,6 +67,9 @@ class Pit(Observable):
         await self.notify_observer_async()
 
     async def lap(self):
+        if self.in_pits:
+            return
+
         self.lap_time = self.io_manager.last_tick
 
         if self.pitting or self.penalty or self.out_of_fuel or self.accident:
@@ -89,11 +94,10 @@ class Pit(Observable):
         rand = random.betavariate(alpha, beta)
         pit_time = self.min_pit_time + rand * variance
 
-        if self.out_of_fuel:
-            pit_time += self.out_of_fuel_penalty
-
         if self.accident:
             pit_time += self.accident_penalty
+        elif self.out_of_fuel:
+            pit_time += self.out_of_fuel_penalty
 
         return pit_time
 
@@ -110,17 +114,24 @@ class Pit(Observable):
     async def _pitting(self):
         pit_time = self._calcPitTime()
         self.penalty = self._came_in_too_fast()
-        #print(f'{self.__dict__}')
+        self.pit_info = get_pit_info(self.out_of_fuel, self.accident)
         await self.notify_observer_async()
 
         self.pit_progress = 0
         sleep_time = 0.2
+        pit_info_update_rate = 15
+        pit_info_update_time = 0
         while self.in_pits and self.pit_progress < pit_time:
             self.pit_progress = self.pit_progress + sleep_time
             await asyncio.gather(
                 self.notify_observer_async(),
                 asyncio.sleep(sleep_time)
             )
+            
+            pit_info_update_time = pit_info_update_time + sleep_time
+            if pit_info_update_time >= pit_info_update_rate:
+                pit_info_update_time = 0
+                self.pit_info = get_pit_info(self.out_of_fuel, self.accident)
 
         if self.in_pits:
             self.reset(True)

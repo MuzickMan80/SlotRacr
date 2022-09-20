@@ -1,3 +1,5 @@
+import random
+from typing import List
 
 normal_infos = [
     "Refuelling car",
@@ -8,7 +10,7 @@ normal_infos = [
 out_of_fuel_infos = [
     "Refuelling car",
     "Replacing tires",
-    "Adjusting spoiler"
+    "Adjusting spoiler",
     "Trying to restart engine",
     "Engine flooded",
     "Cooling engine",
@@ -38,3 +40,14 @@ accident_infos = [
     "Crew having trouble jacking damaged car",
     "Crew can't get gas can into damaged car",
 ]
+
+def _get_pit_info(infos:List[str]) -> str:
+    return random.choice(infos)
+
+def get_pit_info(oog:bool, accident:bool) -> str:
+    if accident:
+        return _get_pit_info(accident_infos)
+    if oog:
+        return _get_pit_info(out_of_fuel_infos)
+    
+    return _get_pit_info(normal_infos)
