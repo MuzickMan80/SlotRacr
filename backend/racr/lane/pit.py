@@ -63,8 +63,13 @@ class Pit(Observable):
             await self.notify_observer_async()
 
     async def set_accident(self, value):
-        self.accident = value
-        await self.notify_observer_async()
+        if self.accident != value:
+            self.accident = value
+
+            if not value and self.in_pits:
+                self.reset(True)
+                
+            await self.notify_observer_async()
 
     async def lap(self):
         if self.in_pits:
