@@ -17,7 +17,8 @@ export class WebsocketService {
     let observable = new Observable(observer => {
       this.socket.on('update', (data:any) => {
         console.log('got data ' + data);
-        observer.next({data: JSON.parse(data).lanes});
+        const raceData = JSON.parse(data);
+        observer.next({data: raceData.lanes, race: raceData});
       })
       return () => {
         this.socket.disconnect();

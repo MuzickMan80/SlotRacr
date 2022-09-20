@@ -41,17 +41,16 @@ export class SettingsService {
         return s;            
     }
 
-    setSetting(group: string, key: string, value: any): Observable<any> {
-        
-    const httpOptions = {
-        headers: new HttpHeaders({
-        'Content-Type':  'application/json'
-        })
-    };
-    return this.http.put<any>(`${environment.api_url}/settings/${group}/${key}/value`,JSON.stringify(value),httpOptions)
-        .pipe(
-            catchError(this.handleError(''))
-        )
+    setSetting(group: string, key: string, value: any): Observable<any> {      
+        const httpOptions = {
+            headers: new HttpHeaders({
+            'Content-Type':  'application/json'
+            })
+        };
+        return this.http.put<any>(`${environment.api_url}/settings/${group}/${key}/value`,JSON.stringify(value),httpOptions)
+            .pipe(
+                catchError(this.handleError(''))
+            )
     }
 
     getRaceSettings() : Observable<SettingsMap> {

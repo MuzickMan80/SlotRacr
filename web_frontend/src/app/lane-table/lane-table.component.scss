@@ -12,11 +12,16 @@ th {
     border-radius: 20px;
 }
 td {
-    font-family: digital7; 
     font-size: 3vh;
+    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     padding: 10px 30px;
     background-color: rgba(0,0,86,.50);
     border-radius: 20px;
     color: yellow;
+}
+
+.digital {
+    font-family: digital7; 
+    font-size: 3vh;
 }

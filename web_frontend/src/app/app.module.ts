@@ -14,15 +14,21 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { HttpClientModule } from '@angular/common/http';
 import { SettingsModule } from './settings/settings.module';
+import { RaceManagerComponent } from './race-manager/race-manager.component';
+import { TrackTestingComponent } from './track-testing/track-testing.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
     AppComponent,
     LaneTableComponent,
     LayoutComponent,
-    NavigationComponent
+    NavigationComponent,
+    RaceManagerComponent,
+    TrackTestingComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +42,8 @@ import { SettingsModule } from './settings/settings.module';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatButtonToggleModule,
+    MatSlideToggleModule,
     HttpClientModule,
     SettingsModule
   ],

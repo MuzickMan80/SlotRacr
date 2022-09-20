@@ -3,12 +3,15 @@ import { WebsocketService } from './websocket.service';
 import { Observable, Subject } from 'rxjs';
 
 export interface LaneInfo {
+  state: string;
   lane: number;
   best: string;
   last: string;
   laps: number;
   started: boolean;
   pos: number;
+  accident: boolean;
+  pitinfo: string;
 }
 
 @Injectable({

@@ -1,0 +1,26 @@
+.container
+{
+    background-color: white;
+}
+
+mat-button-toggle
+{
+    width: 150px;
+}
+
+.green.mat-button-toggle-checked
+{
+    background-color: green;
+    color: white;
+}
+
+.yellow.mat-button-toggle-checked
+{
+    background-color: yellow;
+}
+
+.red.mat-button-toggle-checked
+{
+    background-color: red;
+}
+

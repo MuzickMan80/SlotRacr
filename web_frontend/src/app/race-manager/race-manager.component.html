@@ -1,0 +1,48 @@
+<div class="container">
+    <h2>Race Manager</h2>
+
+    <!--mat-button-toggle-group #toggleGroup="matButtonToggleGroup">
+        <mat-button-toggle class="green" value="Green">
+            Green
+        </mat-button-toggle>
+        <mat-button-toggle class="yellow" value="Yellow">
+            Yellow
+        </mat-button-toggle>
+        <mat-button-toggle class="red" value="Red">
+            Red
+        </mat-button-toggle>
+    </mat-button-toggle-group>
+    <p>
+        Running mode : {{ toggleGroup.value }}
+    </p-->
+    <table cdk-table [dataSource]="laneInfo$">
+        <ng-container cdkColumnDef="car">
+            <th cdk-header-cell *cdkHeaderCellDef>Car</th>
+            <td cdk-cell *cdkCellDef="let lane"> {{lane.name}} </td>
+        </ng-container>
+        <ng-container cdkColumnDef="color">
+            <th cdk-header-cell *cdkHeaderCellDef>Color</th>
+            <td cdk-cell *cdkCellDef="let lane"> {{lane.color}} </td>
+        </ng-container>
+        <ng-container cdkColumnDef="lane">
+            <th cdk-header-cell *cdkHeaderCellDef>Lane</th>
+            <td cdk-cell *cdkCellDef="let lane"> {{lane.lane}} </td>
+        </ng-container>
+        <ng-container cdkColumnDef="pitinfo">
+            <th cdk-header-cell *cdkHeaderCellDef>Pit Info</th>
+            <td cdk-cell *cdkCellDef="let lane"> {{lane.pitinfo}} </td>
+        </ng-container>
+        <ng-container cdkColumnDef="accident">
+            <th cdk-header-cell *cdkHeaderCellDef>Accident</th>
+            <td cdk-cell *cdkCellDef="let lane">
+                <mat-slide-toggle [checked]="lane.accident" (change)="toggleAccident(lane)"></mat-slide-toggle>
+            </td>
+        </ng-container>
+        <ng-container cdkColumnDef="state">
+            <th cdk-header-cell *cdkHeaderCellDef>Status</th>
+            <td cdk-cell *cdkCellDef="let lane"> {{lane.state}} </td>
+        </ng-container>
+        <tr cdk-header-row *cdkHeaderRowDef="columns"></tr>
+        <tr cdk-row *cdkRowDef="let myRowData; columns: columns"></tr>
+    </table>
+</div>

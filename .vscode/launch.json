@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/frontend/app.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/frontend",
-            "args": ["--target_ip", "192.168.1.63", "--windowed"]
+            "args": ["--target_ip", "192.168.1.29", "--windowed"]
         },
         {
             "name": "Launch backend",
@@ -20,7 +20,7 @@
             "program": "${workspaceFolder}/backend/app.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/..",
-            "args": ["--target_ip", "192.168.1.7"]
+            "args": ["--mock"]
         },
         {
             "name": "Debug Unit Test",

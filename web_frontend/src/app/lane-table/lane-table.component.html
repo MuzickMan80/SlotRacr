@@ -9,19 +9,19 @@
     </ng-container>
     <ng-container cdkColumnDef="lane">
         <th cdk-header-cell *cdkHeaderCellDef>Lane</th>
-        <td cdk-cell *cdkCellDef="let lane"> {{lane.lane}} </td>
+        <td class="digital" cdk-cell *cdkCellDef="let lane"> {{lane.lane}} </td>
     </ng-container>
     <ng-container cdkColumnDef="laps">
         <th cdk-header-cell *cdkHeaderCellDef>Laps</th>
-        <td cdk-cell *cdkCellDef="let lane"> {{formatLaps(lane)}} </td>
+        <td class="digital" cdk-cell *cdkCellDef="let lane"> {{formatLaps(lane)}} </td>
     </ng-container>
     <ng-container cdkColumnDef="top">
         <th cdk-header-cell *cdkHeaderCellDef>Top</th>
-        <td cdk-cell *cdkCellDef="let lane"> {{formatTime(lane,lane.best)}} </td>
+        <td class="digital" cdk-cell *cdkCellDef="let lane"> {{formatTime(lane,lane.best)}} </td>
     </ng-container>
     <ng-container cdkColumnDef="last">
         <th cdk-header-cell *cdkHeaderCellDef>Last</th>
-        <td cdk-cell *cdkCellDef="let lane"> {{formatTime(lane,lane.last)}} </td>
+        <td class="digital" cdk-cell *cdkCellDef="let lane"> {{formatTime(lane,lane.last)}} </td>
     </ng-container>
     <tr cdk-header-row *cdkHeaderRowDef="columnsToDisplay"></tr>
     <tr cdk-row *cdkRowDef="let myRowData; columns: columnsToDisplay"></tr>
