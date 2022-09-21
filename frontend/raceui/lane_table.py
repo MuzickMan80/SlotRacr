@@ -110,9 +110,9 @@ class TableRow:
     def update(self,labels,pitinfo=''):
         for i in range(len(self.cells)):
             self.cells[i].update(labels[i])
-        if pitinfo:
-            self.pit_info = pitinfo
-            self.pit_info_cell.update(pitinfo)
+            
+        self.pit_info = pitinfo
+        self.pit_info_cell.update(pitinfo)
 
 class LaneTable:
     def __init__(self,size,dseg,header_font,text_font,pit_info_font):
