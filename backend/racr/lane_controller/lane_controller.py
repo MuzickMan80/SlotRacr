@@ -29,7 +29,7 @@ class LanePower:
         if val < target:
             val = val + nudge_percent
             return val if val < target else target
-        else
+        else:
             val = val - nudge_percent
             return val if val > target else target
     
