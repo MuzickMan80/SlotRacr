@@ -19,6 +19,7 @@ export class RaceManagerComponent implements OnInit {
     this.laneInfo$ = this.lanes.getLaneInfos().pipe(
       map(message => this.updateLaneInfos(message.data))
     );
+    this.lanes.requestUpdate();
   }
 
   updateLaneInfos(lanes: LaneInfo[]) : LaneInfo[]

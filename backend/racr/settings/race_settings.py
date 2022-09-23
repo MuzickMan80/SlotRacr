@@ -15,7 +15,7 @@ enable_simulator=BoolSetting("Enable simulator", False, "Enables an event simula
     setter=set_enable_simulator)
 
 minimum_lap_time=FloatSetting("Minimum lap time", 4, 0.5, 10, "Seconds", "Minimum lap time",
-    setter=lambda x: map(lambda lane: setattr(lane, "minimum_lap_time", x), track.lanes))
+    setter=lambda x: map(lambda lane: setattr(lane.timer, "minimum_lap_time", x), track.lanes))
 
 race_settings={
     'enable_pitting': enable_pitting,

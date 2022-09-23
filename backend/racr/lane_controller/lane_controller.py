@@ -56,9 +56,9 @@ class LaneController: # pragma: no cover
         return -1
 
     def get_button(self,port,idx):
-        if port == 0 and idx == 4:
+        if port == 1 and idx == 4:
             return 8
-        if port == 0 and idx == 5:
+        if port == 1 and idx == 5:
             return 9
         for lane in range(8):
             lane_map = lane_mappings[lane]
