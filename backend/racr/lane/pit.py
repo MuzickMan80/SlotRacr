@@ -68,7 +68,7 @@ class Pit(Observable):
 
             if not value and self.in_pits:
                 self.reset(True)
-                
+
             await self.notify_observer_async()
 
     async def lap(self):
@@ -126,6 +126,7 @@ class Pit(Observable):
         sleep_time = 0.2
         pit_info_update_rate = 15
         pit_info_update_time = 0
+        pit_info_updated = False
         while self.in_pits and self.pit_progress < pit_time:
             self.pit_progress = self.pit_progress + sleep_time
             await asyncio.gather(
@@ -134,8 +135,8 @@ class Pit(Observable):
             )
             
             pit_info_update_time = pit_info_update_time + sleep_time
-            if pit_info_update_time >= pit_info_update_rate:
-                pit_info_update_time = 0
+            if not pit_info_updated and pit_info_update_time >= pit_info_update_rate:
+                pit_info_updated = True
                 self.pit_info = get_pit_info(self.out_of_fuel, self.accident)
 
         if self.in_pits:
