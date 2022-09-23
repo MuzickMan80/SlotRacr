@@ -6,7 +6,7 @@ class LaneTimer(object):
         self.lane = lane
         self.io_manager = io_manager
         self.observer = cb
-        self.minimum_lap_time = 4
+        self.minimum_lap_time = 3.5
         self.reset()
         io_manager.monitor_lane_pin(lane, self.lap)
     
