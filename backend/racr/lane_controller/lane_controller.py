@@ -1,5 +1,7 @@
+from typing import List
 import serial
 import asyncio
+from __future__ import annotations
 
 lane_mappings = [
     (1,0),
@@ -12,15 +14,47 @@ lane_mappings = [
     (0,3)
 ]
 
+class LanePower:
+    def __init__(self):
+        self.powerPercent = 0
+        self.onDutyPercent = 0
+        self.offDutyPercent = 0
+    def __eq__(self, other):
+        return self.powerPercent == other.powerPercent and \
+            self.onDutyPercent == other.onDutyPercent and \
+            self.offDutyPercent == other.offDutyPercent
+
+    def nudge_val(self, val, target):
+        nudge_percent = 2
+        if val < target:
+            val = val + nudge_percent
+            return val if val < target else target
+        else
+            val = val - nudge_percent
+            return val if val > target else target
+    
+    def nudge(self, target: LanePower):
+        self.powerPercent = self.nudge_val(self.powerPercent, target.powerPercent)
+        self.onDutyPercent = self.nudge_val(self.onDutyPercent, target.onDutyPercent)
+        self.offDutyPercent = self.nudge_val(self.offDutyPercent, target.offDutyPercent)
+    
 class LaneController: # pragma: no cover
     def __init__(self):
         self.ports = []
         self.tasks = []
         self.button_handlers = []
         self.last_state = []
+        self.lane_power = []
+        self.target_lane_power = []
+
         for i in range(10):
             self.button_handlers.append(None)
             self.last_state.append(False)
+
+        for i in range(8):
+            self.lane_power.append(LanePower())
+            self.target_lane_power.append(LanePower())
+
         try:
             self.ports.append(serial.Serial('/dev/ttyACM2', 500000, timeout=0.1))
             print("Opened serial port to lane controller 1")
@@ -68,6 +102,14 @@ class LaneController: # pragma: no cover
 
     async def poll_loop(self):
         while True:
+            for lane in range(8):
+                try:
+                    if self.lane_power[lane] != self.target_lane_power[lane]:
+                        self.lane_power[lane].nudge(self.target_lane_power[lane])
+                        self.send_lane_power(lane)
+                except Exception as err:
+                    print(f'Error nudging lane power {lane}: {err}')
+
             for port in range(2):
                 try:
                     response = self.send_command(port,'r')
@@ -129,12 +171,18 @@ class LaneController: # pragma: no cover
         self.set_oog(lane, 100, percent, percent)
 
     def set_oog(self, lane, percent, onPercent, offPercent):
+        self.target_lane_power[lane].powerPercent = percent
+        self.target_lane_power[lane].onDutyPercent = onPercent
+        self.target_lane_power[lane].offDutyPercent = offPercent
+
+    def send_lane_power(self, lane):
         try:
             lane_map = lane_mappings[lane]
-            on_time = int(65535*(percent/100))
-            on_pwr = int(65535*(onPercent/100))
-            off_pwr = int(65535*(offPercent/100))
-            self.send_command(lane_map[0],f'g{lane_map[1]},{on_time},{on_pwr},{off_pwr}')      
+            lane_power: LanePower = self.lane_power[lane]
+            on_time = int(65535*(lane_power.powerPercent/100))
+            on_pwr = int(65535*(lane_power.onDutyPercent/100))
+            off_pwr = int(65535*(lane_power.offDutyPercent/100))
+            self.send_command(lane_map[0],f'g{lane_map[1]},{on_time},{on_pwr},{off_pwr}')  
         except Exception as err:
             print(f'Error setting lane speed: {err}')  
 
