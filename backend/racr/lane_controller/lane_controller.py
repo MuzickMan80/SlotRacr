@@ -1,7 +1,7 @@
+from __future__ import annotations
 from typing import List
 import serial
 import asyncio
-from __future__ import annotations
 
 lane_mappings = [
     (1,0),
