@@ -69,4 +69,4 @@ async def root_handler(request:Request):
     if (os.path.isfile(path)):
         return web.FileResponse(path)
     else:
-        return web.HTTPFound('/index.html')
+        return web.FileResponse(f'{root}/index.html')
