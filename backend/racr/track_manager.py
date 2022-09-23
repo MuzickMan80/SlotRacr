@@ -26,8 +26,12 @@ class TrackManager(Observable):
         self.lights = TrackLights(LedController(), self)
         
     async def reset_handler(self):
+        self.flag = Flags.green
+        self.current_lap = 0
+        
         for lane in self.lanes:
             await lane.reset()
+
         await self.notify_observer_async()
 
     async def warn_handler(self, down):
