@@ -4,7 +4,29 @@ from typing import List
 normal_infos = [
     "Refuelling car",
     "Replacing tires",
-    "Adjusting spoiler"
+    "Adjusting spoiler",
+    "Increase left trim",
+    "Decrease left trim",
+    "Increase right trim",
+    "Decrease right trim",
+    "Remove hot dog wrapper from grill",
+    "Adjust left suspension",
+    "Adjust right suspension",
+    "Get driver a drink of water",
+    "Replace outside tires only",
+    "Minor trouble  with gear box",
+    "Wipe front window",
+    "Tire rolled out durring replacement",
+    "Left front tire not lining up",
+    "Bad tire hand off",
+    "Gas going in slow",
+    "Driver states car is too loose",
+    "Driver states car is too tight",
+    "Driver states slight sputter",
+    "Driver states brake trouble",
+    "Come on hurry up guys %@#$",
+    "Lets go - lets go - lets go",
+    "Driver pounding on steering wheel",
 ]
 
 out_of_fuel_infos = [
@@ -14,6 +36,10 @@ out_of_fuel_infos = [
     "Trying to restart engine",
     "Engine flooded",
     "Cooling engine",
+    "Trouble retstarting engine",
+    "Bleed gas line",
+    "Hot engine froze up",
+    "Starter not kicking in",
 ]
 
 accident_infos = [
