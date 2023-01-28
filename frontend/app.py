@@ -14,7 +14,7 @@ args = parser.parse_args()
 pygame.init()
 
 try:
-    size = 1000, 500
+    size = 960, 540
 
     flags=0
     if args.windowed != True:

@@ -13,12 +13,12 @@ class TableDims:
         self.origHeight=1080
         self.size = size
         self.cols=[
-            self.scale(200),
-            self.scale(180),
-            self.scale(350),
-            self.scale(200),
-            self.scale(350),
-            self.scale(350)
+            self.scale(200), # Status
+            self.scale(100), # Lane
+            self.scale(350), # Car
+            self.scale(200), # Laps
+            self.scale(530), # Top
+            self.scale(530)  # Last
             ]
         self.margin=self.scale(2)
         self.headerHeight=self.scale(70)
@@ -85,7 +85,7 @@ class TableRow:
             self.cells.append(TableCell(area, bgcolor, font, color, dims.cellCornerRadius))
             x=x+col
         
-        left = self.cells[3].rect.left
+        left = self.cells[4].rect.left
         width = self.cells[-1].rect.right - left
         area=pygame.Rect(left,y+dims.margin,width,height-dims.margin*2)
         self.pit_info_cell = TableCell(area, bgcolor, font, color, dims.cellCornerRadius)
@@ -94,7 +94,7 @@ class TableRow:
     def draw(self,screen,fg):
         rects = []
         if self.pit_info:
-            for cell in self.cells[:3]:
+            for cell in self.cells[:4]:
                 if cell.dirty or not fg:
                     rects.append(cell.draw(screen,fg))
                     cell.dirty=not fg
