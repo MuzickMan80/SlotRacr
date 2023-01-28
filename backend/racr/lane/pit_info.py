@@ -106,7 +106,7 @@ good_crew_names = [
     "Ricky",
     "Buck",
     "Duke",
-    "Rocky"
+    "Rocky",
     "Clem",
     "Jed",
 ]
@@ -116,10 +116,10 @@ bad_crew_names = [
     "Chubby",
     "Skeeter",
     "Rusty",
-    "Shaggy"
-    "Slim"
+    "Shaggy",
+    "Slim",
     "Slick",
-    "Scrappy"
+    "Scrappy",
 ]
 
 def _get_pit_info(infos:List[str]) -> str:
