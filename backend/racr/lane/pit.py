@@ -118,9 +118,10 @@ class Pit(Observable):
         return not self._car_already_slow() and random.randrange(100) <= penalty_prob
 
     async def _pitting(self):
+        was_penalty = self.penalty
         pit_time = self._calcPitTime()
         self.penalty = self._came_in_too_fast()
-        self.pit_info = get_pit_info(self.out_of_fuel, self.accident, self.penalty, self.lane)
+        self.pit_info = get_pit_info(self.out_of_fuel, self.accident, was_penalty or self.penalty, self.lane)
         if self.accident:
             self.damage = self.damage + 1
         await self.notify_observer_async()
@@ -140,7 +141,7 @@ class Pit(Observable):
             pit_info_update_time = pit_info_update_time + sleep_time
             if not pit_info_updated and pit_info_update_time >= pit_info_update_rate:
                 pit_info_updated = True
-                self.pit_info = get_pit_info(self.out_of_fuel, self.accident, self.penalty, self.lane)
+                self.pit_info = get_pit_info(self.out_of_fuel, self.accident, was_penalty or self.penalty, self.lane)
 
         if self.in_pits:
             self.reset(True)

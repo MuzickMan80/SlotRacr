@@ -129,7 +129,7 @@ def get_pit_info(oog:bool, accident:bool, penalty: bool, lane:int) -> str:
     good_crew = good_crew_names[lane]
     bad_crew = bad_crew_names[lane]
     if penalty:
-        return "Crew upset with driver for coming in too fast"
+        return "Penalty for coming in too fast"
     if accident:
         return _get_pit_info(accident_infos(good_crew, bad_crew))
     if oog:
