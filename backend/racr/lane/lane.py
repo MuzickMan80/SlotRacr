@@ -47,7 +47,7 @@ class Lane(Observable):
     def update_throttle(self):
         stop = self.pit.in_pits or self.flag == Flags.red
         slow = self.pit.pitting or self.pit.penalty or self.pit.accident or self.flag == Flags.yellow
-        self.speed.set_speed(slow, stop, self.fuel.out_of_fuel)
+        self.speed.set_speed(slow, stop, self.fuel.out_of_fuel, self.pit.damage)
     
     def state(self):
         reporter = LaneStateReporter(self, self.timer, self.pit, self.fuel)

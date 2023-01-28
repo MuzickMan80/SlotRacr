@@ -36,6 +36,7 @@ class Pit(Observable):
             self.penalty=False
             self.under_yellow=False
             self.lap_time=0
+            self.damage=0
 
     def _car_already_slow(self):
         return self.under_yellow or self.out_of_fuel or self.penalty or self.accident
@@ -120,6 +121,8 @@ class Pit(Observable):
         pit_time = self._calcPitTime()
         self.penalty = self._came_in_too_fast()
         self.pit_info = get_pit_info(self.out_of_fuel, self.accident)
+        if self.accident:
+            self.damage = self.damage + 1
         await self.notify_observer_async()
 
         self.pit_progress = 0

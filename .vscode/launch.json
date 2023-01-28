@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/frontend/app.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/frontend",
-            "args": ["--target_ip", "192.168.1.29", "--windowed"]
+            "args": ["--target_ip", "192.168.1.6", "--windowed"]
         },
         {
             "name": "Launch backend",

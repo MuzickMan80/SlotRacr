@@ -13,12 +13,15 @@ class SpeedControl():
         self.oog_duty = 35
         self.oog_on_pwr = 100
         self.oog_off_pwr = 0
+        self.damage = 0
+        self.damage_penalties = [50, 15, 8]
         self.update_speed()
 
-    def set_speed(self, slow, stop, oog):
+    def set_speed(self, slow, stop, oog, damage):
         self.slow = slow
         self.stop = stop
         self.out_of_gas = oog
+        self.damage = damage
         self.update_speed()
 
     def set_max_speed(self, max_speed):
@@ -41,8 +44,20 @@ class SpeedControl():
         self.oog_off_pwr = pwr
         self.update_speed()
 
+    def calculate_damage_penalty(self):
+        num_penalties = len(self.damage_penalties)
+        penalty = 0
+        damage_counter = 0
+        while damage_counter < self.damage:
+            if damage_counter < num_penalties:
+                penalty = penalty + self.damage_penalties[damage_counter]
+            else:
+                penalty = penalty + self.damage_penalties[-1]
+            damage_counter = damage_counter + 1
+        return penalty * .01 * self.max_speed
+
     def update_speed(self):
-        throttle = self.max_speed
+        throttle = self.max_speed - self.calculate_damage_penalty()
         if self.stop:
             self.set_lane_speed(0)
             throttle = 0

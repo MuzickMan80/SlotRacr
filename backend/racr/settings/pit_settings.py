@@ -78,6 +78,21 @@ def set_max_crew_alert_time(seconds):
 max_crew_alert_time=FloatSetting("Max crew alert time",2,min=0,max=10,units="seconds",
     description="Max crew alert time",setter=set_max_crew_alert_time)
 
+def get_damage_penalty_setter(index):
+    def set_damage_penalty(percent):
+        for lane in range(8):
+            race_settings.track.lanes[lane].speed.damage_penalties[index] = percent
+    return set_damage_penalty
+
+damage_speed_penalty_1=FloatSetting("Damage penalty 1",50,min=0,max=100,units="percent",
+    description="Speed penalty after first accident",setter=get_damage_penalty_setter(0))
+
+damage_speed_penalty_2=FloatSetting("Damage penalty 2",15,min=0,max=100,units="percent",
+    description="Speed penalty after first accident",setter=get_damage_penalty_setter(1))
+
+damage_speed_penalty_3=FloatSetting("Damage penalty 3",8,min=0,max=100,units="percent",
+    description="Speed penalty after first accident",setter=get_damage_penalty_setter(2))
+
 pit_settings={
     'require_crew_alert': require_crew_alert,
     'max_crew_alert_time': max_crew_alert_time,
@@ -90,4 +105,7 @@ pit_settings={
     'typical_pit_time_concentration': typical_pit_time_concentration,
     'out_of_fuel_pit_penalty': out_of_fuel_pit_penalty,
     'accident_pit_penalty': accident_pit_penalty,
+    'damage_speed_penalty_1': damage_speed_penalty_1,
+    'damage_speed_penalty_2': damage_speed_penalty_2,
+    'damage_speed_penalty_3': damage_speed_penalty_3,
 }

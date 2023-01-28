@@ -12,6 +12,12 @@ sleep = asyncio.sleep
 async def run_tasks(delay=0):
     await sleep(.001)
 
+async def wait_for(x, timeoutMs):
+    for _ in range(timeoutMs):
+        await sleep(.001)
+        if x():
+            break
+
 @pytest.mark.asyncio
 @patch('asyncio.sleep',side_effect=run_tasks)
 async def test_oog_sequence(mock_sleep):
@@ -129,7 +135,6 @@ async def test_crew_alert_ignore(mock_sleep):
     await pit_cb(False)
     assert not pit.pit_this_lap
     
-
 @patch('asyncio.sleep',side_effect=run_tasks)
 async def test_crew_alert_no_pit(mock_sleep):
     io = FakeIoManager()
@@ -217,11 +222,33 @@ async def test_accident(mock_sleep):
     assert pit.in_pits
     assert not pit.penalty
 
-    for _ in range(4000):
-        await sleep(.001)
-        if not pit.in_pits:
-            break
+    await wait_for(lambda: not pit.in_pits, 4000)
     
     assert not pit.in_pits
     assert not pit.accident
 
+@patch('asyncio.sleep',side_effect=run_tasks)
+async def test_accident_slowdown(mock_sleep):
+    io = FakeIoManager()
+    cb = AsyncMock()
+    lc=io.lane_controller
+    laneIdx = 0
+
+    pit = Pit(io, laneIdx, cb)
+    assert pit.damage == 0
+
+    pit.accident = True
+    io.last_tick = 1*SECONDS
+    
+    await pit.lap()
+    await wait_for(lambda: not pit.in_pits, 4000)
+    
+    assert pit.damage == 1
+
+    pit.accident = True
+    io.last_tick = 1*SECONDS
+    
+    await pit.lap()
+    await wait_for(lambda: not pit.in_pits, 4000)
+    
+    assert pit.damage == 2
