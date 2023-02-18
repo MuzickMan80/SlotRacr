@@ -8,6 +8,8 @@ from .track_lights import TrackLights
 import logging
 import logging.config
 
+logger = logging.getLogger(__name__)
+
 class TrackManager(Observable):
     def __init__(self, io_manager: IoManager, observer):
         super().__init__(observer)
@@ -33,18 +35,21 @@ class TrackManager(Observable):
         self.current_lap = 0
         
         self.init_logger()
-        
+
         for lane in self.lanes:
             await lane.reset()
 
         await self.notify_observer_async()
 
     def init_logger(self):
+        logger.info("Loading the logger configuration")
         try:
             logging.config.fileConfig(
                 fname='logger.conf'
             )
+            logger.info('Logger configuration loaded')
         except:
+            logger.error('Failed to load logging config')
             print('Failed to load logging config')
 
     async def warn_handler(self, down):
