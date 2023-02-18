@@ -1,4 +1,7 @@
 from racr.flags import Flags
+import logging
+
+logger = logging.getLogger(__name__)
 
 class SpeedControl():
     def __init__(self, io_manager, lane):
@@ -75,10 +78,12 @@ class SpeedControl():
 
     def set_lane_speed(self,speed):
         if self.speed != speed:
+            logger.debug('set_lane_speed %d', speed)
             self.speed = speed
             self.io_manager.lane_controller.set_oog(self.lane, self.oog_duty, speed, speed)
 
     def set_lane_oog(self):
         if self.speed != -1:
+            logger.debug('set_lane_oog')
             self.speed = -1
             self.io_manager.lane_controller.set_oog(self.lane, self.oog_duty, self.oog_on_pwr, self.oog_off_pwr)

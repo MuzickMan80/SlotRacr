@@ -30,8 +30,8 @@ async def test_oog_sequence(mock_sleep):
     lane.fuel.max_laps_after_low = 0
     lane.fuel.mean_laps_after_low = 0
     
-    assert lc.set_lane.call_count == 1
-    lc.set_lane.assert_called_with(0,100)
+    assert lc.set_oog.call_count == 1
+    lc.set_oog.assert_called_with(0,35,100,100)
 
     # Lap
     for lap in range(3):
@@ -45,8 +45,7 @@ async def test_oog_sequence(mock_sleep):
     assert lane.fuel.low_fuel
     assert not lane.fuel.out_of_fuel
 
-    assert lc.set_lane.call_count == 1
-    assert lc.set_oog.call_count == 0
+    assert lc.set_oog.call_count == 1
 
     for _ in range(20):
         await sleep(.001)
@@ -54,8 +53,7 @@ async def test_oog_sequence(mock_sleep):
             break
 
     assert lane.fuel.out_of_fuel
-    assert lc.set_lane.call_count == 1
-    assert lc.set_oog.call_count == 1
+    assert lc.set_oog.call_count == 2
     lc.set_oog.assert_called_with(0,35,100,0)
 
     # Ensure we can pit
@@ -65,9 +63,8 @@ async def test_oog_sequence(mock_sleep):
     assert lane.pit.in_pits
     assert lane.state()["state"] == "0.2"
     
-    assert lc.set_lane.call_count == 2
-    assert lc.set_oog.call_count == 1
-    lc.set_lane.assert_called_with(0,0)
+    assert lc.set_oog.call_count == 3
+    lc.set_oog.assert_called_with(0,35,0,0)
 
     for _ in range(400):
         await sleep(.001)
@@ -76,10 +73,8 @@ async def test_oog_sequence(mock_sleep):
     assert not lane.pit.in_pits
     assert not lane.pit.pitting
     assert lane.fuel._laps_driven == 0
-    assert lc.set_lane.call_count == 3
-    assert lc.set_oog.call_count == 1
-    lc.set_lane.assert_called_with(0,100)
-
+    assert lc.set_oog.call_count == 4
+    lc.set_oog.assert_called_with(0,35,100,100)
 
 @pytest.mark.asyncio
 @patch('asyncio.sleep',side_effect=run_tasks)

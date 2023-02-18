@@ -5,6 +5,9 @@ from .io.io_manager import IoManager, SECONDS
 from .lane.lane import Lane
 from .io.led_controller import LedController
 from .track_lights import TrackLights
+import logging
+import logging.config
+
 class TrackManager(Observable):
     def __init__(self, io_manager: IoManager, observer):
         super().__init__(observer)
@@ -29,10 +32,20 @@ class TrackManager(Observable):
         self.flag = Flags.green
         self.current_lap = 0
         
+        self.init_logger()
+        
         for lane in self.lanes:
             await lane.reset()
 
         await self.notify_observer_async()
+
+    def init_logger(self):
+        try:
+            logging.config.fileConfig(
+                fname='logger.conf'
+            )
+        except:
+            print('Failed to load logging config')
 
     async def warn_handler(self, down):
         self.warn_button = down

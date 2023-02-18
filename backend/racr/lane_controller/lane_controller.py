@@ -2,6 +2,10 @@ from __future__ import annotations
 from typing import List
 import serial
 import asyncio
+from .lane_power import LanePower
+import logging
+
+logger = logging.getLogger(__name__)
 
 lane_mappings = [
     (1,0),
@@ -14,30 +18,6 @@ lane_mappings = [
     (0,3)
 ]
 
-class LanePower:
-    def __init__(self):
-        self.powerPercent = 0
-        self.onDutyPercent = 0
-        self.offDutyPercent = 0
-    def __eq__(self, other):
-        return self.powerPercent == other.powerPercent and \
-            self.onDutyPercent == other.onDutyPercent and \
-            self.offDutyPercent == other.offDutyPercent
-
-    def nudge_val(self, val, target):
-        nudge_percent = 2
-        if val < target:
-            val = val + nudge_percent
-            return val if val < target else target
-        else:
-            val = val - nudge_percent
-            return val if val > target else target
-    
-    def nudge(self, target: LanePower):
-        self.powerPercent = self.nudge_val(self.powerPercent, target.powerPercent)
-        self.onDutyPercent = self.nudge_val(self.onDutyPercent, target.onDutyPercent)
-        self.offDutyPercent = self.nudge_val(self.offDutyPercent, target.offDutyPercent)
-    
 class LaneController: # pragma: no cover
     def __init__(self):
         self.ports = []
@@ -141,10 +121,10 @@ class LaneController: # pragma: no cover
         serport = self.ports[port]
         serport.reset_input_buffer()
         serport.writelines([command.encode(), b'\r'])
-        # print(f'command: "{command}"')
+        logger.debug('command[%d]: %s', port, command)
         while True:
             line = serport.readline().decode()
-            # print(f'response: "{line}"')
+            logger.debug('response: %s', line)
             if line == "ok\r\n":
                 break
             elif line == "err\r\n":
@@ -166,9 +146,6 @@ class LaneController: # pragma: no cover
         period=round(1000/freq)
         self.send_command(0,f's{period}')
         self.send_command(1,f's{period}')
-
-    def set_lane(self, lane, percent=0):
-        self.set_oog(lane, 100, percent, percent)
 
     def set_oog(self, lane, percent, onPercent, offPercent):
         self.target_lane_power[lane].powerPercent = percent

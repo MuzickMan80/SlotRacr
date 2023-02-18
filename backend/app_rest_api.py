@@ -51,6 +51,11 @@ async def put_state(request:Request):
 async def get_state(request:Request):
     return web.json_response(jsons.dump(track.web_state))
 
+@routes.post('/race/reset')
+async def post_reset(request:Request):
+    await track.reset_handler()
+    return web.json_response(jsons.dump({}))
+
 @routes.put('/race/lane/{lane}/accident')
 async def put_state(request:Request):
     lane=request.match_info['lane']
