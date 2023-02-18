@@ -160,7 +160,7 @@ class LaneController: # pragma: no cover
             on_time = int(65535*(lane_power.powerPercent/100))
             on_pwr = int(65535*(lane_power.onDutyPercent/100))
             off_pwr = int(65535*(lane_power.offDutyPercent/100))
-            lane_power.info('%d - %d,%d,%d', lane, on_time, on_pwr, off_pwr)
+            lane_logger.info('%d - %d,%d,%d', lane, on_time, on_pwr, off_pwr)
             self.send_command(lane_map[0],f'g{lane_map[1]},{on_time},{on_pwr},{off_pwr}')  
         except Exception as err:
             print(f'Error setting lane speed: {err}')  
