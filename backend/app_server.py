@@ -8,7 +8,7 @@ from racr.settings.track_settings import load_settings
 import app_rest_api
 
 class TrackManagerApp(socketio.AsyncNamespace):
-    sio = socketio.AsyncServer(async_mode='aiohttp', cors_allowed_origins='*', logger=True)
+    sio = socketio.AsyncServer(async_mode='aiohttp', cors_allowed_origins='*', logger=False)
 
     def __init__(self, io_manager):
         super().__init__()
