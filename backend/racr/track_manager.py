@@ -29,6 +29,7 @@ class TrackManager(Observable):
 
         self.simulator = RaceSimulator(io_manager, self.lanes)
         self.lights = TrackLights(LedController(), self)
+        self.init_logger()
         
     async def reset_handler(self):
         self.flag = Flags.green
@@ -48,6 +49,7 @@ class TrackManager(Observable):
                 fname='logger.conf'
             )
             logger.info('Logger configuration loaded')
+            print('Logger configuration loaded')
         except:
             logger.error('Failed to load logging config')
             print('Failed to load logging config')
