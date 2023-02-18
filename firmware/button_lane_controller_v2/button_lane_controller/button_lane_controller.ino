@@ -292,13 +292,11 @@ bool startOutOfGas(int lane, int32_t duty, int32_t onPower, int32_t offPower)
   oogStates[lane].offPower = offPower;
   oogStates[lane].enabled = onTick != offTick;
 
-  pwmWriteHR(trackPins[lane], 0);
   int startPower = onPower;
   if (onTick == offTick) {
     startPower = onTime == 0 ? offPower : onPower;
+    pwmWriteHR(trackPins[lane], startPower);
   }
-  
-  pwmWriteHR(trackPins[lane], startPower);
   
   return true;
 }

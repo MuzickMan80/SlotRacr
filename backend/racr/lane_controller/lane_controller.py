@@ -148,10 +148,15 @@ class LaneController: # pragma: no cover
         self.send_command(0,f's{period}')
         self.send_command(1,f's{period}')
 
-    def set_oog(self, lane, percent, onPercent, offPercent):
+    def set_oog(self, lane, percent, onPercent, offPercent, immediate: bool = False):
         self.target_lane_power[lane].powerPercent = percent
         self.target_lane_power[lane].onDutyPercent = onPercent
         self.target_lane_power[lane].offDutyPercent = offPercent
+        if immediate:
+            self.lane_power[lane].powerPercent = percent
+            self.lane_power[lane].onDutyPercent = onPercent
+            self.lane_power[lane].offDutyPercent = offPercent
+            self.send_lane_power(lane)
 
     def send_lane_power(self, lane):
         try:

@@ -31,7 +31,7 @@ async def test_oog_sequence(mock_sleep):
     lane.fuel.mean_laps_after_low = 0
     
     assert lc.set_oog.call_count == 1
-    lc.set_oog.assert_called_with(0,35,100,100)
+    lc.set_oog.assert_called_with(0,35,100,100,False)
 
     # Lap
     for lap in range(3):
@@ -64,7 +64,7 @@ async def test_oog_sequence(mock_sleep):
     assert lane.state()["state"] == "0.2"
     
     assert lc.set_oog.call_count == 3
-    lc.set_oog.assert_called_with(0,35,0,0)
+    lc.set_oog.assert_called_with(0,35,0,0,True)
 
     for _ in range(400):
         await sleep(.001)
@@ -74,7 +74,7 @@ async def test_oog_sequence(mock_sleep):
     assert not lane.pit.pitting
     assert lane.fuel._laps_driven == 0
     assert lc.set_oog.call_count == 4
-    lc.set_oog.assert_called_with(0,35,100,100)
+    lc.set_oog.assert_called_with(0,35,100,100,False)
 
 @pytest.mark.asyncio
 @patch('asyncio.sleep',side_effect=run_tasks)

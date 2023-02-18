@@ -62,7 +62,7 @@ class SpeedControl():
     def update_speed(self):
         throttle = self.max_speed - self.calculate_damage_penalty()
         if self.stop:
-            self.set_lane_speed(0)
+            self.set_lane_speed(0,immediate=True)
             throttle = 0
         elif self.out_of_gas:
             throttle=min(throttle, 25)
@@ -76,11 +76,11 @@ class SpeedControl():
         self.throttle=throttle
         return throttle
 
-    def set_lane_speed(self,speed):
+    def set_lane_speed(self,speed,immediate:bool=False):
         if self.speed != speed:
             logger.debug('set_lane_speed %d', speed)
             self.speed = speed
-            self.io_manager.lane_controller.set_oog(self.lane, self.oog_duty, speed, speed)
+            self.io_manager.lane_controller.set_oog(self.lane, self.oog_duty, speed, speed, immediate)
 
     def set_lane_oog(self):
         if self.speed != -1:
