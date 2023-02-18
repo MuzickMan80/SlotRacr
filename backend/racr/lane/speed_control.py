@@ -76,7 +76,7 @@ class SpeedControl():
     def set_lane_speed(self,speed):
         if self.speed != speed:
             self.speed = speed
-            self.io_manager.lane_controller.set_lane(self.lane,speed)
+            self.io_manager.lane_controller.set_oog(self.lane, self.oog_duty, speed, speed)
 
     def set_lane_oog(self):
         if self.speed != -1:
