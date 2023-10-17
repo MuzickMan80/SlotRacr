@@ -67,6 +67,28 @@ async def get_state(request:Request):
     lane=request.match_info['lane']
     return web.json_response(jsons.dump(track.lanes[int(lane)].pit.accident))
 
+@routes.get('/registration')
+async def get_registration(request:Request):
+    
+    return web.json_response(jsons.dump({
+        'badge': [],
+        'lane': []
+    }))
+
+@routes.put('/registration/badge/{badge}/name')
+async def put_registration(request:Request):
+    badge=request.match_info['badge']
+    name=str(await request.json())
+    track.registration.set_badge(badge, name)
+    return await get_registration(request)
+
+@routes.put('/registration/lane/{lane}/badge_id')
+async def put_badge_id(request:Request):
+    lane=int(request.match_info['lane'])
+    badge=str(await request.json())
+    track.registration.register_badge_on_lane(badge, lane)
+    return await get_registration(request)
+
 @routes.route('*', '/{tail:.*}')
 async def root_handler(request:Request):
     root = 'SlotRacr/web_frontend/dist/FrontEnd'

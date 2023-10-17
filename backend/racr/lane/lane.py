@@ -10,6 +10,7 @@ class Lane(Observable):
     def __init__(self, io_manager, lane, observer):
         super().__init__(observer)
         self.name = ''
+        self.badge = ''
         self.lane = lane
         self.color = 'green'
         self.timer = LaneTimer(io_manager, lane, self.lane_updated)

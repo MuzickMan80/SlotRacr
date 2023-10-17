@@ -30,3 +30,10 @@ From your computer:
 ## References
 https://disconnected.systems/blog/custom-rpi-image-with-github-travis/#travis
 https://medium.com/platformer-blog/creating-a-custom-raspbian-os-image-for-production-3fcb43ff3630
+
+## Ideas
+Stop oog timer when red
+Min 3 laps notice of low gas
+Save race results
+Online results database
+Local sounds when low on gas

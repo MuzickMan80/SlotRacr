@@ -5,6 +5,7 @@ from .io.io_manager import IoManager, SECONDS
 from .lane.lane import Lane
 from .io.led_controller import LedController
 from .track_lights import TrackLights
+from .registration import TrackRegistration
 import logging
 import logging.config
 
@@ -29,6 +30,7 @@ class TrackManager(Observable):
 
         self.simulator = RaceSimulator(io_manager, self.lanes)
         self.lights = TrackLights(LedController(), self)
+        self.registration = TrackRegistration(self)
         self.init_logger()
         
     async def reset_handler(self):
