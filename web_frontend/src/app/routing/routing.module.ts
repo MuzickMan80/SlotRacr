@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'lane-settings', component: LaneSettingsComponent},
   { path: 'track-test', component: TrackTestingComponent},
   { path: 'race-manager', component: RaceManagerComponent},
-  { path: 'registration', component: RegistrationComponent},
+  { path: 'badge-manager', component: RegistrationComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full'}
 ]
 
