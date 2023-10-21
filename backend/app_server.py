@@ -5,6 +5,7 @@ import json
 import socketio
 from racr.track_manager import TrackManager
 from racr.settings.track_settings import load_settings
+from racr.station_manager import StationManager
 import app_rest_api
 
 class TrackManagerApp(socketio.AsyncNamespace):
@@ -14,6 +15,7 @@ class TrackManagerApp(socketio.AsyncNamespace):
         super().__init__()
         self.track_updated = False
         self.track = TrackManager(io_manager, self.on_track_updated)
+        self.station_manager = StationManager()
         app_rest_api.track = self.track
         self.running = False
 
@@ -67,6 +69,7 @@ class TrackManagerApp(socketio.AsyncNamespace):
             "lanes": list(map(lambda l: l.state(), self.track.lanes))
         }
         lane_dump = json.dumps(state)
+        self.station_manager.update(lane_dump)
         await self.emit('update', lane_dump)
 
     def on_connect(self, sid, environ):

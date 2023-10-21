@@ -5,6 +5,7 @@ Wants=pygpiod.service timer_update.service
 
 [Service]
 WorkingDirectory=/home/pi
+Environment=PYTHONUNBUFFERED=1
 ExecStart=/home/pi/SlotRacr/backend/app.py
 User=pi
 

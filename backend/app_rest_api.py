@@ -69,10 +69,8 @@ async def get_state(request:Request):
 
 @routes.get('/registration')
 async def get_registration(request:Request):
-    
     return web.json_response(jsons.dump({
-        'badge': [],
-        'lane': []
+        'badge': track.registration.get_badges(),
     }))
 
 @routes.put('/registration/badge/{badge}/name')

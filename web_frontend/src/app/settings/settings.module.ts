@@ -9,6 +9,7 @@ import { RaceSettingsComponent } from './race-settings.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PitSettingsComponent } from './pit-settings.component';
 import { LaneSettingsComponent } from './lane-settings.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { LaneSettingsComponent } from './lane-settings.component';
     SettingComponent,
     RaceSettingsComponent,
     PitSettingsComponent,
-    LaneSettingsComponent
+    LaneSettingsComponent,
+    RegistrationComponent
   ],
   imports: [
     CommonModule,

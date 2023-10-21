@@ -7,7 +7,7 @@ pip3 install -r ~/SlotRacr/backend/requirements.txt
 
 # Setup frontend display service
 pip3 install -r ~/SlotRacr/frontend/requirements.txt
-sudo apt-get install -y libopenjp2-7 libsdl-ttf2.0-0
+sudo apt-get install -y libopenjp2-7 libsdl-ttf2.0-0 dnsmasq
 
 sudo install -m 755 ~/SlotRacr/frontend/disable_cursor.service /etc/systemd/system
 sudo systemctl enable disable_cursor.service

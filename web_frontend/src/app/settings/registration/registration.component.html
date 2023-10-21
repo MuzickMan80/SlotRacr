@@ -1,0 +1,13 @@
+<div class="settings-group">
+    <div *ngIf="setting$ | async"  fxLayout="column" fxLayoutGap="8px">
+        <div *ngFor="let setting of settings">
+            <div fxFlex="40">
+                <label>{{ setting.badge }}</label>
+            </div>
+        
+            <input [value]="setting.name" (change)="setName(setting,$event)"/>
+        </div>
+
+        <button mat-raised-button color="accent" (click)="onSubmit()">Save Settings</button>
+    </div>
+</div>

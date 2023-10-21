@@ -5,3 +5,5 @@ coverage.xml
 .tox
 *.log
 settings.json
+*.mp3
+*.wav
