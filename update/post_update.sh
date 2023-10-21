@@ -16,10 +16,7 @@ sudo systemctl enable disable_cursor.service
 sudo systemctl disable nginx
 sudo systemctl stop nginx
 
-sudo setcap 'cap_net_bind_service=+ep' /usr/bin/python3.7
-
-# Setup web frontend
-# sudo cp -r ~/dist/FrontEnd/* /var/www/html
+sudo setcap 'cap_net_bind_service=+ep' $(readlink -f /usr/bin/python)
 
 # Setup nginx
 sudo cp ~/install/slotracr-nginx /etc/nginx/sites-available/slotracr

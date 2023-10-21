@@ -1,7 +1,11 @@
-#!/bin/bash -x
+#!/bin/bash -e
 IP=$1
-OPT='-o "StrictHostKeyChecking no"'
+
 sudo apt-get install -y sshpass
-sshpass -p raspberry scp $OPT -r install pi@$IP:~
-sshpass -p raspberry ssh $OPT pi@$IP 'cd install && ./install.sh'
-sshpass -p raspberry ssh $OPT pi@$IP rm -rf ~/install/install.sh
+
+read -p "Pi Username: " username
+read -s -p "Pi Password: " password
+
+OPT="-o StrictHostKeyChecking=no"
+sshpass -p $password scp $OPT -r install $username@$IP:~
+sshpass -p $password ssh $OPT $username@$IP 'cd install && ./install.sh'
