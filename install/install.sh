@@ -26,14 +26,4 @@ pushd ~/SlotRacr
 ./update/post_update.sh
 popd
 
-# Install services
-sudo install -m 755 ~/SlotRacr/frontend/timer_frontend.service /etc/systemd/system
-fixup_service timer_frontend.service
-sudo systemctl enable timer_frontend.service
-
-sudo install -m 755 ~/SlotRacr/backend/slot_timer.service /etc/systemd/system
-fixup_service slot_timer.service
-sudo systemctl enable slot_timer.service
-sudo systemctl enable pigpiod
-
 sudo ~/install/restart.sh

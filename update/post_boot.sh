@@ -29,6 +29,7 @@ check_update_service frontend timer_frontend.service
 check_update_service frontend disable_cursor.service
 check_update_service backend slot_timer.service
 check_update_service update timer_update.service
+sudo systemctl enable pigpiod
 
 if [[ $updated -eq 1 ]]
 then
