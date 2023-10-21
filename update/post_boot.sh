@@ -33,18 +33,18 @@ sudo systemctl enable pigpiod
 
 if ! grep -xF 'interface eth0' /etc/dhcpcd.conf
 then
-	echo 'interface eth0' >> /etc/dhcpcd.conf
-	echo 'static ip_address=192.168.2.2/24' >> /etc/dhcpcd.conf
+	echo 'interface eth0' | sudo tee -a /etc/dhcpcd.conf
+	echo 'static ip_address=192.168.2.2/24' | sudo tee -a /etc/dhcpcd.conf
     updated=1
 fi
 
 if ! grep -xF 'interface=eth0' /etc/dnsmasq.conf
 then
-	echo 'interface=eth0' >> /etc/dnsmasq.conf
-	echo 'bind-dynamic' >> /etc/dnsmasq.conf
-	echo 'domain-needed' >> /etc/dnsmasq.conf
-	echo 'bogus-priv' >> /etc/dnsmasq.conf
-	echo 'dhcp-range=192.168.2.100,192.168.2.200,255.255.255.0,24h' >> /etc/dnsmasq.conf
+	echo 'interface=eth0' | sudo tee -a /etc/dnsmasq.conf
+	echo 'bind-dynamic' | sudo tee -a /etc/dnsmasq.conf
+	echo 'domain-needed' | sudo tee -a /etc/dnsmasq.conf
+	echo 'bogus-priv' | sudo tee -a /etc/dnsmasq.conf
+	echo 'dhcp-range=192.168.2.100,192.168.2.200,255.255.255.0,24h' | sudo tee -a /etc/dnsmasq.conf
     updated=1
 fi
 
