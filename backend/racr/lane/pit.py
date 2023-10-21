@@ -32,6 +32,7 @@ class Pit(Observable):
         self.accident=False
         self.in_pits=False
         self.pit_info = ""
+        self.pit_time = 0
         if not after_pits:
             self.penalty=False
             self.under_yellow=False
@@ -120,6 +121,7 @@ class Pit(Observable):
     async def _pitting(self):
         was_penalty = self.penalty
         pit_time = self._calcPitTime()
+        self.pit_time = pit_time
         self.penalty = self._came_in_too_fast()
         self.pit_info = get_pit_info(self.out_of_fuel, self.accident, was_penalty or self.penalty, self.lane)
         if self.accident:

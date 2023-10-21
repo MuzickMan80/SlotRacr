@@ -19,6 +19,7 @@ class LaneStateReporter:
             'color': lane.color,
             'state': self.get_indicator(),
             'pitinfo': self.get_pit_info(),
+            'pittime': self.pit.pit_time,
             'accident': self.pit.accident
             }
 
