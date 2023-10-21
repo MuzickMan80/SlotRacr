@@ -13,7 +13,7 @@ class StationManager:
     def update(self, payload: str):
         try:
             if self.broadcast_socket:
-                self.broadcast_socket.sendto(payload, self.broadcast_addr)
+                self.broadcast_socket.sendto(bytes(payload, 'utf-8'), self.broadcast_addr)
         except Exception as ex:
             print("Failed to send station update: " + str(ex))
 
