@@ -28,6 +28,9 @@ class TrackRegistration:
         return badges
     
     def get_badge(self, id: str) -> str:
+        if not id in self.registration:
+            self.registration[id] = ""
+        
         return self.registration[id]
     
     def set_badge(self, id: str, name: str):
@@ -37,3 +40,8 @@ class TrackRegistration:
     def register_badge_on_lane(self, id: str, lane: int):
         self.track.lanes[lane].badge = id
         self.track.lanes[lane].name = self.get_badge(id)
+
+        for i in range(8):
+            if i != lane and self.track.lanes[i].badge == id:
+                self.track.lanes[i].badge = 0
+                self.track.lanes[i].name = ''
