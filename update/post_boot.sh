@@ -15,7 +15,7 @@ check_update_service () {
     sudo sed -i "s:/home/pi:$HOME:g" /tmp/$SERVICE
     sudo sed -i "s:User=pi:User=$USER:g" /tmp/$SERVICE
 
-    if [[ ! $(cmp /tmp/$SERVICE /etc/systemd/system/$SERVICE) ]]
+    if ! cmp /tmp/$SERVICE /etc/systemd/system/$SERVICE
     then
         sudo cp /tmp/$SERVICE /etc/systemd/system/$SERVICE
         sudo systemctl enable $SERVICE

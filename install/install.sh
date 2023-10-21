@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo apt-get update
-sudo apt-get install -y python3 python3-pip pigpiod nginx unclutter git
+sudo apt-get install -y python3 python3-pip pigpiod nginx unclutter git vim
 
 # Clean old directories
 rm -rf ~/backend
