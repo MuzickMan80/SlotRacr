@@ -1,5 +1,5 @@
 #!/bin/bash
-ipaddrs=`cut -f3 -d' ' dnsmasq.leases`
+ipaddrs=`cut -f3 -d' ' /var/lib/misc/dnsmasq.leases`
 OPT="-o StrictHostKeyChecking=no"
 
 for i in $ipaddrs
