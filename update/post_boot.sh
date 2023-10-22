@@ -52,3 +52,5 @@ if [[ $updated -eq 1 ]]
 then
     sudo reboot
 fi
+
+station/update_stations.sh
