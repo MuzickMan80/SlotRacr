@@ -3,6 +3,7 @@ import time
 import usb.core
 import usb.util
 import requests
+import json
 from pygame import mixer
 
 backend_addr = None
@@ -36,17 +37,26 @@ class RaceStation:
     def process_udp(self):
         try:
             data, addr = self.sock.recvfrom(5000)
-            print("received message: %s" % str(data, encoding='utf-8'))
-            print("msglen %d" % len(data))
-        
+            
             if self.backend_addr == None:
                 self.backend_addr = addr
+
+            update = json.loads(data)
+            self.process_race_update(update['race'])
+            self.process_lane_update(update['lanes'][self.lane-1])
+            
         except KeyboardInterrupt:
             print("Bye")
             self.running = False
         except:
             pass
 
+    def process_race_update(self, update):
+        print(f'Got race update: {update}')
+
+    def process_lane_update(self, update):
+        print(f'Got lane update: {update}')
+        
     def setup_reader(self):
         USB_IF      = 0 # Interface 
         USB_VENDOR  = 0xffff # Vendor-ID:  

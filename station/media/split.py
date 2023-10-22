@@ -3,7 +3,7 @@ import os
 def extract(file, sections):
     i = 0
     for section in sections:
-        os.system(f'ffmpeg -y -ss {section[0]} -to {section[1]} -i "{file}.mp3" -c copy "split/{file}{i}.mp3"')
+        os.system(f'ffmpeg -y -ss {section[0]} -to {section[1]} -i "{file}.mp3" -ar 44100 -ac 1 -c:a libvorbis -q:a 4 "split/{file.replace(" ","")}{i}.ogg"')
         i = i+1
 
 extract("01 - sound", [
