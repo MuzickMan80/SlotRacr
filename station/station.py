@@ -70,6 +70,8 @@ class RaceStation:
             self.play_sounds = play
             if not play:
                 self.play_yellow()
+            elif self.flag == 'green':
+                self.play_green()
 
         self.process_race_update(update['race'])
         self.process_lane_update(update['lanes'][self.lane-1])
