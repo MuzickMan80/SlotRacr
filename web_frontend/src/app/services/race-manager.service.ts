@@ -32,6 +32,18 @@ export class RaceManagerService {
               catchError(this.handleError(''))
           )
   }
+
+  reset(): Observable<string> {
+    const httpOptions = {
+        headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+        })
+    };
+    return this.http.post<string>(`${environment.api_url}/race/reset`,JSON.stringify(""),httpOptions)
+    .pipe(
+        catchError(this.handleError(''))
+    )
+  }
  
   handleError<T>(response: T) : (e: any) => T {
     return (e: any) => {

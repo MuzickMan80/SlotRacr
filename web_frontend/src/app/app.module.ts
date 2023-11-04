@@ -20,6 +20,7 @@ import { SettingsModule } from './settings/settings.module';
 import { RaceManagerComponent } from './race-manager/race-manager.component';
 import { TrackTestingComponent } from './track-testing/track-testing.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RaceResetComponent } from './race-reset/race-reset.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     LayoutComponent,
     NavigationComponent,
     RaceManagerComponent,
-    TrackTestingComponent
+    TrackTestingComponent,
+    RaceResetComponent
   ],
   imports: [
     BrowserModule,

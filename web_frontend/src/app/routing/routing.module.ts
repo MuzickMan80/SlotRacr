@@ -8,6 +8,7 @@ import { LaneSettingsComponent } from '../settings/lane-settings.component';
 import { RegistrationComponent } from '../settings/registration/registration.component';
 import { RaceManagerComponent } from '../race-manager/race-manager.component';
 import { TrackTestingComponent } from '../track-testing/track-testing.component';
+import { RaceResetComponent } from '../race-reset/race-reset.component';
 
 const routes: Routes = [
   { path: 'home', component: LaneTableComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'track-test', component: TrackTestingComponent},
   { path: 'race-manager', component: RaceManagerComponent},
   { path: 'badge-manager', component: RegistrationComponent},
+  { path: 'race-reset', component: RaceResetComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full'}
 ]
 

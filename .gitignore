@@ -8,3 +8,5 @@ settings.json
 *.mp3
 *.wav
 *.ogg
+
+!station/media/*.ogg
