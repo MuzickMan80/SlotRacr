@@ -5,6 +5,7 @@ OPT="-o StrictHostKeyChecking=no"
 for i in $ipaddrs
 do
     echo hello $i;
+    sshpass -p SlotRacr ssh $OPT slotracr@$i 'sudo systemctl stop station' || true
     sshpass -p SlotRacr scp $OPT -r station slotracr@$i:~
     sshpass -p SlotRacr ssh $OPT -R 8080 slotracr@$i 'http_proxy=socks5h://localhost:8080 ~/station/setup.sh'
 done
