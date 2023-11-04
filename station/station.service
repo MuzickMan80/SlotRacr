@@ -5,6 +5,7 @@ Description=Slot Car Station Service
 WorkingDirectory=/home/slotracr/station
 Environment=PYTHONUNBUFFERED=1
 ExecStart=/home/slotracr/station/station.py
+KillSignal=SIGINT
 
 [Install]
 WantedBy=multi-user.target

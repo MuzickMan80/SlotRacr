@@ -25,6 +25,7 @@ class RaceStation:
         self.flag = ""
         self.racer_state = ""
         self.pitting = False
+        self.play_sounds = False
         self.pos = 0
 
     def read_lane(self):
@@ -54,8 +55,7 @@ class RaceStation:
                 self.backend_addr = addr
 
             update = json.loads(data)
-            self.process_race_update(update['race'])
-            self.process_lane_update(update['lanes'][self.lane-1])
+            self.process_track_update(update)
             
         except KeyboardInterrupt:
             print("Bye")
@@ -63,10 +63,28 @@ class RaceStation:
         except:
             pass
 
+    def process_track_update(self, update):
+        started_lanes = self.count_started_lanes(update['lanes'])
+        play = started_lanes > 2
+        if self.play_sounds != play:
+            self.play_sounds = play
+            if not play:
+                self.play_yellow()
+
+        self.process_race_update(update['race'])
+        self.process_lane_update(update['lanes'][self.lane-1])
+
+    def count_started_lanes(self, lanes):
+        started = 0
+        for lane in lanes:
+            if lane['started']:
+                started = started + 1
+        return started
+
     def process_race_update(self, update):
         if update['flag'] != self.flag:
             self.flag = update['flag']
-            if self.flag == 'green':
+            if self.flag == 'green' and self.play_sounds:
                 self.play_green()
             else:
                 self.play_yellow()
@@ -224,8 +242,11 @@ class RaceStation:
         pass
 
     def play_random_sound(self, sounds):
-        sound = random.choice(sounds)
-        mixer.find_channel(True).play(sound, fade_ms=200)
+        try:
+            sound = random.choice(sounds)
+            mixer.find_channel(True).play(sound, fade_ms=200)
+        except:
+            pass
         
     def play_new_leader(self):
         self.play_random_sound(self.pass_sounds)
