@@ -117,7 +117,13 @@ class RaceStation:
         self.received_number = 0
 
     def process_reader(self):
-        while enable_reader and self.running:
+        if not enable_reader:
+            return
+        
+        import usb.core
+        import usb.util
+
+        while self.running:
             try:
                 USB_TIMEOUT = 5 #milliseconds
                 endpoint = self.reader[0][(0,0)][0]
