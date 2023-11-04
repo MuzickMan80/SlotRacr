@@ -20,7 +20,7 @@ class RaceStation:
         self.running = True
 
     def read_lane(self):
-        with open('trackid', 'r') as f:
+        with open('../trackid', 'r') as f:
             self.lane = int(f.readline().strip())
             print(f'Lane {self.lane}')
 
