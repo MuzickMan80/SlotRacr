@@ -22,9 +22,10 @@ class RaceStation:
         self.setup_keyboard()
         self.setup_sound()
         self.running = True
-        self.state = ""
+        self.flag = ""
         self.racer_state = ""
         self.pitting = False
+        self.pos = 0
 
     def read_lane(self):
         with open('../trackid', 'r') as f:
@@ -63,9 +64,9 @@ class RaceStation:
             pass
 
     def process_race_update(self, update):
-        if update['state'] != self.state:
-            self.state = update['state']
-            if self.state == 'green':
+        if update['flag'] != self.flag:
+            self.flag = update['flag']
+            if self.flag == 'green':
                 self.play_green()
             else:
                 self.play_yellow()
