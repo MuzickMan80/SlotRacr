@@ -267,6 +267,7 @@ class RaceStation:
 
     def play_green(self):
         if self.lane == 8:
+            time.sleep(1)
             mixer.music.load('media/race.ogg')
             mixer.music.set_volume(0.2)
             mixer.music.play(loops=-1)
