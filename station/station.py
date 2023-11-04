@@ -1,18 +1,19 @@
 import socket
 import time
-import usb.core
-import usb.util
 import requests
 import json
+import random
 from pygame import mixer
 
 backend_addr = None
+enable_reader = True
 
 class RaceStation:
     def __init__(self):
         self.read_lane()
         self.setup_udp()
         self.setup_reader()
+        self.setup_keyboard()
         self.setup_sound()
         self.running = True
 
@@ -26,6 +27,7 @@ class RaceStation:
         while self.running:
             self.process_udp()
             self.process_reader()
+            self.process_keyboard()
             time.sleep(.001)
 
     def setup_udp(self):
@@ -58,6 +60,12 @@ class RaceStation:
         print(f'Got lane update: {update}')
         
     def setup_reader(self):
+        if not enable_reader:
+            return
+        
+        import usb.core
+        import usb.util
+
         USB_IF      = 0 # Interface 
         USB_VENDOR  = 0xffff # Vendor-ID:  
         USB_PRODUCT = 0x0035 # Product-ID 
@@ -77,7 +85,7 @@ class RaceStation:
         self.received_number = 0
 
     def process_reader(self):
-        while self.running:
+        while enable_reader and self.running:
             try:
                 USB_TIMEOUT = 5 #milliseconds
                 endpoint = self.reader[0][(0,0)][0]
@@ -120,20 +128,93 @@ class RaceStation:
             print(r.content)
             self.play_welcome_sound()
 
+    def setup_keyboard(self):
+        import threading
+
+        self.consoleBuffer = []
+
+        def consoleInput(myBuffer):
+            while True:
+                myBuffer.append(input())
+        
+        threading.Thread(target=consoleInput, args=(self.consoleBuffer,), daemon=True).start() # start the thread
+
+    def process_keyboard(self):
+        if self.consoleBuffer:
+            key = self.consoleBuffer.pop(0)
+            if key == 'w':
+                self.play_welcome_sound()
+            if key == 'g':
+                self.play_green()
+            if key == 'y':
+                self.play_yellow()
+            if key == 'l':
+                self.play_low_gas()
+            if key == '1':
+                self.play_new_leader()
+            if key == 'p':
+                self.play_pitting()
+            if key == 'f':
+                self.play_long_pitting()
+
     def setup_sound(self):
+        mixer.pre_init(44100, -16, 1, 16)
         mixer.init()
 
+        self.pit_sounds = [
+            mixer.Sound('media/pit1.ogg'),
+            mixer.Sound('media/pit2.ogg'),
+            mixer.Sound('media/pit3.ogg'),
+            mixer.Sound('media/pit4.ogg'),
+        ]
+        self.pass_sounds = [
+            mixer.Sound('media/passes0.ogg'),
+            mixer.Sound('media/passes1.ogg'),
+            mixer.Sound('media/passes2.ogg')
+        ]
+        self.oog_sounds = [
+            mixer.Sound('media/oog10.ogg'),
+            mixer.Sound('media/oog20.ogg')
+        ]
+        self.low_gas_sounds = [
+            mixer.Sound('media/oog21.ogg'),
+            mixer.Sound('media/oog22.ogg')
+        ]
+
+    def play_welcome_sound(self):
+        pass
+
+    def play_random_sound(self, sounds):
+        sound = random.choice(sounds)
+        mixer.find_channel(True).play(sound)
+        
+    def play_new_leader(self):
+        self.play_random_sound(self.pass_sounds)
+
+    def play_pitting(self):
+        self.play_random_sound(self.pit_sounds)
+
+    def play_long_pitting(self):
+        pass # nothing yet
+
+    def play_low_gas(self):
+        pass # nothing yet
+
+    def play_out_gas(self):
+        pass # nothing yet
+
+    def play_green(self):
         if self.lane == 8:
-            mixer.music.load('race.wav')
+            mixer.music.load('media/race.ogg')
             mixer.music.set_volume(0.2)
             mixer.music.play(loops=-1)
         if self.lane == 4:
-            mixer.music.load('race.wav')
+            mixer.music.load('media/race.ogg')
             mixer.music.set_volume(0.2)
             mixer.music.play(loops=-1)
 
-    def play_welcome_sound(self):
-        mixer.find_channel(force=True).play(mixer.Sound('media/04 - sound0.mp3'))
+    def play_yellow(self):
+        mixer.music.fadeout(2000)
 
 station = RaceStation()
 station.run()
