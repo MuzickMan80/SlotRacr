@@ -1,0 +1,11 @@
+[Unit]
+Description=Slot Car Station Service
+
+[Service]
+WorkingDirectory=/home/slotracr/station
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/slotracr/station/station.py
+User=slotracr
+
+[Install]
+WantedBy=multi-user.target

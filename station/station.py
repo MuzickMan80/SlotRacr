@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import socket
 import time
 import requests
@@ -6,7 +8,7 @@ import random
 from pygame import mixer
 
 backend_addr = None
-enable_reader = True
+enable_reader = False
 
 class RaceStation:
     def __init__(self):
