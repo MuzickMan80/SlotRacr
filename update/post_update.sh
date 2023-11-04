@@ -7,7 +7,7 @@ pip3 install -r ~/SlotRacr/backend/requirements.txt
 
 # Setup frontend display service
 pip3 install -r ~/SlotRacr/frontend/requirements.txt
-sudo apt-get install -y libopenjp2-7 libsdl-ttf2.0-0 dnsmasq sshpass
+sudo apt-get install -y libopenjp2-7 libsdl-ttf2.0-0 dnsmasq sshpass git-lfs
 
 # I dunno how safe this is:
 # apt-get install -y python3-pygame
