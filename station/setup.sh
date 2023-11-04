@@ -5,4 +5,5 @@ sudo chmod a+x station/station.py
 sudo cp station/station.service /lib/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable station.service
-sudo systemctl start station.service
+# sudo systemctl start station.service
+sudo reboot
