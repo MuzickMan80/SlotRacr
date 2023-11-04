@@ -8,16 +8,23 @@ import random
 from pygame import mixer
 
 backend_addr = None
-enable_reader = False
+enable_reader = True
 
 class RaceStation:
     def __init__(self):
         self.read_lane()
         self.setup_udp()
-        self.setup_reader()
+        try:
+            self.setup_reader()
+        except:
+            global enable_reader
+            enable_reader = False
         self.setup_keyboard()
         self.setup_sound()
         self.running = True
+        self.state = ""
+        self.racer_state = ""
+        self.pitting = False
 
     def read_lane(self):
         with open('../trackid', 'r') as f:
@@ -56,11 +63,34 @@ class RaceStation:
             pass
 
     def process_race_update(self, update):
-        print(f'Got race update: {update}')
+        if update['state'] != self.state:
+            self.state = update['state']
+            if self.state == 'green':
+                self.play_green()
+            else:
+                self.play_yellow()
 
     def process_lane_update(self, update):
-        print(f'Got lane update: {update}')
-        
+        #  {'lane': 8, 'best': 4.0, 'last': 10.0, 'laps': 163, 'pos': 1, 'started': True, 'name': '', 'color': 'green', 'state': 'go', 'pitinfo': '', 'pittime': 0, 'accident': False}
+        if update['pos'] != self.pos:
+            self.pos = update['pos']
+            if self.pos == 1 and update['laps'] > 1:
+                self.play_new_leader()
+
+        if update['state'] != self.racer_state:
+            self.racer_state = update['state']
+
+            if self.racer_state == 'lgas':
+                self.play_low_gas()
+            if self.racer_state == 'out':
+                self.play_out_gas()
+
+        pitting = update['pittime'] > 0
+        if pitting != self.pitting:
+            self.pitting = pitting
+            if pitting:
+                self.play_pitting()
+
     def setup_reader(self):
         if not enable_reader:
             return
@@ -188,7 +218,7 @@ class RaceStation:
 
     def play_random_sound(self, sounds):
         sound = random.choice(sounds)
-        mixer.find_channel(True).play(sound)
+        mixer.find_channel(True).play(sound, fade_ms=200)
         
     def play_new_leader(self):
         self.play_random_sound(self.pass_sounds)
@@ -197,13 +227,13 @@ class RaceStation:
         self.play_random_sound(self.pit_sounds)
 
     def play_long_pitting(self):
-        pass # nothing yet
+        self.play_random_sound(self.pit_sounds)
 
     def play_low_gas(self):
-        pass # nothing yet
+        self.play_random_sound(self.low_gas_sounds)
 
     def play_out_gas(self):
-        pass # nothing yet
+        self.play_random_sound(self.oog_sounds)
 
     def play_green(self):
         if self.lane == 8:
