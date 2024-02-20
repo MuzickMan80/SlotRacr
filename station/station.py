@@ -6,19 +6,15 @@ import requests
 import json
 import random
 from pygame import mixer
+from input_card_scanner import CardReader
 
 backend_addr = None
-enable_reader = True
 
 class RaceStation:
     def __init__(self):
         self.read_lane()
         self.setup_udp()
-        try:
-            self.setup_reader()
-        except:
-            global enable_reader
-            enable_reader = False
+        self.scanner = CardReader()
         self.setup_keyboard()
         self.setup_sound()
         self.running = True
@@ -112,69 +108,14 @@ class RaceStation:
             if pitting:
                 self.play_pitting()
 
-    def setup_reader(self):
-        if not enable_reader:
-            return
-        
-        import usb.core
-        import usb.util
-
-        USB_IF      = 0 # Interface 
-        USB_VENDOR  = 0xffff # Vendor-ID:  
-        USB_PRODUCT = 0x0035 # Product-ID 
- 
-        # Find the HID device by vender/product ID
-        dev = usb.core.find(idVendor=USB_VENDOR, idProduct=USB_PRODUCT) 
-
-        if dev is None:
-            raise ValueError('Device not found')
-
-        if dev.is_kernel_driver_active(USB_IF) is True: 
-            print("Detaching kernel driver")
-            dev.detach_kernel_driver(USB_IF) 
-
-        usb.util.claim_interface(dev, USB_IF)
-        self.reader = dev
-        self.received_number = 0
-
     def process_reader(self):
-        if not enable_reader:
-            return
-        
-        import usb.core
-        import usb.util
-
-        while self.running:
-            try:
-                USB_TIMEOUT = 5 #milliseconds
-                endpoint = self.reader[0][(0,0)][0]
-                control = self.reader.read(endpoint.bEndpointAddress, endpoint.wMaxPacketSize, USB_TIMEOUT)
-                # Here you have to analyze what's coming in.
-                # array('B', [0, 0, 40, 0, 0, 0, 0, 0])
-                # In my case you had to check the first byte (command)
-                if control[0] == 0 and not control[2] == 0 and not control[2] == 40:
-                    # Convert ascii to a number, there's probably better ways to do so.
-                    receivedDigit = control[2] - 29 
-
-                    if receivedDigit == 10: 
-                        receivedDigit = 0
-                
-                    # Append the digit to the number
-                    self.received_number = 10 * self.received_number + receivedDigit 
-
-                if (( control[0] == 0 )) and (( control[2] == 40 )) and (( not self.received_number == 0 )):
-                    print(self.received_number)
-                    self.process_badge(self.received_number)
-                    self.received_number = 0
-
-            except KeyboardInterrupt:
-                print("Bye")
-                self.running = False
-            except usb.core.USBTimeoutError:
-                break
-            except Exception as ex:
-                print(str(type(ex)) + str(ex))
-                break
+        try:
+            result = self.scanner.read()
+            if result:
+                print(result)
+                self.process_badge(result)
+        except Exception as e:
+            print(e)
 
     def process_badge(self, badge):
         if self.backend_addr:
