@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo apt-get install -y python3-pygame python3-pip python3-socks
-sudo pip install -r station/requirements.txt
+sudo pip install -r station/requirements.txt --proxy socks5h://127.0.0.1:8080
 sudo chmod a+x station/station.py
 sudo cp station/station.service /lib/systemd/system/
 sudo systemctl daemon-reload
