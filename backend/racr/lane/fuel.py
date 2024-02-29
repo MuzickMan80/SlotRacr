@@ -1,6 +1,7 @@
 from util.observable import Observable
 import random
 import asyncio
+from racr.flags import Flags
 
 class Fuel(Observable):
     def __init__(self, observer):
@@ -18,6 +19,7 @@ class Fuel(Observable):
         self._last_lap = 0
         self.low_fuel=False
         self.out_of_fuel=False
+        self.flag=Flags.green
 
     async def update_lane_status(self, laps):
         self._last_lap = laps
@@ -34,12 +36,18 @@ class Fuel(Observable):
             self._laps_driven = 0
             await self.notify_observer_async()
     
+    def set_current_flag(self, flag: Flags):
+        self.flag = flag
+
     async def _running_out_of_fuel(self):
         laps_until_out = random.triangular(0, self.max_laps_after_low, self.mean_laps_after_low)
         seconds_until_out = laps_until_out * self.seconds_per_lap
-        while seconds_until_out > 1 and self.low_fuel:
+        while seconds_until_out > 0 and self.low_fuel:
             await asyncio.sleep(1)
-            seconds_until_out = seconds_until_out - 1
+            if self.flag == Flags.green:
+                seconds_until_out = seconds_until_out - 1
+            if self.flag == Flags.yellow:
+                seconds_until_out = seconds_until_out - 0.5
         
         if self.low_fuel:
             await asyncio.sleep(seconds_until_out)
