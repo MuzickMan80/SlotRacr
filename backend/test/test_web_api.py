@@ -27,30 +27,35 @@ from app_server import TrackManagerApp
 #    await asyncio.sleep(0.5)
 #    assert backend_client.update_cb.call_count == 0
 
+@pytest.mark.asyncio
 async def test_track_getsettings(backend_rest_client):
     response = await backend_rest_client.get('/settings')
     assert(response.status == 200)
     settings = await response.json()
     assert(settings["race"]["enable_pitting"])
 
+@pytest.mark.asyncio
 async def test_track_getracesettings(backend_rest_client):
     response = await backend_rest_client.get('/settings/race')
     assert(response.status == 200)
     settings = await response.json()
     assert(settings["enable_pitting"])
 
+@pytest.mark.asyncio
 async def test_track_get_single_setting(backend_rest_client):
     response = await backend_rest_client.get('/settings/race/enable_pitting')
     assert(response.status == 200)
     settings = await response.json()
     assert(isinstance(settings['value'], bool))
 
+@pytest.mark.asyncio
 async def test_track_get_single_setting_value(backend_rest_client):
     response = await backend_rest_client.get('/settings/race/enable_pitting/value')
     assert(response.status == 200)
     settings = await response.json()
     assert(isinstance(settings, bool))
 
+@pytest.mark.asyncio
 async def test_track_put_single_setting_value(backend_rest_client:TestClient):
     response = await backend_rest_client.put('/settings/race/enable_pitting/value',json=True)
     assert(response.status == 200)
@@ -61,6 +66,7 @@ async def test_track_put_single_setting_value(backend_rest_client:TestClient):
     settings = await response.json()
     assert(settings == False)
 
+@pytest.mark.asyncio
 async def test_track_put_track_name(backend_rest_client:TestClient,backend_server:TrackManagerApp):
     response = await backend_rest_client.put('/settings/lane_1/name/value',json="fred")
     assert(response.status == 200)
@@ -74,6 +80,7 @@ async def test_track_put_track_name(backend_rest_client:TestClient,backend_serve
     assert(settings == "joe")
     assert(backend_server.track.lanes[0].name == "joe")
 
+@pytest.mark.asyncio
 async def test_track_put_oof_laps(backend_rest_client:TestClient,backend_server:TrackManagerApp):
     response = await backend_rest_client.put('/settings/pit/laps_until_low/value',json=10)
     assert(response.status == 200)
@@ -87,6 +94,7 @@ async def test_track_put_oof_laps(backend_rest_client:TestClient,backend_server:
     assert(settings == 20)
     assert(backend_server.track.lanes[0].fuel.laps_until_low == 20)
 
+@pytest.mark.asyncio
 async def test_race_state(backend_rest_client:TestClient,backend_server:TrackManagerApp):
     response = await backend_rest_client.put('/race/state',json="yellow")
     assert(response.status == 200)
@@ -110,7 +118,7 @@ async def test_race_state(backend_rest_client:TestClient,backend_server:TrackMan
     settings = await response.json()
     assert(settings == "green")
 
-    
+@pytest.mark.asyncio
 async def test_accident(backend_rest_client:TestClient,backend_server:TrackManagerApp):
     assert(not backend_server.track.lanes[1].pit.accident)
 

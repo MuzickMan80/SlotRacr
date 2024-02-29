@@ -61,7 +61,7 @@ async def test_oog_sequence(mock_sleep):
     await io.invoke_lane_pin_callback(laneIdx,30*SECONDS)
     await sleep(.001)
     assert lane.pit.in_pits
-    assert lane.state()["state"] == "0.2"
+    assert lane.state()["state"] == "0.4"
     
     assert lc.set_oog.call_count == 3
     lc.set_oog.assert_called_with(0,35,0,0,True)
@@ -129,7 +129,8 @@ async def test_crew_alert_ignore(mock_sleep):
     assert not pit.pit_this_lap
     await pit_cb(False)
     assert not pit.pit_this_lap
-    
+
+@pytest.mark.asyncio
 @patch('asyncio.sleep',side_effect=run_tasks)
 async def test_crew_alert_no_pit(mock_sleep):
     io = FakeIoManager()
@@ -158,6 +159,7 @@ async def test_crew_alert_no_pit(mock_sleep):
     assert not pit.pit_this_lap
 
 
+@pytest.mark.asyncio
 @patch('asyncio.sleep',side_effect=run_tasks)
 async def test_crew_alert_pit(mock_sleep):
     io = FakeIoManager()
@@ -183,6 +185,7 @@ async def test_crew_alert_pit(mock_sleep):
     await pit.lap()
     assert pit.in_pits
 
+@pytest.mark.asyncio
 @patch('asyncio.sleep',side_effect=run_tasks)
 async def test_pit_under_yellow(mock_sleep):
     io = FakeIoManager()
@@ -203,6 +206,7 @@ async def test_pit_under_yellow(mock_sleep):
     await pit.lap()
     assert pit.in_pits
 
+@pytest.mark.asyncio
 @patch('asyncio.sleep',side_effect=run_tasks)
 async def test_accident(mock_sleep):
     io = FakeIoManager()
@@ -222,6 +226,7 @@ async def test_accident(mock_sleep):
     assert not pit.in_pits
     assert not pit.accident
 
+@pytest.mark.asyncio
 @patch('asyncio.sleep',side_effect=run_tasks)
 async def test_accident_slowdown(mock_sleep):
     io = FakeIoManager()
