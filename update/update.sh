@@ -5,6 +5,6 @@ git reset --hard
 
 git clean -fxd
 
-git pull -f
+timeout 30s bash -c 'until git pull &> /dev/null; do sleep 1; done'
 
 ./update/post_update.sh
